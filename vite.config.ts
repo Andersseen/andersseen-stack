@@ -12,6 +12,15 @@ export default defineConfig({
   build: {
     target: ['es2020'],
   },
+  optimizeDeps: {
+    exclude: [
+      '@lumen/icons',
+      '@lumen/icons/*',
+      'angular-movement',
+      '@voltui/components',
+      'quartz-headless',
+    ],
+  },
   resolve: {
     mainFields: ['module'],
     alias: {
