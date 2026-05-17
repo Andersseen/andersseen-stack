@@ -45,8 +45,8 @@ importers:
         specifier: ^4.1.4
         version: 4.3.0(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0)(jiti@2.7.0)(sass@1.97.3)(terser@5.47.1))
       '@voltui/components':
-        specifier: file:../volt-ui/dist/volt
-        version: file:../volt-ui/dist/volt(ba4b5429e434a43ceb3bf8565b767fb6)
+        specifier: ^0.2.0
+        version: 0.2.0(ba4b5429e434a43ceb3bf8565b767fb6)
       angular-movement:
         specifier: file:../angular-movement/dist/movement
         version: file:../angular-movement/dist/movement(@angular/common@21.2.13(@angular/core@21.2.13(@angular/compiler@21.2.13)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.13(@angular/compiler@21.2.13)(rxjs@7.8.2))
@@ -2765,8 +2765,8 @@ packages:
   '@vitest/utils@4.1.6':
     resolution: {integrity: sha512-FxIY+U81R3LGKCxaHHFRQ5+g6/iRgGLmeHWdp2Amj4ljQRrEIWHmZyDfDYBRZlpyqA7qKxtS9DD1dhk8RnRIVQ==}
 
-  '@voltui/components@file:../volt-ui/dist/volt':
-    resolution: {directory: ../volt-ui/dist/volt, type: directory}
+  '@voltui/components@0.2.0':
+    resolution: {integrity: sha512-3qY3D+hw6Vh/CZiIA7+0enDWZsU2Tgc9b1wuBtegZVLsF9bD1WqiQF52QMBHlUWShVAVQFOIHD3mxKLFq8v3tQ==}
     peerDependencies:
       '@angular/common': ^21.2.0
       '@angular/core': ^21.2.0
@@ -7966,7 +7966,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@voltui/components@file:../volt-ui/dist/volt(ba4b5429e434a43ceb3bf8565b767fb6)':
+  '@voltui/components@0.2.0(ba4b5429e434a43ceb3bf8565b767fb6)':
     dependencies:
       '@angular/common': 21.2.13(@angular/core@21.2.13(@angular/compiler@21.2.13)(rxjs@7.8.2))(rxjs@7.8.2)
       '@angular/core': 21.2.13(@angular/compiler@21.2.13)(rxjs@7.8.2)

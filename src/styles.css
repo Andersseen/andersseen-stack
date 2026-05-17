@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-@import '@voltui/components/themes.css';
+@import '@voltui/components/themes/presets/volt-soft.css';
+@source '../node_modules/@voltui/components';
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -15,12 +16,12 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--volt-background, #0a0a0a);
-  color: var(--volt-foreground, #fafafa);
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 a {
-  color: var(--volt-primary, #6366f1);
+  color: var(--primary);
   text-decoration: none;
 }
 

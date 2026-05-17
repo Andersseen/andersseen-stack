@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
-import { VoltCard } from '@voltui/components';
+import { VoltButton, VoltCard } from '@voltui/components';
 
 @Component({
   selector: 'app-movement-page',
-  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltCard],
+  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltButton, VoltCard],
   template: `
     <div class="max-w-3xl mx-auto px-6 py-12">
       <div class="mb-8" [move]="'fade-up'">
@@ -18,7 +18,7 @@ import { VoltCard } from '@voltui/components';
         <volt-card class="p-6" [move]="'fade-up'" [moveDelay]="100">
           <h3 class="text-lg font-semibold mb-4">Entrance Animations</h3>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="h-20 rounded-lg bg-[var(--volt-primary)]/20 flex items-center justify-center" [move]="'fade-up'">fade-up</div>
+            <div class="h-20 rounded-lg bg-[var(--primary)]/20 flex items-center justify-center" [move]="'fade-up'">fade-up</div>
             <div class="h-20 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400" [move]="'fade-down'" [moveDelay]="100">fade-down</div>
             <div class="h-20 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400" [move]="'fade-left'" [moveDelay]="200">fade-left</div>
             <div class="h-20 rounded-lg bg-sky-500/20 flex items-center justify-center text-sky-400" [move]="'fade-right'" [moveDelay]="300">fade-right</div>
@@ -30,7 +30,7 @@ import { VoltCard } from '@voltui/components';
           <div class="flex flex-wrap gap-4">
             <volt-button variant="primary" [moveWhileHover]="hoverScale">Scale Hover</volt-button>
             <volt-button variant="outline" [moveWhileTap]="tapScale">Tap Me</volt-button>
-            <div class="w-16 h-16 rounded-full bg-[var(--volt-primary)]/30 flex items-center justify-center" [moveWhileHover]="hoverRotate">
+            <div class="w-16 h-16 rounded-full bg-[var(--primary)]/30 flex items-center justify-center" [moveWhileHover]="hoverRotate">
               <span class="text-xl">↻</span>
             </div>
           </div>

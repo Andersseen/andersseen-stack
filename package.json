@@ -22,13 +22,15 @@
     "check": "pnpm run typecheck && pnpm run lint",
     "format": "prettier --write \"src/**/*.{ts,html,css,json,md}\" \"e2e/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css,json,md}\" \"e2e/**/*.ts\"",
-    "preview": "node dist/analog/server/index.mjs"
+    "preview": "node dist/analog/server/index.mjs",
+    "deploy": "pnpm run build && pnpm exec wrangler pages deploy dist/client --project-name=andersseen-stack --branch=main",
+    "deploy:preview": "pnpm run build && pnpm exec wrangler pages deploy dist/client --project-name=andersseen-stack --branch=preview"
   },
   "private": true,
   "dependencies": {
     "@analogjs/content": "^2.5.1",
     "@lumen/icons": "file:../lumen-icons/packages/icons",
-    "@voltui/components": "file:../volt-ui/dist/volt",
+    "@voltui/components": "^0.2.0",
     "angular-movement": "file:../angular-movement/dist/movement",
     "quartz-headless": "file:../quartz/dist/quartz",
     "@analogjs/router": "^2.5.1",
