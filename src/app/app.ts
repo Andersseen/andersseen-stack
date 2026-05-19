@@ -7,7 +7,7 @@ import { StackNavComponent } from './components/stack-nav/stack-nav.component';
   imports: [RouterOutlet, StackNavComponent],
   template: `
     <app-stack-nav />
-    <main>
+    <main class="min-h-screen bg-[var(--background)]">
       <router-outlet />
     </main>
   `,

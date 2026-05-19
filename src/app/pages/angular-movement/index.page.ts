@@ -11,7 +11,9 @@ import { SeoService } from '../../services/seo.service';
     <div class="max-w-3xl mx-auto px-6 py-12">
       <div class="mb-8" [move]="'fade-up'">
         <a routerLink="/" class="text-sm text-white/50 hover:text-white transition-colors">← Volver</a>
-        <h1 class="text-4xl font-bold mt-4 mb-2">Angular Movement</h1>
+        <div style="view-transition-name: movement-header">
+          <h1 class="text-4xl font-bold mt-4 mb-2">Angular Movement</h1>
+        </div>
         <p class="text-white/60">Animaciones declarativas con WAAPI y springs.</p>
       </div>
 

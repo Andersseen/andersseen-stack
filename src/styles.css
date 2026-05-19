@@ -28,3 +28,172 @@ a {
 .analog-markdown p {
   text-align: left;
 }
+
+/* ============================================================
+   View Transitions API
+   ============================================================ */
+
+@view-transition {
+  navigation: auto;
+}
+
+/*
+  Snapshot viejo: se oculta completamente.
+  display:none es más agresivo que opacity:0 y debería
+  eliminar el snapshot del árbol de renderizado.
+*/
+::view-transition-old(root) {
+  display: none !important;
+}
+
+::view-transition-old(volt-header),
+::view-transition-old(quartz-header),
+::view-transition-old(movement-header),
+::view-transition-old(lumen-header) {
+  display: none !important;
+}
+
+/*
+  Contenedor del root: fondo sólido opaco para tapar cualquier
+  residuo de la página anterior.
+*/
+::view-transition-group(root) {
+  background-color: var(--background);
+}
+
+/*
+  Snapshot nuevo: entra con animación suave.
+*/
+::view-transition-new(root) {
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+  animation-name: vt-enter;
+  animation-duration: 0.35s;
+}
+
+/*
+  Shared elements: headers que morphan desde card hasta página.
+  Por encima de todo.
+*/
+::view-transition-group(volt-header),
+::view-transition-group(quartz-header),
+::view-transition-group(movement-header),
+::view-transition-group(lumen-header) {
+  z-index: 100;
+}
+
+::view-transition-new(volt-header),
+::view-transition-new(quartz-header),
+::view-transition-new(movement-header),
+::view-transition-new(lumen-header) {
+  animation: none;
+}
+
+/* Animación base de entrada */
+@keyframes vt-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   Direcciones de navegación
+   ============================================================ */
+
+/* Home -> Lib */
+html[data-vt='expand'] ::view-transition-new(root) {
+  animation-name: vt-expand-in;
+  animation-duration: 0.4s;
+}
+
+@keyframes vt-expand-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Lib -> Home */
+html[data-vt='retract'] ::view-transition-new(root) {
+  animation-name: vt-retract-in;
+  animation-duration: 0.3s;
+}
+
+@keyframes vt-retract-in {
+  from {
+    opacity: 0;
+    transform: scale(1.01);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Lib -> Lib adelante */
+html[data-vt='slide-left'] ::view-transition-new(root) {
+  animation-name: vt-slide-left-in;
+  animation-duration: 0.35s;
+}
+
+@keyframes vt-slide-left-in {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Lib -> Lib atrás */
+html[data-vt='slide-right'] ::view-transition-new(root) {
+  animation-name: vt-slide-right-in;
+  animation-duration: 0.35s;
+}
+
+@keyframes vt-slide-right-in {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fallback */
+html[data-vt='fade'] ::view-transition-new(root),
+html:not([data-vt]) ::view-transition-new(root) {
+  animation-name: vt-fade-in;
+  animation-duration: 0.25s;
+}
+
+@keyframes vt-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01s !important;
+  }
+}

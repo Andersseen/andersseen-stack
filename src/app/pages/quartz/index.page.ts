@@ -14,7 +14,9 @@ import { SeoService } from '../../services/seo.service';
         <a routerLink="/" class="text-sm text-white/50 transition-colors hover:text-white"
           >← Volver</a
         >
-        <h1 class="mt-4 mb-2 text-4xl font-bold">Quartz</h1>
+        <div style="view-transition-name: quartz-header">
+          <h1 class="mt-4 mb-2 text-4xl font-bold">Quartz</h1>
+        </div>
         <p class="text-white/60">
           Primitivas UI headless. Lógica compleja sin opiniones de estilo.
         </p>
