@@ -1,0 +1,51 @@
+name: Setup sibling repos
+
+description: |
+  Clones and builds sibling repositories required by file:../ dependencies
+  (quartz, angular-movement, lumen-icons).
+
+inputs:
+  repo-owner:
+    description: GitHub owner/org for sibling repos
+    required: false
+    default: Andersseen
+
+runs:
+  using: composite
+  steps:
+    - name: Clone and build sibling repositories
+      shell: bash
+      env:
+        REPO_OWNER: ${{ inputs.repo-owner }}
+      run: |
+        set -euo pipefail
+        WORKSPACE_DIR="$(dirname "$(pwd)")"
+        echo "Workspace dir: $WORKSPACE_DIR"
+
+        clone_and_build() {
+          local repo_name=$1
+          local target_dir="$WORKSPACE_DIR/$repo_name"
+
+          if [ -d "$target_dir" ]; then
+            echo "[$repo_name] already exists, skipping clone"
+          else
+            echo "[$repo_name] cloning..."
+            git clone "https://github.com/$REPO_OWNER/$repo_name.git" "$target_dir"
+          fi
+
+          cd "$target_dir"
+
+          echo "[$repo_name] installing..."
+          pnpm install --frozen-lockfile || pnpm install
+
+          echo "[$repo_name] building..."
+          pnpm run build || true
+
+          cd - >/dev/null
+        }
+
+        clone_and_build "quartz"
+        clone_and_build "angular-movement"
+        clone_and_build "lumen-icons"
+
+        echo "Sibling repos ready"

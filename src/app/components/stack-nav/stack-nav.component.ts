@@ -22,8 +22,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     <nav
       class="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-black/50 px-6 py-4 backdrop-blur-md"
     >
-      <a routerLink="/" class="flex items-center gap-2 text-xl font-bold tracking-tight">
-        <span class="text-2xl text-[var(--primary)]">◈</span>
+      <a routerLink="/" class="flex items-center gap-2.5 text-xl font-bold tracking-tight">
+        <img src="/logo.svg" alt="Andersseen Stack" class="h-7 w-7 text-[var(--primary)]" />
         <span>Andersseen Stack</span>
       </a>
       <div class="flex items-center gap-1 text-sm font-medium">

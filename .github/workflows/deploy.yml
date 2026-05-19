@@ -33,6 +33,9 @@ jobs:
           node-version: 22
           cache: pnpm
 
+      - name: Setup sibling repositories
+        uses: ./.github/actions/setup-sibling-repos
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
