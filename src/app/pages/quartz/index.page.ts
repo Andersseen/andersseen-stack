@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { VoltButton, VoltCard } from '@voltui/components';
 import { ToastService, ToastContainerComponent } from 'quartz-headless';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-quartz-page',
@@ -46,7 +47,16 @@ import { ToastService, ToastContainerComponent } from 'quartz-headless';
   `,
 })
 export default class QuartzPage {
-  private toast = inject(ToastService);
+  private readonly toast = inject(ToastService);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.update({
+      title: 'Quartz',
+      description:
+        'Primitivas UI headless para Angular. Overlays, dialogs, drag-drop, toast, virtual scroll y más.',
+    });
+  }
 
   showSuccess() {
     this.toast.success('Operación completada con éxito.', 'Quartz Toast');

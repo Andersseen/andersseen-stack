@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { VoltBadge, VoltButton, VoltCard, VoltInput } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-volt-ui-page',
@@ -37,4 +38,14 @@ import { MOVEMENT_DIRECTIVES } from 'angular-movement';
     </div>
   `,
 })
-export default class VoltUiPage {}
+export default class VoltUiPage {
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    this.seo.update({
+      title: 'Volt UI',
+      description:
+        'Componentes UI estilizados y accesibles para Angular. Theming, variantes y CLI propio.',
+    });
+  }
+}

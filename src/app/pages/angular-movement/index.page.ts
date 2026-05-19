@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { VoltButton, VoltCard } from '@voltui/components';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-movement-page',
@@ -28,7 +29,7 @@ import { VoltButton, VoltCard } from '@voltui/components';
         <volt-card class="p-6" [move]="'fade-up'" [moveDelay]="200">
           <h3 class="text-lg font-semibold mb-4">Hover & Tap</h3>
           <div class="flex flex-wrap gap-4">
-            <volt-button variant="primary" [moveWhileHover]="hoverScale">Scale Hover</volt-button>
+            <volt-button variant="solid" [moveWhileHover]="hoverScale">Scale Hover</volt-button>
             <volt-button variant="outline" [moveWhileTap]="tapScale">Tap Me</volt-button>
             <div class="w-16 h-16 rounded-full bg-[var(--primary)]/30 flex items-center justify-center" [moveWhileHover]="hoverRotate">
               <span class="text-xl">↻</span>
@@ -56,6 +57,15 @@ import { VoltButton, VoltCard } from '@voltui/components';
   `,
 })
 export default class MovementPage {
+  private readonly seo = inject(SeoService);
+  constructor() {
+    this.seo.update({
+      title: 'Angular Movement',
+      description:
+        'Sistema declarativo de animaciones para Angular con WAAPI y springs. Scroll, hover, parallax y presencia.',
+    });
+  }
+
   readonly hoverScale = { scale: [1, 1.1] as [number, number] };
   readonly tapScale = { scale: [0.95, 1] as [number, number] };
   readonly hoverRotate = { rotate: [0, 15] as [number, number] };

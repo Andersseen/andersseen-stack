@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { VoltCard } from '@voltui/components';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-lumen-icons-page',
@@ -73,6 +74,15 @@ import { VoltCard } from '@voltui/components';
   `,
 })
 export default class LumenIconsPage {
+  private readonly seo = inject(SeoService);
+  constructor() {
+    this.seo.update({
+      title: 'Lumen Icons',
+      description:
+        'Iconos SVG como componentes Angular. Tree-shakeable, accesibles y con animaciones integradas.',
+    });
+  }
+
   readonly codeExample = `import { LmnSearchIcon } from '@lumen/icons/search';
 import { LmnSettingsIcon } from '@lumen/icons/settings';
 
