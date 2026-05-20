@@ -33,24 +33,6 @@ a {
   text-align: left;
 }
 
-.vt-circle-ring {
-  position: fixed;
-  top: var(--vt-y, 50vh);
-  left: var(--vt-x, 50vw);
-  z-index: 2147483647;
-  width: 180vmax;
-  aspect-ratio: 1;
-  pointer-events: none;
-  border: 2px solid rgb(var(--vt-accent, 59 130 246) / 0.92);
-  border-radius: 9999px;
-  box-shadow:
-    0 0 2rem rgb(var(--vt-accent, 59 130 246) / 0.85),
-    0 0 7rem rgb(var(--vt-accent, 59 130 246) / 0.45),
-    inset 0 0 4rem rgb(var(--vt-accent, 59 130 246) / 0.24);
-  transform: translate(-50%, -50%) scale(1);
-  animation: vt-circle-ring-out 0.52s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
 html[data-vt-card='active'] .vt-destination-card {
   view-transition-name: active-card;
 }
@@ -95,8 +77,8 @@ html[data-vt-card='active'] .vt-destination-card {
 ::view-transition-old(active-card) {
   animation: vt-card-old-out 0.5s cubic-bezier(0.2, 0, 0, 1) both;
   box-shadow:
-    0 0 0 1px rgb(var(--vt-accent, 59 130 246) / 0.45),
-    0 0 3.5rem rgb(var(--vt-accent, 59 130 246) / 0.28);
+    0 0 0 1px rgb(var(--vt-accent, 59 130 246) / 0.38),
+    0 0 2.25rem rgb(var(--vt-accent, 59 130 246) / 0.22);
   transform-origin: center;
 }
 
@@ -126,8 +108,8 @@ html[data-vt='expand']::view-transition-new(root) {
 
 html[data-vt='retract']::view-transition-old(root) {
   animation: vt-card-circle-out 0.52s cubic-bezier(0.76, 0, 0.24, 1) both;
-  filter: drop-shadow(0 0 1.25rem rgb(var(--vt-accent, 59 130 246) / 0.95))
-    drop-shadow(0 0 4rem rgb(var(--vt-accent, 59 130 246) / 0.55));
+  filter: drop-shadow(0 0 1rem rgb(var(--vt-accent, 59 130 246) / 0.88))
+    drop-shadow(0 0 2.5rem rgb(var(--vt-accent, 59 130 246) / 0.42));
   z-index: 8;
 }
 
@@ -194,24 +176,6 @@ html[data-vt='slide-right']::view-transition-new(root) {
   }
 }
 
-@keyframes vt-circle-ring-out {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  8% {
-    opacity: 1;
-  }
-  55% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(0.34);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
-}
-
 @keyframes vt-card-old-out {
   0% {
     filter: brightness(1) saturate(1);
@@ -246,25 +210,21 @@ html[data-vt='slide-right']::view-transition-new(root) {
 
 @keyframes vt-page-through-card {
   0% {
-    filter: drop-shadow(0 0 0 rgb(var(--vt-accent, 59 130 246) / 0)) blur(7px) brightness(0.7)
-      saturate(1.1);
+    filter: blur(5px) brightness(0.76);
     opacity: 0;
     transform: scale(1.025);
   }
   28% {
-    filter: drop-shadow(0 0 2.25rem rgb(var(--vt-accent, 59 130 246) / 0.85)) blur(4px)
-      brightness(0.9) saturate(1.18);
+    filter: blur(3px) brightness(0.9);
     opacity: 0.58;
   }
   66% {
-    filter: drop-shadow(0 0 1rem rgb(var(--vt-accent, 59 130 246) / 0.38)) blur(1.5px)
-      brightness(0.96) saturate(1.06);
+    filter: blur(1px) brightness(0.96);
     opacity: 0.86;
     transform: scale(1.008);
   }
   100% {
-    filter: drop-shadow(0 0 0 rgb(var(--vt-accent, 59 130 246) / 0)) blur(0) brightness(1)
-      saturate(1);
+    filter: blur(0) brightness(1);
     opacity: 1;
     transform: scale(1);
   }
@@ -288,47 +248,6 @@ html[data-vt='slide-right']::view-transition-new(root) {
     filter: brightness(0.72) blur(3px);
     opacity: 0.72;
     transform: scale(1.025);
-  }
-  to {
-    filter: brightness(1) blur(0);
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes vt-reveal-pop {
-  0% {
-    filter: saturate(1.45) brightness(1.2);
-    transform: scale(1.035);
-  }
-  45% {
-    filter: saturate(1.25) brightness(1.08);
-    transform: scale(1.01);
-  }
-  100% {
-    filter: saturate(1) brightness(1);
-    transform: scale(1);
-  }
-}
-
-@keyframes vt-scale-back {
-  from {
-    filter: brightness(1);
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    filter: brightness(0.45) blur(2px);
-    opacity: 0.2;
-    transform: scale(0.96);
-  }
-}
-
-@keyframes vt-scale-forward {
-  from {
-    filter: brightness(0.55) blur(2px);
-    opacity: 0.3;
-    transform: scale(0.96);
   }
   to {
     filter: brightness(1) blur(0);

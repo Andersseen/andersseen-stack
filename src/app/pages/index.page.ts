@@ -191,12 +191,10 @@ export default class HomePage {
 
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
-    const scale = Math.max(window.innerWidth / rect.width, window.innerHeight / rect.height) * 1.18;
     const startRadius = Math.max(28, Math.min(rect.width, rect.height) * 0.2);
 
     document.documentElement.style.setProperty('--vt-x', `${x}px`);
     document.documentElement.style.setProperty('--vt-y', `${y}px`);
-    document.documentElement.style.setProperty('--vt-card-scale', `${scale}`);
     document.documentElement.style.setProperty('--vt-start-radius', `${startRadius}px`);
     document.documentElement.style.setProperty(
       '--vt-card-radius',

@@ -64,23 +64,17 @@ export function configureViewTransition({ transition, from, to }: ViewTransition
   const direction = getDirection(fromUrl, toUrl);
 
   document.documentElement.dataset['vt'] = direction;
-  let circleRing: HTMLDivElement | undefined;
 
   if (direction === 'retract') {
     document.documentElement.style.setProperty('--vt-x', '50vw');
     document.documentElement.style.setProperty('--vt-y', '50vh');
     document.documentElement.style.setProperty('--vt-start-radius', '2rem');
     document.documentElement.style.setProperty('--vt-accent', accentForUrl(fromUrl));
-
-    circleRing = document.createElement('div');
-    circleRing.className = 'vt-circle-ring';
-    document.body.append(circleRing);
   }
 
   void transition.finished.finally(() => {
     delete document.documentElement.dataset['vt'];
     delete document.documentElement.dataset['vtCard'];
-    circleRing?.remove();
     document
       .querySelector<HTMLElement>('[style*="view-transition-name: active-card"]')
       ?.style.removeProperty('view-transition-name');
