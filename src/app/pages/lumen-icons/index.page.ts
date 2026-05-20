@@ -11,9 +11,7 @@ import { SeoService } from '../../services/seo.service';
     <div class="max-w-3xl mx-auto px-6 py-12">
       <div class="mb-8" [move]="'fade-up'">
         <a routerLink="/" class="text-sm text-white/50 hover:text-white transition-colors">← Volver</a>
-        <div style="view-transition-name: lumen-header">
-          <h1 class="text-4xl font-bold mt-4 mb-2">Lumen Icons</h1>
-        </div>
+        <h1 class="text-4xl font-bold mt-4 mb-2">Lumen Icons</h1>
         <p class="text-white/60">Iconos SVG como componentes Angular. Tree-shakeable, accesibles y animables.</p>
       </div>
 

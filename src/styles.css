@@ -30,70 +30,36 @@ a {
 }
 
 /* ============================================================
-   View Transitions API
+   View Transitions — Limpio y funcional
    ============================================================ */
 
 @view-transition {
   navigation: auto;
 }
 
-/*
-  Snapshot viejo: se oculta completamente.
-  display:none es más agresivo que opacity:0 y debería
-  eliminar el snapshot del árbol de renderizado.
-*/
+/* Snapshot viejo: fade out suave */
 ::view-transition-old(root) {
-  display: none !important;
+  animation: vt-fade-out 0.3s ease-out forwards;
 }
 
-::view-transition-old(volt-header),
-::view-transition-old(quartz-header),
-::view-transition-old(movement-header),
-::view-transition-old(lumen-header) {
-  display: none !important;
-}
-
-/*
-  Contenedor del root: fondo sólido opaco para tapar cualquier
-  residuo de la página anterior.
-*/
-::view-transition-group(root) {
-  background-color: var(--background);
-}
-
-/*
-  Snapshot nuevo: entra con animación suave.
-*/
+/* Snapshot nuevo: fade in suave con tinte de color */
 ::view-transition-new(root) {
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  animation-fill-mode: both;
-  animation-name: vt-enter;
-  animation-duration: 0.35s;
+  animation: vt-fade-in 0.4s ease-out forwards;
 }
 
-/*
-  Shared elements: headers que morphan desde card hasta página.
-  Por encima de todo.
-*/
-::view-transition-group(volt-header),
-::view-transition-group(quartz-header),
-::view-transition-group(movement-header),
-::view-transition-group(lumen-header) {
-  z-index: 100;
+@keyframes vt-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
-::view-transition-new(volt-header),
-::view-transition-new(quartz-header),
-::view-transition-new(movement-header),
-::view-transition-new(lumen-header) {
-  animation: none;
-}
-
-/* Animación base de entrada */
-@keyframes vt-enter {
+@keyframes vt-fade-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -101,92 +67,25 @@ a {
   }
 }
 
-/* ============================================================
-   Direcciones de navegación
-   ============================================================ */
-
-/* Home -> Lib */
-html[data-vt='expand'] ::view-transition-new(root) {
-  animation-name: vt-expand-in;
-  animation-duration: 0.4s;
+/* Flash de color según la página destino */
+html[data-vt-color='volt'] ::view-transition-new(root) {
+  background-color: rgba(96, 165, 250, 0.15);
 }
 
-@keyframes vt-expand-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+html[data-vt-color='quartz'] ::view-transition-new(root) {
+  background-color: rgba(52, 211, 153, 0.15);
 }
 
-/* Lib -> Home */
-html[data-vt='retract'] ::view-transition-new(root) {
-  animation-name: vt-retract-in;
-  animation-duration: 0.3s;
+html[data-vt-color='movement'] ::view-transition-new(root) {
+  background-color: rgba(251, 191, 36, 0.15);
 }
 
-@keyframes vt-retract-in {
-  from {
-    opacity: 0;
-    transform: scale(1.01);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+html[data-vt-color='lumen'] ::view-transition-new(root) {
+  background-color: rgba(56, 189, 248, 0.15);
 }
 
-/* Lib -> Lib adelante */
-html[data-vt='slide-left'] ::view-transition-new(root) {
-  animation-name: vt-slide-left-in;
-  animation-duration: 0.35s;
-}
-
-@keyframes vt-slide-left-in {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Lib -> Lib atrás */
-html[data-vt='slide-right'] ::view-transition-new(root) {
-  animation-name: vt-slide-right-in;
-  animation-duration: 0.35s;
-}
-
-@keyframes vt-slide-right-in {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Fallback */
-html[data-vt='fade'] ::view-transition-new(root),
-html:not([data-vt]) ::view-transition-new(root) {
-  animation-name: vt-fade-in;
-  animation-duration: 0.25s;
-}
-
-@keyframes vt-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+html[data-vt-color='default'] ::view-transition-new(root) {
+  background-color: var(--background);
 }
 
 /* Reduce motion */

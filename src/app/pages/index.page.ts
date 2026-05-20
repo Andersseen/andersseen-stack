@@ -35,7 +35,7 @@ import { SeoService } from '../services/seo.service';
             [move]="'fade-up'"
             [moveDelay]="100"
           >
-            <div class="mb-4 flex items-center gap-3" style="view-transition-name: volt-header">
+            <div class="mb-4 flex items-center gap-3">
               <div
                 class="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)]/15 text-lg"
               >
@@ -60,7 +60,7 @@ import { SeoService } from '../services/seo.service';
             [move]="'fade-up'"
             [moveDelay]="200"
           >
-            <div class="mb-4 flex items-center gap-3" style="view-transition-name: quartz-header">
+            <div class="mb-4 flex items-center gap-3">
               <div
                 class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/15 text-lg text-emerald-400"
               >
@@ -85,7 +85,7 @@ import { SeoService } from '../services/seo.service';
             [move]="'fade-up'"
             [moveDelay]="300"
           >
-            <div class="mb-4 flex items-center gap-3" style="view-transition-name: movement-header">
+            <div class="mb-4 flex items-center gap-3">
               <div
                 class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-lg text-amber-400"
               >
@@ -110,7 +110,7 @@ import { SeoService } from '../services/seo.service';
             [move]="'fade-up'"
             [moveDelay]="400"
           >
-            <div class="mb-4 flex items-center gap-3" style="view-transition-name: lumen-header">
+            <div class="mb-4 flex items-center gap-3">
               <div
                 class="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-500/15 text-lg text-sky-400"
               >

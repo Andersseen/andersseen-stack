@@ -13,9 +13,7 @@ import { SeoService } from '../../services/seo.service';
         <a routerLink="/" class="text-sm text-white/50 transition-colors hover:text-white"
           >← Volver</a
         >
-        <div style="view-transition-name: volt-header">
-          <h1 class="mt-4 mb-2 text-4xl font-bold">Volt UI</h1>
-        </div>
+        <h1 class="mt-4 mb-2 text-4xl font-bold">Volt UI</h1>
         <p class="text-white/60">
           Componentes UI estilizados con theming, variantes y accesibilidad.
         </p>
