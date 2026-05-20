@@ -1,18 +1,33 @@
-import { ViewTransitionInfo } from '@angular/router';
+import { ActivatedRouteSnapshot, ViewTransitionInfo } from '@angular/router';
 
 type TransitionDirection = 'expand' | 'retract' | 'slide-left' | 'slide-right' | 'fade';
 
 const LIB_PAGES = ['/volt-ui', '/quartz', '/angular-movement', '/lumen-icons'];
+const LIB_ACCENTS = new Map([
+  ['/volt-ui', '59 130 246'],
+  ['/quartz', '16 185 129'],
+  ['/angular-movement', '245 158 11'],
+  ['/lumen-icons', '14 165 233'],
+]);
 
-const PAGE_COLORS: Record<string, string> = {
-  '/volt-ui': 'volt',
-  '/quartz': 'quartz',
-  '/angular-movement': 'movement',
-  '/lumen-icons': 'lumen',
-};
+function urlString(snapshot: ActivatedRouteSnapshot): string {
+  const fromRoot = snapshot.pathFromRoot.flatMap(route => route.url.map(segment => segment.path));
+  const fromChildren: string[] = [];
+  let route: ActivatedRouteSnapshot | null = snapshot;
 
-function urlString(url: { path: string }[]): string {
-  return '/' + url.map((s) => s.path).join('/');
+  while (route) {
+    const urlSegments = route.url.map(segment => segment.path);
+    const configSegments =
+      urlSegments.length === 0 && route.routeConfig?.path
+        ? route.routeConfig.path.split('/').filter(segment => segment && !segment.startsWith(':'))
+        : [];
+
+    fromChildren.push(...urlSegments, ...configSegments);
+    route = route.firstChild;
+  }
+
+  const segments = fromRoot.length >= fromChildren.length ? fromRoot : fromChildren;
+  return '/' + segments.join('/');
 }
 
 function isHome(url: string): boolean {
@@ -20,7 +35,12 @@ function isHome(url: string): boolean {
 }
 
 function isLibPage(url: string): boolean {
-  return LIB_PAGES.some((p) => url.startsWith(p));
+  return LIB_PAGES.some(p => url.startsWith(p));
+}
+
+function accentForUrl(url: string): string {
+  const path = LIB_PAGES.find(libPath => url.startsWith(libPath));
+  return (path && LIB_ACCENTS.get(path)) || '59 130 246';
 }
 
 function getDirection(fromUrl: string, toUrl: string): TransitionDirection {
@@ -31,28 +51,38 @@ function getDirection(fromUrl: string, toUrl: string): TransitionDirection {
     return 'retract';
   }
   if (isLibPage(fromUrl) && isLibPage(toUrl)) {
-    const fromIdx = LIB_PAGES.findIndex((p) => fromUrl.startsWith(p));
-    const toIdx = LIB_PAGES.findIndex((p) => toUrl.startsWith(p));
+    const fromIdx = LIB_PAGES.findIndex(p => fromUrl.startsWith(p));
+    const toIdx = LIB_PAGES.findIndex(p => toUrl.startsWith(p));
     return toIdx > fromIdx ? 'slide-left' : 'slide-right';
   }
   return 'fade';
 }
 
-function getPageColor(url: string): string {
-  return PAGE_COLORS[url] || 'default';
-}
-
 export function configureViewTransition({ transition, from, to }: ViewTransitionInfo): void {
-  const fromUrl = urlString(from.url);
-  const toUrl = urlString(to.url);
+  const fromUrl = urlString(from);
+  const toUrl = urlString(to);
   const direction = getDirection(fromUrl, toUrl);
-  const color = getPageColor(toUrl);
 
   document.documentElement.dataset['vt'] = direction;
-  document.documentElement.style.setProperty('--vt-accent', color);
+  let circleRing: HTMLDivElement | undefined;
+
+  if (direction === 'retract') {
+    document.documentElement.style.setProperty('--vt-x', '50vw');
+    document.documentElement.style.setProperty('--vt-y', '50vh');
+    document.documentElement.style.setProperty('--vt-start-radius', '2rem');
+    document.documentElement.style.setProperty('--vt-accent', accentForUrl(fromUrl));
+
+    circleRing = document.createElement('div');
+    circleRing.className = 'vt-circle-ring';
+    document.body.append(circleRing);
+  }
 
   void transition.finished.finally(() => {
     delete document.documentElement.dataset['vt'];
-    document.documentElement.style.removeProperty('--vt-accent');
+    delete document.documentElement.dataset['vtCard'];
+    circleRing?.remove();
+    document
+      .querySelector<HTMLElement>('[style*="view-transition-name: active-card"]')
+      ?.style.removeProperty('view-transition-name');
   });
 }

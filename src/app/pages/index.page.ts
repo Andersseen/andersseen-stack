@@ -29,15 +29,20 @@ import { SeoService } from '../services/seo.service';
       </header>
 
       <section class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <a routerLink="/volt-ui" class="group">
+        <a
+          routerLink="/volt-ui"
+          class="group"
+          (pointerdown)="prepareCardTransition($event, '59 130 246')"
+          (click)="prepareCardTransition($event, '59 130 246')"
+        >
           <volt-card
-            class="flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-[var(--primary)]/20 group-hover:bg-white/[0.04] group-hover:shadow-[var(--primary)]/10"
+            class="flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-blue-500/20 group-hover:bg-white/[0.04] group-hover:shadow-blue-500/10"
             [move]="'fade-up'"
             [moveDelay]="100"
           >
             <div class="mb-4 flex items-center gap-3">
               <div
-                class="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--primary)]/15 text-lg"
+                class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/20 text-lg text-blue-400"
               >
                 ⚡
               </div>
@@ -47,14 +52,21 @@ import { SeoService } from '../services/seo.service';
               Componentes UI estilizados y accesibles construidos sobre ng-primitives. Temas,
               variantes y CLI propio.
             </p>
-            <div class="flex items-center gap-1 text-sm font-medium text-[var(--primary)] opacity-60 transition-opacity group-hover:opacity-100">
+            <div
+              class="flex items-center gap-1 text-sm font-medium text-blue-400 opacity-60 transition-opacity group-hover:opacity-100"
+            >
               <span>Explorar</span>
               <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </div>
           </volt-card>
         </a>
 
-        <a routerLink="/quartz" class="group">
+        <a
+          routerLink="/quartz"
+          class="group"
+          (pointerdown)="prepareCardTransition($event, '16 185 129')"
+          (click)="prepareCardTransition($event, '16 185 129')"
+        >
           <volt-card
             class="flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-emerald-500/20 group-hover:bg-white/[0.04] group-hover:shadow-emerald-500/10"
             [move]="'fade-up'"
@@ -62,7 +74,7 @@ import { SeoService } from '../services/seo.service';
           >
             <div class="mb-4 flex items-center gap-3">
               <div
-                class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/15 text-lg text-emerald-400"
+                class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/20 text-lg text-emerald-400"
               >
                 💎
               </div>
@@ -72,14 +84,21 @@ import { SeoService } from '../services/seo.service';
               Primitivas UI headless para Angular. Overlays, dialogs, drag-drop, toast, virtual
               scroll y más.
             </p>
-            <div class="flex items-center gap-1 text-sm font-medium text-emerald-400 opacity-60 transition-opacity group-hover:opacity-100">
+            <div
+              class="flex items-center gap-1 text-sm font-medium text-emerald-400 opacity-60 transition-opacity group-hover:opacity-100"
+            >
               <span>Explorar</span>
               <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </div>
           </volt-card>
         </a>
 
-        <a routerLink="/angular-movement" class="group">
+        <a
+          routerLink="/angular-movement"
+          class="group"
+          (pointerdown)="prepareCardTransition($event, '245 158 11')"
+          (click)="prepareCardTransition($event, '245 158 11')"
+        >
           <volt-card
             class="flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-amber-500/20 group-hover:bg-white/[0.04] group-hover:shadow-amber-500/10"
             [move]="'fade-up'"
@@ -87,7 +106,7 @@ import { SeoService } from '../services/seo.service';
           >
             <div class="mb-4 flex items-center gap-3">
               <div
-                class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/15 text-lg text-amber-400"
+                class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/20 text-lg text-amber-400"
               >
                 ✦
               </div>
@@ -97,14 +116,21 @@ import { SeoService } from '../services/seo.service';
               Sistema declarativo de animaciones con WAAPI y springs. Directivas para scroll, hover,
               parallax y presencia.
             </p>
-            <div class="flex items-center gap-1 text-sm font-medium text-amber-400 opacity-60 transition-opacity group-hover:opacity-100">
+            <div
+              class="flex items-center gap-1 text-sm font-medium text-amber-400 opacity-60 transition-opacity group-hover:opacity-100"
+            >
               <span>Explorar</span>
               <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </div>
           </volt-card>
         </a>
 
-        <a routerLink="/lumen-icons" class="group">
+        <a
+          routerLink="/lumen-icons"
+          class="group"
+          (pointerdown)="prepareCardTransition($event, '14 165 233')"
+          (click)="prepareCardTransition($event, '14 165 233')"
+        >
           <volt-card
             class="flex h-full flex-col rounded-2xl border border-white/5 bg-white/[0.02] p-6 shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-sky-500/20 group-hover:bg-white/[0.04] group-hover:shadow-sky-500/10"
             [move]="'fade-up'"
@@ -112,7 +138,7 @@ import { SeoService } from '../services/seo.service';
           >
             <div class="mb-4 flex items-center gap-3">
               <div
-                class="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-500/15 text-lg text-sky-400"
+                class="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-500/20 text-lg text-sky-400"
               >
                 ◉
               </div>
@@ -122,7 +148,9 @@ import { SeoService } from '../services/seo.service';
               Iconos SVG como componentes Angular. Tree-shakeable, accesibles y con animaciones
               integradas.
             </p>
-            <div class="flex items-center gap-1 text-sm font-medium text-sky-400 opacity-60 transition-opacity group-hover:opacity-100">
+            <div
+              class="flex items-center gap-1 text-sm font-medium text-sky-400 opacity-60 transition-opacity group-hover:opacity-100"
+            >
               <span>Explorar</span>
               <span class="transition-transform group-hover:translate-x-0.5">→</span>
             </div>
@@ -141,5 +169,39 @@ export default class HomePage {
       description:
         'Un ecosistema de librerías Angular modernas, accesibles y animadas. Volt UI, Quartz, Angular Movement y Lumen Icons.',
     });
+  }
+
+  prepareCardTransition(event: Event, accent: string): void {
+    const link = event.currentTarget as HTMLElement | null;
+    const card = link?.querySelector('volt-card') as HTMLElement | null;
+    const element = card ?? link;
+
+    if (!element) {
+      return;
+    }
+
+    const rect = element.getBoundingClientRect();
+
+    document
+      .querySelector<HTMLElement>('[style*="view-transition-name: active-card"]')
+      ?.style.removeProperty('view-transition-name');
+
+    element.style.setProperty('view-transition-name', 'active-card');
+    document.documentElement.dataset['vtCard'] = 'active';
+
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const scale = Math.max(window.innerWidth / rect.width, window.innerHeight / rect.height) * 1.18;
+    const startRadius = Math.max(28, Math.min(rect.width, rect.height) * 0.2);
+
+    document.documentElement.style.setProperty('--vt-x', `${x}px`);
+    document.documentElement.style.setProperty('--vt-y', `${y}px`);
+    document.documentElement.style.setProperty('--vt-card-scale', `${scale}`);
+    document.documentElement.style.setProperty('--vt-start-radius', `${startRadius}px`);
+    document.documentElement.style.setProperty(
+      '--vt-card-radius',
+      `${getComputedStyle(element).borderRadius}`
+    );
+    document.documentElement.style.setProperty('--vt-accent', accent);
   }
 }
