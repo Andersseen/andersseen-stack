@@ -27,14 +27,29 @@ clone_and_build() {
   pnpm install --frozen-lockfile
 
   echo "[$repo_name] building..."
-  eval "$build_cmd" || true
+  eval "$build_cmd"
 
   cd - >/dev/null
 }
 
-# Order matters if there are inter-dependencies between sibling repos
-clone_and_build "quartz"        "pnpm install && pnpm run build"
-clone_and_build "angular-movement" "pnpm install && pnpm run build"
-clone_and_build "lumen-icons"   "pnpm install && pnpm run build"
+assert_dir_exists() {
+  local repo_name=$1
+  local artifact_dir=$2
+
+  if [ ! -d "$WORKSPACE_DIR/$repo_name/$artifact_dir" ]; then
+    echo "[$repo_name] expected artifact not found: $artifact_dir" >&2
+    exit 1
+  fi
+}
+
+# Order matters because the main app consumes angular-movement's built library.
+clone_and_build "angular-movement" "pnpm install && pnpm exec ng build movement"
+assert_dir_exists "angular-movement" "dist/movement"
+
+clone_and_build "quartz" "pnpm install && pnpm run build:lib"
+assert_dir_exists "quartz" "dist/quartz"
+
+clone_and_build "lumen-icons" "pnpm install && pnpm run build:lib"
+assert_dir_exists "lumen-icons" "packages/icons/dist"
 
 echo "Sibling repos ready"
