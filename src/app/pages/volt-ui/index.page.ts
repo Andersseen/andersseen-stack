@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { VoltBadge, VoltButton, VoltCard, VoltInput } from '@voltui/components';
+import { VoltButton, VoltCard, VoltInput } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-volt-ui-page',
-  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltButton, VoltCard, VoltInput, VoltBadge],
+  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltButton, VoltCard, VoltInput],
   template: `
     <div class="relative min-h-screen overflow-hidden">
       <div
