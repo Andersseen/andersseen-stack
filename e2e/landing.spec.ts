@@ -73,10 +73,10 @@ test.describe('404 Page', () => {
 test.describe('Page Content', () => {
   test('Volt UI page shows buttons', async ({ page }) => {
     await page.goto('/volt-ui');
-    await expect(page.getByText('Primary')).toBeVisible();
-    await expect(page.getByText('Destructive')).toBeVisible();
-    await expect(page.getByText('Outline')).toBeVisible();
-    await expect(page.getByText('Ghost')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Primary' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Destructive' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Outline' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Ghost' })).toBeVisible();
   });
 
   test('Quartz page shows toast buttons', async ({ page }) => {

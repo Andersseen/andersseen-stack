@@ -14,11 +14,50 @@ import { SeoService } from '../../services/seo.service';
       ></div>
       <div class="relative z-10 mx-auto max-w-3xl px-6 py-12">
         <div class="mb-8" [move]="'fade-up'">
-          <a routerLink="/" class="text-sm text-white/50 transition-colors hover:text-white"
-            >← Volver</a
-          >
+          <a routerLink="/" class="text-sm text-white/50 transition-colors hover:text-white">← Volver</a>
           <h1 class="mt-4 mb-2 text-4xl font-bold">Angular Movement</h1>
           <p class="text-white/60">Animaciones declarativas con WAAPI y springs.</p>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3">
+            <div
+              class="flex items-center gap-2 rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-xs text-white/70"
+            >
+              <span class="text-white/40">$</span>
+              <span>npm install angular-movement</span>
+            </div>
+            <a
+              href="https://github.com/Andersseen/angular-movement"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/70 transition hover:bg-white/10 hover:text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                />
+              </svg>
+              GitHub
+            </a>
+            <a
+              href="https://angular-movement.andersseen.dev"
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1 rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-400 transition hover:bg-amber-500/20"
+            >
+              Live Demo
+              <span>→</span>
+            </a>
+          </div>
         </div>
 
         <section class="space-y-8">
@@ -86,6 +125,13 @@ import { SeoService } from '../../services/seo.service';
               }
             </div>
           </volt-card>
+
+          <volt-card class="p-6" [move]="'fade-up'" [moveDelay]="400">
+            <h3 class="mb-4 text-lg font-semibold">Setup</h3>
+            <pre
+              class="overflow-x-auto rounded-lg bg-black/40 p-4 text-sm text-white/80"
+            ><code>{{ setupExample }}</code></pre>
+          </volt-card>
         </section>
       </div>
     </div>
@@ -96,8 +142,7 @@ export default class MovementPage {
   constructor() {
     this.seo.update({
       title: 'Angular Movement',
-      description:
-        'Sistema declarativo de animaciones para Angular con WAAPI y springs. Scroll, hover, parallax y presencia.',
+      description: 'Sistema declarativo de animaciones para Angular con WAAPI y springs. Scroll, hover, parallax y presencia.',
     });
   }
 
@@ -110,4 +155,13 @@ export default class MovementPage {
     { id: 2, label: 'Item 2', delay: 200 },
     { id: 3, label: 'Item 3', delay: 300 },
   ];
+
+  readonly setupExample = `import { provideMovement } from 'angular-movement';
+
+providers: [
+  provideMovement({
+    duration: 320,
+    easing: 'cubic-bezier(0.16, 1, 0.3, 1)'
+  })
+]`;
 }
