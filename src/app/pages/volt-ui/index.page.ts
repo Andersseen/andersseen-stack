@@ -1,46 +1,71 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { VoltButton, VoltCard, VoltInput } from '@voltui/components';
+import { VoltButton, VoltInput } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import {
+  DemoCardComponent,
+  DemoCodeBlockComponent,
+  DemoHeaderComponent,
+  DemoLayoutComponent,
+  DemoSectionComponent,
+} from '../../components/demo';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
   selector: 'app-volt-ui-page',
-  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltButton, VoltCard, VoltInput],
+  imports: [
+    MOVEMENT_DIRECTIVES,
+    VoltButton,
+    VoltInput,
+    DemoLayoutComponent,
+    DemoHeaderComponent,
+    DemoCardComponent,
+    DemoSectionComponent,
+    DemoCodeBlockComponent,
+  ],
   template: `
-    <div class="relative min-h-screen overflow-hidden">
-      <div
-        class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(59,130,246,0.08),transparent)]"
-      ></div>
-      <div class="relative z-10 mx-auto max-w-3xl px-6 py-12">
-        <div class="mb-8" [move]="'fade-up'">
-          <a routerLink="/" class="text-sm text-white/50 transition-colors hover:text-white"
-            >← Volver</a
-          >
-          <h1 class="mt-4 mb-2 text-4xl font-bold">Volt UI</h1>
-          <p class="text-white/60">
-            Componentes UI estilizados con theming, variantes y accesibilidad.
-          </p>
-        </div>
+    <app-demo-layout accentRgb="59 130 246">
+      <app-demo-header
+        title="Volt UI"
+        description="Componentes UI estilizados con theming, variantes y accesibilidad."
+        packageName="@voltui/components"
+        githubUrl="https://github.com/Andersseen/volt-ui"
+        demoUrl="https://volt-ui.andersseen.dev"
+      />
 
-        <section class="space-y-8">
-          <volt-card class="vt-destination-card p-6" [move]="'fade-up'" [moveDelay]="100">
-            <h3 class="mb-4 text-lg font-semibold">Buttons</h3>
-            <div class="flex flex-wrap gap-3">
-              <volt-button variant="solid">Primary</volt-button>
-              <volt-button variant="destructive">Destructive</volt-button>
-              <volt-button variant="outline">Outline</volt-button>
-              <volt-button variant="ghost">Ghost</volt-button>
-            </div>
-          </volt-card>
+      <app-demo-section>
+        <app-demo-card [isDestination]="true" [delay]="100">
+          <h3 class="mb-4 text-lg font-semibold">Buttons</h3>
+          <div class="mb-4 flex flex-wrap gap-3">
+            <volt-button variant="solid">Primary</volt-button>
+            <volt-button variant="destructive">Destructive</volt-button>
+            <volt-button variant="outline">Outline</volt-button>
+            <volt-button variant="ghost">Ghost</volt-button>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <volt-button variant="solid" size="sm">Small</volt-button>
+            <volt-button variant="solid" size="md">Medium</volt-button>
+            <volt-button variant="solid" size="lg">Large</volt-button>
+          </div>
+        </app-demo-card>
 
-          <volt-card class="p-6" [move]="'fade-up'" [moveDelay]="300">
-            <h3 class="mb-4 text-lg font-semibold">Input</h3>
+        <app-demo-card [delay]="200">
+          <h3 class="mb-4 text-lg font-semibold">Input</h3>
+          <div class="space-y-4">
             <volt-input placeholder="Type something..." class="w-full max-w-sm" />
-          </volt-card>
-        </section>
-      </div>
-    </div>
+            <volt-input placeholder="Disabled input" class="w-full max-w-sm" />
+          </div>
+        </app-demo-card>
+
+        <app-demo-card [delay]="300">
+          <h3 class="mb-4 text-lg font-semibold">Theming</h3>
+          <p class="mb-4 text-sm text-white/60">
+            Volt UI soporta múltiples colores de tema y estilos. Configúralo globalmente con
+            <code>provideVoltTheme()</code>.
+          </p>
+          <app-demo-code-block [code]="themeExample" />
+        </app-demo-card>
+      </app-demo-section>
+    </app-demo-layout>
   `,
 })
 export default class VoltUiPage {
@@ -49,8 +74,13 @@ export default class VoltUiPage {
   constructor() {
     this.seo.update({
       title: 'Volt UI',
-      description:
-        'Componentes UI estilizados y accesibles para Angular. Theming, variantes y CLI propio.',
+      description: 'Componentes UI estilizados y accesibles para Angular. Theming, variantes y CLI propio.',
     });
   }
+
+  readonly themeExample = `provideVoltTheme({
+  color: 'volt',    // volt | emerald | amber | rose | sky
+  style: 'soft',    // soft | solid | outline
+  dark: true
+})`;
 }

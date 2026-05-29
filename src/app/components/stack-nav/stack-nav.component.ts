@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GithubIconComponent } from '../github-icon.component';
 
 @Component({
   selector: 'app-stack-nav',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, GithubIconComponent],
   styles: [
     `
       .nav-link {
@@ -55,6 +56,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           class="nav-link rounded-md px-3 py-1.5 transition-all"
           >Lumen</a
         >
+        <a
+          href="https://github.com/Andersseen"
+          target="_blank"
+          rel="noopener"
+          class="nav-link ml-2 rounded-md px-3 py-1.5 transition-all"
+          aria-label="GitHub"
+        >
+          <app-github-icon [size]="18" />
+        </a>
       </div>
     </nav>
   `,
