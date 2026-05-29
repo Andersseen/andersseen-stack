@@ -23,6 +23,12 @@ test.describe('Landing Page', () => {
     await expect(nav.getByRole('link', { name: 'Lumen' })).toBeVisible();
   });
 
+  test('has GitHub link in navigation', async ({ page }) => {
+    const githubLink = page.getByRole('navigation').getByRole('link', { name: 'GitHub' });
+    await expect(githubLink).toBeVisible();
+    await expect(githubLink).toHaveAttribute('href', 'https://github.com/Andersseen');
+  });
+
   test('navigates to Volt UI page', async ({ page }) => {
     await page.getByRole('navigation').getByRole('link', { name: 'Volt UI' }).click();
     await expect(page).toHaveURL(/\/volt-ui/);
@@ -99,5 +105,59 @@ test.describe('Page Content', () => {
     await expect(page.getByText('Info', { exact: true })).toBeVisible();
     await expect(page.getByText('Search', { exact: true })).toBeVisible();
     await expect(page.getByText('Settings', { exact: true })).toBeVisible();
+  });
+});
+
+test.describe('Demo Pages External Links', () => {
+  test('Volt UI page has install command, GitHub and Live Demo links', async ({ page }) => {
+    await page.goto('/volt-ui');
+    await page.waitForSelector('h1');
+
+    await expect(page.getByText('npm install @voltui/components')).toBeVisible();
+
+    const githubLink = page.locator('a[href="https://github.com/Andersseen/volt-ui"]');
+    await expect(githubLink).toBeVisible();
+
+    const demoLink = page.locator('a[href="https://volt-ui.andersseen.dev"]');
+    await expect(demoLink).toBeVisible();
+  });
+
+  test('Quartz page has install command, GitHub and Live Demo links', async ({ page }) => {
+    await page.goto('/quartz');
+    await page.waitForSelector('h1');
+
+    await expect(page.getByText('npm install quartz-headless')).toBeVisible();
+
+    const githubLink = page.locator('a[href="https://github.com/Andersseen/quartz"]');
+    await expect(githubLink).toBeVisible();
+
+    const demoLink = page.locator('a[href="https://quartz-ui.andersseen.dev"]');
+    await expect(demoLink).toBeVisible();
+  });
+
+  test('Angular Movement page has install command, GitHub and Live Demo links', async ({ page }) => {
+    await page.goto('/angular-movement');
+    await page.waitForSelector('h1');
+
+    await expect(page.getByText('npm install angular-movement')).toBeVisible();
+
+    const githubLink = page.locator('a[href="https://github.com/Andersseen/angular-movement"]');
+    await expect(githubLink).toBeVisible();
+
+    const demoLink = page.locator('a[href="https://angular-movement.andersseen.dev"]');
+    await expect(demoLink).toBeVisible();
+  });
+
+  test('Lumen Icons page has install command, GitHub and Live Demo links', async ({ page }) => {
+    await page.goto('/lumen-icons');
+    await page.waitForSelector('h1');
+
+    await expect(page.getByText('npm install @lumen/icons')).toBeVisible();
+
+    const githubLink = page.locator('a[href="https://github.com/Andersseen/lumen-icons"]');
+    await expect(githubLink).toBeVisible();
+
+    const demoLink = page.locator('a[href="https://lumen-icons.andersseen.dev"]');
+    await expect(demoLink).toBeVisible();
   });
 });
