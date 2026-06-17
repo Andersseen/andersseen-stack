@@ -3,11 +3,11 @@ import { VoltButton, VoltInput, VoltBadge, VoltCard } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import {
   DemoCardComponent,
-  DemoCodeBlockComponent,
   DemoHeaderComponent,
   DemoLayoutComponent,
   DemoSectionComponent,
 } from '../../components/demo';
+import { VertexEditorComponent } from '../../components/vertex-editor/vertex-editor.component';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { SeoService } from '../../services/seo.service';
     DemoHeaderComponent,
     DemoCardComponent,
     DemoSectionComponent,
-    DemoCodeBlockComponent,
+    VertexEditorComponent,
   ],
   template: `
     <app-demo-layout accentRgb="59 130 246">
@@ -82,7 +82,7 @@ import { SeoService } from '../../services/seo.service';
             Volt UI soporta múltiples colores de tema y estilos. Configúralo globalmente con
             <code>provideVoltTheme()</code>.
           </p>
-          <app-demo-code-block [code]="themeExample" />
+          <app-vertex-editor [code]="themeExample" language="typescript" height="160px" />
         </app-demo-card>
       </app-demo-section>
     </app-demo-layout>

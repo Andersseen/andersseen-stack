@@ -3,11 +3,11 @@ import { VoltButton } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import {
   DemoCardComponent,
-  DemoCodeBlockComponent,
   DemoHeaderComponent,
   DemoLayoutComponent,
   DemoSectionComponent,
 } from '../../components/demo';
+import { VertexEditorComponent } from '../../components/vertex-editor/vertex-editor.component';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
@@ -19,7 +19,7 @@ import { SeoService } from '../../services/seo.service';
     DemoHeaderComponent,
     DemoCardComponent,
     DemoSectionComponent,
-    DemoCodeBlockComponent,
+    VertexEditorComponent,
   ],
   template: `
     <app-demo-layout accentRgb="245 158 11">
@@ -123,7 +123,7 @@ import { SeoService } from '../../services/seo.service';
 
         <app-demo-card [delay]="500">
           <h3 class="mb-4 text-lg font-semibold">Setup</h3>
-          <app-demo-code-block [code]="setupExample" />
+          <app-vertex-editor [code]="setupExample" language="typescript" height="160px" />
         </app-demo-card>
       </app-demo-section>
     </app-demo-layout>

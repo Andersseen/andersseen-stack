@@ -2,11 +2,11 @@ import { Component, inject } from '@angular/core';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import {
   DemoCardComponent,
-  DemoCodeBlockComponent,
   DemoHeaderComponent,
   DemoLayoutComponent,
   DemoSectionComponent,
 } from '../../components/demo';
+import { VertexEditorComponent } from '../../components/vertex-editor/vertex-editor.component';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { SeoService } from '../../services/seo.service';
     DemoHeaderComponent,
     DemoCardComponent,
     DemoSectionComponent,
-    DemoCodeBlockComponent,
+    VertexEditorComponent,
   ],
   template: `
     <app-demo-layout accentRgb="14 165 233">
@@ -210,7 +210,7 @@ import { SeoService } from '../../services/seo.service';
 
         <app-demo-card [delay]="400">
           <h3 class="mb-4 text-lg font-semibold">Usage</h3>
-          <app-demo-code-block [code]="codeExample" />
+          <app-vertex-editor [code]="codeExample" language="typescript" height="160px" />
         </app-demo-card>
 
         <app-demo-card [delay]="500">

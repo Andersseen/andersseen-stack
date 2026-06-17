@@ -4,11 +4,11 @@ import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { DialogRef, DialogService, ToastService, ToastContainerComponent, TooltipDirective } from 'quartz-headless';
 import {
   DemoCardComponent,
-  DemoCodeBlockComponent,
   DemoHeaderComponent,
   DemoLayoutComponent,
   DemoSectionComponent,
 } from '../../components/demo';
+import { VertexEditorComponent } from '../../components/vertex-editor/vertex-editor.component';
 import { SeoService } from '../../services/seo.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { SeoService } from '../../services/seo.service';
     DemoHeaderComponent,
     DemoCardComponent,
     DemoSectionComponent,
-    DemoCodeBlockComponent,
+    VertexEditorComponent,
   ],
   template: `
     <app-demo-layout accentRgb="16 185 129">
@@ -88,7 +88,7 @@ import { SeoService } from '../../services/seo.service';
 
         <app-demo-card [delay]="400">
           <h3 class="mb-4 text-lg font-semibold">Installation</h3>
-          <app-demo-code-block [code]="installExample" />
+          <app-vertex-editor [code]="installExample" language="typescript" height="120px" />
         </app-demo-card>
       </app-demo-section>
     </app-demo-layout>
