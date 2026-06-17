@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { VoltButton, VoltInput } from '@voltui/components';
+import { VoltButton, VoltInput, VoltBadge, VoltCard } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import {
   DemoCardComponent,
@@ -16,6 +16,8 @@ import { SeoService } from '../../services/seo.service';
     MOVEMENT_DIRECTIVES,
     VoltButton,
     VoltInput,
+    VoltBadge,
+    VoltCard,
     DemoLayoutComponent,
     DemoHeaderComponent,
     DemoCardComponent,
@@ -26,7 +28,7 @@ import { SeoService } from '../../services/seo.service';
     <app-demo-layout accentRgb="59 130 246">
       <app-demo-header
         title="Volt UI"
-        description="Componentes UI estilizados con theming, variantes y accesibilidad."
+        description="Componentes UI estilizados con theming, variantes y accesibilidad. Construidos sobre ng-primitives."
         packageName="@voltui/components"
         githubUrl="https://github.com/Andersseen/volt-ui"
         demoUrl="https://volt-ui.andersseen.dev"
@@ -57,6 +59,24 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
+          <h3 class="mb-4 text-lg font-semibold">Badges</h3>
+          <div class="flex flex-wrap gap-3">
+            <volt-badge>Default</volt-badge>
+            <volt-badge variant="secondary">Secondary</volt-badge>
+            <volt-badge variant="outline">Outline</volt-badge>
+            <volt-badge variant="destructive">Destructive</volt-badge>
+          </div>
+        </app-demo-card>
+
+        <app-demo-card [delay]="400">
+          <h3 class="mb-4 text-lg font-semibold">Card</h3>
+          <volt-card class="max-w-sm p-5">
+            <h4 class="mb-1 font-semibold">Volt Card</h4>
+            <p class="text-sm text-white/50">Un contenedor flexible con glassmorphism y bordes sutiles.</p>
+          </volt-card>
+        </app-demo-card>
+
+        <app-demo-card [delay]="500">
           <h3 class="mb-4 text-lg font-semibold">Theming</h3>
           <p class="mb-4 text-sm text-white/60">
             Volt UI soporta múltiples colores de tema y estilos. Configúralo globalmente con

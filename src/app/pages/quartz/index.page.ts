@@ -28,7 +28,7 @@ import { SeoService } from '../../services/seo.service';
     <app-demo-layout accentRgb="16 185 129">
       <app-demo-header
         title="Quartz"
-        description="Primitivas UI headless. Lógica compleja sin opiniones de estilo."
+        description="Primitivas UI headless para Angular. Lógica compleja sin opiniones de estilo."
         packageName="quartz-headless"
         githubUrl="https://github.com/Andersseen/quartz"
         demoUrl="https://quartz-ui.andersseen.dev"
