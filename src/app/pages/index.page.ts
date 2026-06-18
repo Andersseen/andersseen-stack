@@ -31,8 +31,8 @@ import { SeoService } from '../services/seo.service';
           <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Stack</span>
         </h1>
         
-        <p class="mx-auto mb-10 max-w-2xl text-lg text-white/50 md:text-xl leading-relaxed" [move]="'fade-up'" [moveDelay]="200">
-          Un ecosistema de librerías Angular modernas, accesibles y animadas. 
+        <p data-testid="hero-description" class="mx-auto mb-10 max-w-2xl text-lg text-white/50 md:text-xl leading-relaxed" [move]="'fade-up'" [moveDelay]="200">
+          Un ecosistema de librerías Angular modernas, accesibles y animadas.
           <span class="text-white/70">Construido para desarrolladores que quieren calidad sin compromisos.</span>
         </p>
         

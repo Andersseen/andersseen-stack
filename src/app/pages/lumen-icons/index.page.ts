@@ -24,7 +24,7 @@ import { SeoService } from '../../services/seo.service';
       <app-demo-header
         title="Lumen Icons"
         description="Iconos SVG como componentes Angular. Tree-shakeable, accesibles y animables."
-        packageName="lumen-icons"
+        packageName="@lumen/icons"
         githubUrl="https://github.com/Andersseen/lumen-icons"
         demoUrl="https://lumen-icons.andersseen.dev"
       />

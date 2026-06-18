@@ -11,7 +11,7 @@ test.describe('Landing Page', () => {
   });
 
   test('has description text', async ({ page }) => {
-    await expect(page.locator('text=Un ecosistema de librerías Angular')).toBeVisible();
+    await expect(page.getByTestId('hero-description')).toBeVisible();
   });
 
   test('has navigation with all library links', async ({ page }) => {

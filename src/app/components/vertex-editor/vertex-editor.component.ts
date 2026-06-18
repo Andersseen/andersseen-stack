@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild, AfterViewInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-vertex-editor',
@@ -26,7 +26,7 @@ import { Component, ElementRef, Input, ViewChild, AfterViewInit, OnDestroy, CUST
     }
   `]
 })
-export class VertexEditorComponent implements AfterViewInit, OnDestroy {
+export class VertexEditorComponent implements AfterViewInit {
   @ViewChild('editor', { static: true }) editorRef!: ElementRef;
 
   @Input() code = '';
@@ -41,13 +41,7 @@ export class VertexEditorComponent implements AfterViewInit, OnDestroy {
   private static scriptPromise: Promise<void> | null = null;
 
   ngAfterViewInit() {
-    this.loadScript().then(() => {
-      // Script loaded, vertex-editor should auto-initialize
-    });
-  }
-
-  ngOnDestroy() {
-    // Cleanup if needed
+    void this.loadScript();
   }
 
   private loadScript(): Promise<void> {
