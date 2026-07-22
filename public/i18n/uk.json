@@ -13,7 +13,8 @@
     "logoAlt": "Andersseen Stack",
     "githubAriaLabel": "GitHub",
     "openMenu": "Відкрити меню",
-    "closeMenu": "Закрити меню"
+    "closeMenu": "Закрити меню",
+    "menuTitle": "Меню"
   },
   "footer": {
     "brandDescription": "Екосистема сучасних, доступних та анімованих бібліотек Angular.",

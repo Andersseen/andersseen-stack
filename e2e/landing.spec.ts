@@ -1,18 +1,24 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 
 /**
- * Below `md` the library links live behind the hamburger, so open it first.
- * No-op on desktop viewports where the toggle is hidden.
+ * Returns whatever currently holds the library links, opening the drawer first
+ * on small viewports. The drawer renders in an overlay outside `<nav>`, so the
+ * scope differs per breakpoint.
  */
-async function openNav(page: Page): Promise<void> {
+async function navScope(page: Page): Promise<Locator> {
   // `isVisible()` does not wait, so let the nav render before probing it —
   // otherwise this silently no-ops while the app is still bootstrapping.
   await page.getByRole('navigation').waitFor();
   const toggle = page.getByRole('button', { name: 'Open menu' });
+
   if (await toggle.isVisible()) {
     await toggle.click();
-    await page.locator('#mobile-menu').waitFor();
+    const drawer = page.getByTestId('mobile-menu');
+    await drawer.waitFor();
+    return drawer;
   }
+
+  return page.getByRole('navigation');
 }
 
 test.describe('Landing Page', () => {
@@ -30,8 +36,7 @@ test.describe('Landing Page', () => {
   });
 
   test('has navigation with all library links', async ({ page }) => {
-    await openNav(page);
-    const nav = page.getByRole('navigation');
+    const nav = await navScope(page);
 
     await expect(nav.getByRole('link', { name: 'Volt UI' })).toBeVisible();
     await expect(nav.getByRole('link', { name: 'Quartz' })).toBeVisible();
@@ -40,36 +45,31 @@ test.describe('Landing Page', () => {
   });
 
   test('has GitHub link in navigation', async ({ page }) => {
-    await openNav(page);
-    const githubLink = page.getByRole('navigation').getByRole('link', { name: 'GitHub' });
+    const githubLink = (await navScope(page)).getByRole('link', { name: 'GitHub' });
     await expect(githubLink).toBeVisible();
     await expect(githubLink).toHaveAttribute('href', 'https://github.com/Andersseen');
   });
 
   test('navigates to Volt UI page', async ({ page }) => {
-    await openNav(page);
-    await page.getByRole('navigation').getByRole('link', { name: 'Volt UI' }).click();
+    await (await navScope(page)).getByRole('link', { name: 'Volt UI' }).click();
     await expect(page).toHaveURL(/\/volt-ui/);
     await expect(page.locator('h1')).toContainText('Volt UI');
   });
 
   test('navigates to Quartz page', async ({ page }) => {
-    await openNav(page);
-    await page.getByRole('navigation').getByRole('link', { name: 'Quartz' }).click();
+    await (await navScope(page)).getByRole('link', { name: 'Quartz' }).click();
     await expect(page).toHaveURL(/\/quartz/);
     await expect(page.locator('h1')).toContainText('Quartz');
   });
 
   test('navigates to Angular Movement page', async ({ page }) => {
-    await openNav(page);
-    await page.getByRole('navigation').getByRole('link', { name: 'Movement' }).click();
+    await (await navScope(page)).getByRole('link', { name: 'Movement' }).click();
     await expect(page).toHaveURL(/\/angular-movement/);
     await expect(page.locator('h1')).toContainText('Angular Movement');
   });
 
   test('navigates to Lumen Icons page', async ({ page }) => {
-    await openNav(page);
-    await page.getByRole('navigation').getByRole('link', { name: 'Lumen' }).click();
+    await (await navScope(page)).getByRole('link', { name: 'Lumen' }).click();
     await expect(page).toHaveURL(/\/lumen-icons/);
     await expect(page.locator('h1')).toContainText('Lumen Icons');
   });
@@ -129,14 +129,82 @@ test.describe('Mobile navigation', () => {
     }
   });
 
+  test('drawer is an accessible modal dialog', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Open menu' }).click();
+
+    const drawer = page.getByTestId('mobile-menu');
+    await expect(drawer).toBeVisible();
+    await expect(drawer).toHaveAttribute('role', 'dialog');
+    await expect(drawer).toHaveAttribute('aria-modal', 'true');
+
+    // Labelled by its own heading, and focus moved inside.
+    const labelledBy = await drawer.getAttribute('aria-labelledby');
+    expect(labelledBy).toBeTruthy();
+    await expect(page.locator(`#${labelledBy}`)).toHaveText('Menu');
+    expect(await drawer.evaluate((el) => el.contains(document.activeElement))).toBe(true);
+
+    // The page behind must not scroll while the drawer is open.
+    expect(
+      await page.evaluate(() => getComputedStyle(document.documentElement).overflow)
+    ).toBe('hidden');
+  });
+
+  test('drawer animates in and out instead of popping', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    const drawer = page.getByTestId('mobile-menu');
+    await expect(drawer).toBeVisible();
+
+    expect(await drawer.evaluate((el) => getComputedStyle(el).animationName)).toBe(
+      'app-drawer-panel-in'
+    );
+
+    await page.keyboard.press('Escape');
+    // The exit animation must actually run; ng-primitives awaits it before disposing.
+    await expect
+      .poll(async () =>
+        drawer
+          .evaluate((el) => el.hasAttribute('data-exit') && getComputedStyle(el).animationName)
+          .catch(() => null)
+      )
+      .toBe('app-drawer-panel-out');
+
+    await expect(drawer).toHaveCount(0);
+  });
+
+  test.describe('closing the drawer', () => {
+    for (const [name, close] of [
+      ['Escape', async (page: Page) => page.keyboard.press('Escape')],
+      ['the close button', async (page: Page) => page.getByRole('button', { name: 'Close menu' }).click()],
+      ['clicking the scrim', async (page: Page) => page.mouse.click(15, 400)],
+    ] as const) {
+      test(`closes via ${name} and restores scrolling`, async ({ page }) => {
+        await page.goto('/');
+        await page.getByRole('button', { name: 'Open menu' }).click();
+        await expect(page.getByTestId('mobile-menu')).toBeVisible();
+
+        await close(page);
+
+        await expect(page.getByTestId('mobile-menu')).toHaveCount(0);
+        expect(
+          await page.evaluate(() => getComputedStyle(document.documentElement).overflow)
+        ).not.toBe('hidden');
+      });
+    }
+  });
+
   test('menu closes after navigating', async ({ page }) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Open menu' }).click();
-    await expect(page.locator('#mobile-menu')).toBeVisible();
+    await expect(page.getByTestId('mobile-menu')).toBeVisible();
 
-    await page.locator('#mobile-menu a[href="/quartz"]').click();
+    await page.getByTestId('mobile-menu').locator('a[href="/quartz"]').click();
     await expect(page).toHaveURL(/\/quartz/);
-    await expect(page.locator('#mobile-menu')).toHaveCount(0);
+    await expect(page.getByTestId('mobile-menu')).toHaveCount(0);
+    expect(
+      await page.evaluate(() => getComputedStyle(document.documentElement).overflow)
+    ).not.toBe('hidden');
   });
 });
 

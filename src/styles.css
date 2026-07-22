@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+/* Required by Volt UI overlays (drawer/dialog) for their enter/leave animations. */
+@plugin 'tailwindcss-animate';
 @import '@voltui/components/themes/presets/volt-soft.css';
 @source '../node_modules/@voltui/components';
 
@@ -37,6 +39,97 @@ code {
 
 pre {
   overflow-x: auto;
+}
+
+/* ============================================================
+   Mobile navigation drawer
+
+   Volt UI v0.2.0 styles its drawer with `data-[state=open]` /
+   `data-[state=closed]` variants, but the ng-primitives version it depends on
+   (0.110) marks elements with `data-enter` / `data-exit` instead — so those
+   classes never match and the drawer pops in with no transition. The keyframes
+   below drive it off the attributes actually emitted. ng-primitives awaits
+   `element.getAnimations()` before disposing the overlay, so the exit
+   animation runs to completion.
+   ============================================================ */
+
+.app-drawer-scrim {
+  /* Volt's default is `bg-foreground/50`, which is a near-white veil on this dark theme. */
+  background-color: rgb(0 0 0 / 0.6);
+}
+
+.app-drawer-scrim[data-enter] {
+  animation: app-drawer-scrim-in 0.3s ease-out both;
+}
+
+.app-drawer-scrim[data-exit] {
+  animation: app-drawer-scrim-out 0.2s ease-in both;
+}
+
+/* Volt's `bg-surface` sits at the same luminance as this near-black page, so the
+   panel reads as flat against the scrim. Lift it and cast a shadow over the page. */
+.app-drawer-panel {
+  background-color: #0e0e12;
+  box-shadow: -1.5rem 0 3.5rem rgb(0 0 0 / 0.55);
+}
+
+.app-drawer-panel[data-enter] {
+  animation: app-drawer-panel-in 0.32s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.app-drawer-panel[data-exit] {
+  animation: app-drawer-panel-out 0.22s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+@keyframes app-drawer-scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes app-drawer-scrim-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes app-drawer-panel-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes app-drawer-panel-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Stops the page behind the drawer from scrolling while it is open. */
+html.drawer-open,
+html.drawer-open body {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-drawer-scrim[data-enter],
+  .app-drawer-scrim[data-exit],
+  .app-drawer-panel[data-enter],
+  .app-drawer-panel[data-exit] {
+    animation-duration: 0.01s;
+  }
 }
 
 .analog-markdown p {
