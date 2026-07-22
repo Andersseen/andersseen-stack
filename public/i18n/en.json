@@ -1,0 +1,175 @@
+{
+  "common": {
+    "back": "← Back",
+    "github": "GitHub",
+    "liveDemo": "Live Demo",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "codeExample": "Code example"
+  },
+  "language": {
+    "select": "Select language"
+  },
+  "nav": {
+    "githubAriaLabel": "GitHub",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menuTitle": "Menu"
+  },
+  "footer": {
+    "brandDescription": "An ecosystem of modern, accessible and animated Angular libraries.",
+    "librariesTitle": "Libraries",
+    "linksTitle": "Links",
+    "github": "GitHub",
+    "npm": "NPM",
+    "copyright": "© {{ year }} Andersseen. Built with Angular + AnalogJS."
+  },
+  "home": {
+    "title": "Andersseen Stack",
+    "description": "An ecosystem of modern, accessible and animated Angular libraries. Built for developers who want quality without compromises.",
+    "badge": "Angular 21 + AnalogJS",
+    "cta": {
+      "explore": "Explore libs",
+      "github": "GitHub"
+    },
+    "stats": {
+      "libraries": "Libraries",
+      "components": "Components",
+      "latestVersion": "Latest version",
+      "typescript": "TypeScript"
+    },
+    "ecosystem": {
+      "title": "Four libraries, one ecosystem",
+      "subtitle": "Each one solves a specific problem. Together, they cover all your UI.",
+      "volt": {
+        "subtitle": "Styled components",
+        "description": "Accessible UI components built on ng-primitives. Themes, variants and own CLI."
+      },
+      "quartz": {
+        "subtitle": "Headless primitives",
+        "description": "Complex logic without styling opinions. Toast, dialogs, overlays, tooltips and more."
+      },
+      "movement": {
+        "subtitle": "Declarative animations",
+        "description": "Declarative animation system with WAAPI and springs. Scroll, hover, parallax and presence."
+      },
+      "lumen": {
+        "subtitle": "Tree-shakeable SVG icons",
+        "description": "SVG icons as Angular components. Tree-shakeable, accessible and with built-in animations."
+      }
+    },
+    "tech": {
+      "title": "Built with the best of the ecosystem",
+      "subtitle": "Modern, fast and production-ready."
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The route you are looking for does not exist in the Andersseen Stack.",
+    "backHome": "Back to home"
+  },
+  "volt": {
+    "title": "Volt UI",
+    "description": "Styled UI components with theming, variants and accessibility. Built on ng-primitives.",
+    "demo": {
+      "buttons": "Buttons",
+      "input": "Input",
+      "badges": "Badges",
+      "card": "Card",
+      "cardTitle": "Volt Card",
+      "cardDescription": "A flexible container with glassmorphism and subtle borders.",
+      "theming": "Theming",
+      "themingDescription": "Volt UI supports multiple theme colors and styles. Configure it globally with provideVoltTheme()."
+    }
+  },
+  "quartz": {
+    "title": "Quartz",
+    "description": "Headless UI primitives for Angular. Complex logic without styling opinions.",
+    "demo": {
+      "toastService": "Toast Service",
+      "toastDescription": "Fire notifications programmatically with Quartz ToastService.",
+      "dialogOverlay": "Dialog & Overlay System",
+      "dialogOverlayDescription": "Portal and positioning system for dialogs, modals and overlays.",
+      "openDialog": "Open Dialog",
+      "tooltip": "Tooltip",
+      "tooltipDescription": "Tooltips positioned automatically via the overlay system.",
+      "hoverMe": "Hover me",
+      "right": "Right",
+      "installation": "Installation",
+      "dialogTitle": "Quartz Dialog",
+      "dialogDescription": "This dialog is rendered through Quartz Overlay System. Portals, positioning and focus trap handled automatically."
+    },
+    "toast": {
+      "successMessage": "Operation completed successfully.",
+      "successTitle": "Quartz Toast",
+      "errorMessage": "Something went wrong.",
+      "errorTitle": "Error",
+      "infoMessage": "This is an informative toast.",
+      "infoTitle": "Info",
+      "confirmed": "Dialog confirmed."
+    }
+  },
+  "movement": {
+    "title": "Angular Movement",
+    "description": "Declarative animation system with WAAPI and springs. Directives for scroll, hover, parallax and presence.",
+    "demo": {
+      "entranceAnimations": "Entrance Animations",
+      "hoverTap": "Hover & Tap",
+      "scaleHover": "Scale Hover",
+      "tapMe": "Tap me",
+      "staggerPresence": "Stagger & Presence",
+      "staggerDescription": "Coordinated animations with staggered delays.",
+      "inView": "In View",
+      "inViewDescription": "Scroll down to see animations trigger as they enter the viewport.",
+      "setup": "Setup"
+    }
+  },
+  "lumen": {
+    "title": "Lumen Icons",
+    "description": "SVG icons as Angular components. Tree-shakeable, accessible and animatable.",
+    "demo": {
+      "iconGallery": "Icon Gallery",
+      "iconGalleryDescription": "Each icon is an independent Angular component. Import only the ones you need.",
+      "sizes": "Sizes & Customization",
+      "sizesDescription": "Configurable sizes via the size input.",
+      "animatedIcons": "Animated Icons",
+      "animatedIconsDescription": "Integrated with angular-movement for declarative animations.",
+      "usage": "Usage",
+      "features": "Features",
+      "feature1": "Tree-shakeable — import only the icons you use",
+      "feature2": "Subpath exports — lumen-icons/icons/search",
+      "feature3": "Accessible — aria-label and role automatically",
+      "feature4": "Animations — integrated with angular-movement",
+      "feature5": "Customizable — size, strokeWidth, color"
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Andersseen Stack",
+      "description": "An ecosystem of modern, accessible and animated Angular libraries. Volt UI, Quartz, Angular Movement and Lumen Icons."
+    },
+    "volt": {
+      "title": "Volt UI",
+      "description": "Styled and accessible UI components for Angular. Theming, variants and own CLI."
+    },
+    "quartz": {
+      "title": "Quartz",
+      "description": "Headless UI primitives for Angular. Overlays, dialogs, drag-drop, toast, virtual scroll and more."
+    },
+    "movement": {
+      "title": "Angular Movement",
+      "description": "Declarative animation system for Angular with WAAPI and springs. Scroll, hover, parallax and presence."
+    },
+    "lumen": {
+      "title": "Lumen Icons",
+      "description": "SVG icons as Angular components. Tree-shakeable, accessible and with integrated animations."
+    },
+    "notFound": {
+      "title": "404 — Page not found",
+      "description": "The page you are looking for does not exist in the Andersseen Stack."
+    }
+  },
+  "hello": {
+    "greeting": "Hello, {{ name }}!"
+  }
+}

@@ -1,12 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/angular';
-import { DemoHeaderComponent } from './demo-header.component';
 import { provideRouter } from '@angular/router';
+import { testTranslationProviders } from '../../testing/translate-testing';
+import { DemoHeaderComponent } from './demo-header.component';
 
 describe('DemoHeaderComponent', () => {
   it('should render title and description', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',
@@ -19,21 +20,21 @@ describe('DemoHeaderComponent', () => {
 
   it('should render back link', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',
       },
     });
 
-    const backLink = screen.getByText('← Volver');
+    const backLink = screen.getByText('← Back');
     expect(backLink).toBeInTheDocument();
     expect(backLink.closest('a')).toHaveAttribute('href', '/');
   });
 
   it('should render install pill when packageName is provided', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',
@@ -46,7 +47,7 @@ describe('DemoHeaderComponent', () => {
 
   it('should render GitHub link when githubUrl is provided', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',
@@ -61,7 +62,7 @@ describe('DemoHeaderComponent', () => {
 
   it('should render Live Demo link when demoUrl is provided', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',
@@ -76,7 +77,7 @@ describe('DemoHeaderComponent', () => {
 
   it('should not render optional elements when not provided', async () => {
     await render(DemoHeaderComponent, {
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), ...testTranslationProviders],
       componentInputs: {
         title: 'Test Lib',
         description: 'A test description',

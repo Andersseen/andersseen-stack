@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { VoltButton, VoltInput, VoltBadge, VoltCard } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   DemoCardComponent,
   DemoHeaderComponent,
@@ -23,12 +24,13 @@ import { SeoService } from '../../services/seo.service';
     DemoCardComponent,
     DemoSectionComponent,
     VertexEditorComponent,
+    TranslatePipe,
   ],
   template: `
     <app-demo-layout accentRgb="59 130 246">
       <app-demo-header
-        title="Volt UI"
-        description="Componentes UI estilizados con theming, variantes y accesibilidad. Construidos sobre ng-primitives."
+        [title]="'volt.title' | translate"
+        [description]="'volt.description' | translate"
         packageName="@voltui/components"
         githubUrl="https://github.com/Andersseen/volt-ui"
         demoUrl="https://volt-ui.andersseen.dev"
@@ -36,7 +38,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">Buttons</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.buttons' | translate }}</h2>
           <div class="mb-4 flex flex-wrap gap-3">
             <volt-button variant="solid">Primary</volt-button>
             <volt-button variant="destructive">Destructive</volt-button>
@@ -51,7 +53,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">Input</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.input' | translate }}</h2>
           <div class="space-y-4">
             <volt-input placeholder="Type something..." class="w-full max-w-sm" />
             <volt-input placeholder="Disabled input" class="w-full max-w-sm" />
@@ -59,7 +61,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">Badges</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.badges' | translate }}</h2>
           <div class="flex flex-wrap gap-3">
             <volt-badge>Default</volt-badge>
             <volt-badge variant="secondary">Secondary</volt-badge>
@@ -69,18 +71,17 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">Card</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.card' | translate }}</h2>
           <volt-card class="max-w-sm p-5">
-            <h4 class="mb-1 font-semibold">Volt Card</h4>
-            <p class="text-sm text-white/50">Un contenedor flexible con glassmorphism y bordes sutiles.</p>
+            <h3 class="mb-1 font-semibold">{{ 'volt.demo.cardTitle' | translate }}</h3>
+            <p class="text-sm text-white/50">{{ 'volt.demo.cardDescription' | translate }}</p>
           </volt-card>
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">Theming</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.theming' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
-            Volt UI soporta múltiples colores de tema y estilos. Configúralo globalmente con
-            <code>provideVoltTheme()</code>.
+            {{ 'volt.demo.themingDescription' | translate }}
           </p>
           <app-vertex-editor [code]="themeExample" language="typescript" height="160px" />
         </app-demo-card>
@@ -93,8 +94,8 @@ export default class VoltUiPage {
 
   constructor() {
     this.seo.update({
-      title: 'Volt UI',
-      description: 'Componentes UI estilizados y accesibles para Angular. Theming, variantes y CLI propio.',
+      title: 'seo.volt.title',
+      description: 'seo.volt.description',
     });
   }
 

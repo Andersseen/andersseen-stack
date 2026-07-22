@@ -1,6 +1,7 @@
 import { Component, inject, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { VoltButton } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DialogRef, DialogService, ToastService, ToastContainerComponent, TooltipDirective } from 'quartz-headless';
 import {
   DemoCardComponent,
@@ -23,12 +24,13 @@ import { SeoService } from '../../services/seo.service';
     DemoCardComponent,
     DemoSectionComponent,
     VertexEditorComponent,
+    TranslatePipe,
   ],
   template: `
     <app-demo-layout accentRgb="16 185 129">
       <app-demo-header
-        title="Quartz"
-        description="Primitivas UI headless para Angular. Lógica compleja sin opiniones de estilo."
+        [title]="'quartz.title' | translate"
+        [description]="'quartz.description' | translate"
         packageName="quartz-headless"
         githubUrl="https://github.com/Andersseen/quartz"
         demoUrl="https://quartz-ui.andersseen.dev"
@@ -38,23 +40,22 @@ import { SeoService } from '../../services/seo.service';
 
       <ng-template #dialogTemplate>
         <div class="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 shadow-2xl">
-          <h3 class="mb-2 text-xl font-semibold">Quartz Dialog</h3>
+          <h3 class="mb-2 text-xl font-semibold">{{ 'quartz.demo.dialogTitle' | translate }}</h3>
           <p class="mb-6 text-sm text-white/60">
-            Este dialog está renderizado a través del Overlay System de Quartz. Portales, posicionamiento
-            y focus trap manejados automáticamente.
+            {{ 'quartz.demo.dialogDescription' | translate }}
           </p>
           <div class="flex justify-end gap-3">
-            <volt-button variant="ghost" (click)="closeDialog()">Cancelar</volt-button>
-            <volt-button variant="solid" (click)="confirmDialog()">Aceptar</volt-button>
+            <volt-button variant="ghost" (click)="closeDialog()">{{ 'common.cancel' | translate }}</volt-button>
+            <volt-button variant="solid" (click)="confirmDialog()">{{ 'common.confirm' | translate }}</volt-button>
           </div>
         </div>
       </ng-template>
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">Toast Service</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.toastService' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
-            Dispara notificaciones programáticamente con Quartz ToastService.
+            {{ 'quartz.demo.toastDescription' | translate }}
           </p>
           <div class="flex flex-wrap gap-3">
             <volt-button variant="solid" (click)="showSuccess()">Success</volt-button>
@@ -64,30 +65,30 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">Dialog & Overlay System</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.dialogOverlay' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
-            Sistema de portales y posicionamiento para dialogs, modales y overlays.
+            {{ 'quartz.demo.dialogOverlayDescription' | translate }}
           </p>
-          <volt-button variant="outline" (click)="openDialog()">Open Dialog</volt-button>
+          <volt-button variant="outline" (click)="openDialog()">{{ 'quartz.demo.openDialog' | translate }}</volt-button>
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">Tooltip</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.tooltip' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
-            Tooltips posicionados automáticamente vía el overlay system.
+            {{ 'quartz.demo.tooltipDescription' | translate }}
           </p>
           <div class="flex flex-wrap gap-4">
             <volt-button variant="outline" qzTooltip="Tooltip arriba" tooltipPlacement="top">
-              Hover me
+              {{ 'quartz.demo.hoverMe' | translate }}
             </volt-button>
             <volt-button variant="outline" qzTooltip="Tooltip a la derecha" tooltipPlacement="right">
-              Right
+              {{ 'quartz.demo.right' | translate }}
             </volt-button>
           </div>
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">Installation</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.installation' | translate }}</h2>
           <app-vertex-editor [code]="installExample" language="typescript" height="120px" />
         </app-demo-card>
       </app-demo-section>
@@ -98,6 +99,7 @@ export default class QuartzPage {
   private readonly toast = inject(ToastService);
   private readonly dialog = inject(DialogService);
   private readonly vcr = inject(ViewContainerRef);
+  private readonly translate = inject(TranslateService);
   private readonly seo = inject(SeoService);
 
   @ViewChild('dialogTemplate', { read: TemplateRef }) dialogTemplate!: TemplateRef<unknown>;
@@ -105,21 +107,21 @@ export default class QuartzPage {
 
   constructor() {
     this.seo.update({
-      title: 'Quartz',
-      description: 'Primitivas UI headless para Angular. Overlays, dialogs, drag-drop, toast, virtual scroll y más.',
+      title: 'seo.quartz.title',
+      description: 'seo.quartz.description',
     });
   }
 
   showSuccess() {
-    this.toast.success('Operación completada con éxito.', 'Quartz Toast');
+    this.toast.success(this.translate.instant('quartz.toast.successMessage') as string, this.translate.instant('quartz.toast.successTitle') as string);
   }
 
   showError() {
-    this.toast.error('Algo salió mal.', 'Error');
+    this.toast.error(this.translate.instant('quartz.toast.errorMessage') as string, this.translate.instant('quartz.toast.errorTitle') as string);
   }
 
   showInfo() {
-    this.toast.info('Este es un toast informativo.', 'Info');
+    this.toast.info(this.translate.instant('quartz.toast.infoMessage') as string, this.translate.instant('quartz.toast.infoTitle') as string);
   }
 
   openDialog() {
@@ -135,7 +137,7 @@ export default class QuartzPage {
   }
 
   confirmDialog() {
-    this.toast.success('Dialog confirmado.', 'Quartz');
+    this.toast.success(this.translate.instant('quartz.toast.confirmed') as string, this.translate.instant('quartz.title') as string);
     this.closeDialog();
   }
 
