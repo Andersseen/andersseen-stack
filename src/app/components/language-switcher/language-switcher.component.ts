@@ -38,7 +38,7 @@ let nextId = 0;
       >
 
       <svg
-        class="h-3 w-3 shrink-0 text-white/40"
+        class="h-3 w-3 shrink-0 text-white/55"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"

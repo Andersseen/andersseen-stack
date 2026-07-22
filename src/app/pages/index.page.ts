@@ -53,7 +53,7 @@ import { SeoService } from '../services/seo.service';
           @for (stat of stats; track stat.label) {
             <div class="text-center">
               <div class="text-2xl font-bold text-white sm:text-3xl md:text-4xl">{{ stat.value }}</div>
-              <div class="mt-1 text-sm text-white/40">{{ stat.label | translate }}</div>
+              <div class="mt-1 text-sm text-white/55">{{ stat.label | translate }}</div>
             </div>
           }
         </div>
@@ -83,7 +83,7 @@ import { SeoService } from '../services/seo.service';
                   </div>
                   <div>
                     <h3 class="text-xl font-semibold">Volt UI</h3>
-                    <p class="text-xs text-white/40">{{ 'home.ecosystem.volt.subtitle' | translate }}</p>
+                    <p class="text-xs text-white/55">{{ 'home.ecosystem.volt.subtitle' | translate }}</p>
                   </div>
                 </div>
                 <p class="mb-6 text-sm leading-relaxed text-white/50">
@@ -114,7 +114,7 @@ import { SeoService } from '../services/seo.service';
                   </div>
                   <div>
                     <h3 class="text-xl font-semibold">Quartz</h3>
-                    <p class="text-xs text-white/40">{{ 'home.ecosystem.quartz.subtitle' | translate }}</p>
+                    <p class="text-xs text-white/55">{{ 'home.ecosystem.quartz.subtitle' | translate }}</p>
                   </div>
                 </div>
                 <p class="mb-6 text-sm leading-relaxed text-white/50">
@@ -144,7 +144,7 @@ import { SeoService } from '../services/seo.service';
                   </div>
                   <div>
                     <h3 class="text-xl font-semibold">Angular Movement</h3>
-                    <p class="text-xs text-white/40">{{ 'home.ecosystem.movement.subtitle' | translate }}</p>
+                    <p class="text-xs text-white/55">{{ 'home.ecosystem.movement.subtitle' | translate }}</p>
                   </div>
                 </div>
                 <p class="mb-6 text-sm leading-relaxed text-white/50">
@@ -174,7 +174,7 @@ import { SeoService } from '../services/seo.service';
                   </div>
                   <div>
                     <h3 class="text-xl font-semibold">Lumen Icons</h3>
-                    <p class="text-xs text-white/40">{{ 'home.ecosystem.lumen.subtitle' | translate }}</p>
+                    <p class="text-xs text-white/55">{{ 'home.ecosystem.lumen.subtitle' | translate }}</p>
                   </div>
                 </div>
                 <p class="mb-6 text-sm leading-relaxed text-white/50">

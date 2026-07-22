@@ -35,7 +35,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.entranceAnimations' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'movement.demo.entranceAnimations' | translate }}</h2>
           <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div
               class="flex h-20 items-center justify-center rounded-lg bg-[var(--primary)]/20 text-sm font-medium"
@@ -68,7 +68,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.hoverTap' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'movement.demo.hoverTap' | translate }}</h2>
           <div class="flex flex-wrap gap-4 items-center">
             <volt-button variant="solid" [moveWhileHover]="hoverScale">{{ 'movement.demo.scaleHover' | translate }}</volt-button>
             <volt-button variant="outline" [moveWhileTap]="tapScale">{{ 'movement.demo.tapMe' | translate }}</volt-button>
@@ -88,7 +88,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.staggerPresence' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'movement.demo.staggerPresence' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'movement.demo.staggerDescription' | translate }}
           </p>
@@ -106,7 +106,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.inView' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'movement.demo.inView' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'movement.demo.inViewDescription' | translate }}
           </p>
@@ -124,7 +124,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.setup' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'movement.demo.setup' | translate }}</h2>
           <app-vertex-editor [code]="setupExample" language="typescript" height="160px" />
         </app-demo-card>
       </app-demo-section>

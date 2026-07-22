@@ -18,6 +18,20 @@ html {
   view-transition-name: root;
 }
 
+/* Volt UI's dark theme lightens --primary to oklch(0.7 …) so it reads on dark
+   backgrounds, but leaves --primary-foreground white: white on #6d9aff is
+   2.72:1, below the 4.5:1 WCAG AA minimum. A near-black foreground on that same
+   light primary gives ~7.3:1. --destructive has the identical problem:
+   oklch(0.7 0.18 25) with white text is 2.9:1.
+
+   Both tokens stay light (they double as text colours on the dark page) and only
+   the foreground flips, covering every bg-primary / bg-destructive surface:
+   solid button, solid badge, checked checkbox. */
+:root.dark[data-color='volt'] {
+  --primary-foreground: oklch(0.14 0.006 265);
+  --destructive-foreground: oklch(0.14 0.006 265);
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -29,6 +43,19 @@ body {
 a {
   color: var(--primary);
   text-decoration: none;
+}
+
+/* The One Dark theme baked into public/web-editor.min.js paints code on
+   #282c34, where its comment (#7d8799) and string (#e06c75) tokens land at
+   3.86:1 and 4.38:1 — under WCAG AA. The token colours live on generated
+   class names, but the surface does not: darkening it lifts every token above
+   4.5:1 (worst case 4.90) and matches the near-black page better.
+   !important is required because the theme injects with generated-class
+   specificity. Fix properly in the editor package when it is next built. */
+vertex-editor .cm-editor,
+vertex-editor .cm-scroller,
+vertex-editor .cm-gutters {
+  background-color: #16181d !important;
 }
 
 /* Code samples scroll inside their container instead of widening the page. */

@@ -4,13 +4,13 @@
     "github": "GitHub",
     "liveDemo": "Live Demo",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "codeExample": "Code example"
   },
   "language": {
     "select": "Select language"
   },
   "nav": {
-    "logoAlt": "Andersseen Stack",
     "githubAriaLabel": "GitHub",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",

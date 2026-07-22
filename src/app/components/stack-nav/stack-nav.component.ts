@@ -47,6 +47,14 @@ export class DrawerDismissDirective {
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
+      /* Sticky lives on the host: as a flex item of <app-root> its containing
+         block spans the whole page, so the bar keeps its scroll travel. On the
+         inner <nav> the containing block would be only its own height. */
+      :host {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
       .nav-link {
         color: rgba(255, 255, 255, 0.7);
       }
@@ -121,13 +129,14 @@ export class DrawerDismissDirective {
       </div>
     </ng-template>
 
-    <nav class="sticky top-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md">
+    <nav class="border-b border-white/10 bg-black/50 backdrop-blur-md">
       <div class="flex items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4">
         <a
           routerLink="/"
           class="flex min-w-0 items-center gap-2 text-base font-bold tracking-tight sm:gap-2.5 sm:text-lg lg:text-xl"
         >
-          <img src="/logo.svg" [alt]="'nav.logoAlt' | translate" class="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+          <!-- Decorative: the adjacent text already names the link. -->
+          <img src="/logo.svg" alt="" class="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
           <span class="truncate whitespace-nowrap">Andersseen Stack</span>
         </a>
 

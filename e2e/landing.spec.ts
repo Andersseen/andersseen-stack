@@ -177,7 +177,12 @@ test.describe('Mobile navigation', () => {
     for (const [name, close] of [
       ['Escape', async (page: Page) => page.keyboard.press('Escape')],
       ['the close button', async (page: Page) => page.getByRole('button', { name: 'Close menu' }).click()],
-      ['clicking the scrim', async (page: Page) => page.mouse.click(15, 400)],
+      // Via a locator, not raw coordinates: Playwright waits for the enter
+      // animation to settle before clicking, otherwise this races it.
+      [
+        'clicking the scrim',
+        async (page: Page) => page.locator('.app-drawer-scrim').click({ position: { x: 15, y: 400 } }),
+      ],
     ] as const) {
       test(`closes via ${name} and restores scrolling`, async ({ page }) => {
         await page.goto('/');
@@ -205,6 +210,46 @@ test.describe('Mobile navigation', () => {
     expect(
       await page.evaluate(() => getComputedStyle(document.documentElement).overflow)
     ).not.toBe('hidden');
+  });
+});
+
+test.describe('Page layout', () => {
+  const routes = ['/', '/volt-ui', '/quartz', '/angular-movement', '/lumen-icons', '/no-such-route'];
+
+  test('footer always ends at the bottom of the document', async ({ page }) => {
+    for (const route of routes) {
+      await page.goto(route);
+      await page.waitForSelector('footer');
+      const gap = await page.evaluate(() => {
+        const f = document.querySelector('footer')!.getBoundingClientRect();
+        return document.documentElement.scrollHeight - (f.bottom + window.scrollY);
+      });
+      // Sub-pixel rounding only; no dead space under the footer on any route.
+      expect(Math.abs(gap), `${route} leaves a gap under the footer`).toBeLessThan(2);
+    }
+  });
+
+  test('footer is pinned to the viewport when content is short', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 1600 });
+    await page.goto('/no-such-route');
+    await page.waitForSelector('footer');
+
+    const m = await page.evaluate(() => ({
+      footerBottom: document.querySelector('footer')!.getBoundingClientRect().bottom,
+      viewport: document.documentElement.clientHeight,
+      scrolls: document.documentElement.scrollHeight > document.documentElement.clientHeight + 1,
+    }));
+    expect(Math.abs(m.viewport - m.footerBottom)).toBeLessThan(2);
+    expect(m.scrolls, 'short page should not scroll').toBe(false);
+  });
+
+  test('nav stays pinned while scrolling', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForSelector('nav');
+    await page.evaluate(() => window.scrollTo(0, 1200));
+    await expect
+      .poll(() => page.evaluate(() => Math.round(document.querySelector('nav')!.getBoundingClientRect().top)))
+      .toBe(0);
   });
 });
 

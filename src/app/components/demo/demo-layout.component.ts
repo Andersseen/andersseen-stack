@@ -4,7 +4,7 @@ import { Component, input } from '@angular/core';
   selector: 'app-demo-layout',
   imports: [],
   template: `
-    <div class="relative min-h-screen overflow-hidden">
+    <div class="relative overflow-hidden">
       <div
         class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(var(--accent-rgb),0.08),transparent)]"
       ></div>

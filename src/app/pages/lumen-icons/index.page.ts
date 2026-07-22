@@ -33,7 +33,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.iconGallery' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.iconGallery' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'lumen.demo.iconGalleryDescription' | translate }}
           </p>
@@ -154,12 +154,12 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.sizes' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.sizes' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'lumen.demo.sizesDescription' | translate: { size: 'size' } }}
           </p>
           <div class="flex items-center gap-6">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/40">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/55">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/60">
@@ -178,7 +178,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.animatedIcons' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.animatedIcons' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'lumen.demo.animatedIconsDescription' | translate }}
           </p>
@@ -187,36 +187,36 @@ import { SeoService } from '../../services/seo.service';
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [move]="'fade-up'" [moveDelay]="100">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
-              <span class="text-xs text-white/40">fade-up</span>
+              <span class="text-xs text-white/55">fade-up</span>
             </div>
             <div class="flex flex-col items-center gap-2">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [moveWhileHover]="{ scale: [1, 1.3] }">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
               </svg>
-              <span class="text-xs text-white/40">hover scale</span>
+              <span class="text-xs text-white/55">hover scale</span>
             </div>
             <div class="flex flex-col items-center gap-2">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [moveWhileHover]="{ rotate: [0, 90] }">
                 <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.67 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.67 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.67a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 20.33 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
               </svg>
-              <span class="text-xs text-white/40">hover rotate</span>
+              <span class="text-xs text-white/55">hover rotate</span>
             </div>
             <div class="flex flex-col items-center gap-2">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" [move]="'fade-up'" [moveDelay]="300">
                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
               </svg>
-              <span class="text-xs text-white/40">sparkles</span>
+              <span class="text-xs text-white/55">sparkles</span>
             </div>
           </div>
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.usage' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.usage' | translate }}</h2>
           <app-vertex-editor [code]="codeExample" language="typescript" height="160px" />
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.features' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.features' | translate }}</h2>
           <ul class="list-inside list-disc space-y-2 text-sm text-white/70">
             <li>{{ 'lumen.demo.feature1' | translate }}</li>
             <li>{{ 'lumen.demo.feature2' | translate }}</li>

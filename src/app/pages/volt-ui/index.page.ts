@@ -38,7 +38,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'volt.demo.buttons' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.buttons' | translate }}</h2>
           <div class="mb-4 flex flex-wrap gap-3">
             <volt-button variant="solid">Primary</volt-button>
             <volt-button variant="destructive">Destructive</volt-button>
@@ -53,7 +53,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'volt.demo.input' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.input' | translate }}</h2>
           <div class="space-y-4">
             <volt-input placeholder="Type something..." class="w-full max-w-sm" />
             <volt-input placeholder="Disabled input" class="w-full max-w-sm" />
@@ -61,7 +61,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'volt.demo.badges' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.badges' | translate }}</h2>
           <div class="flex flex-wrap gap-3">
             <volt-badge>Default</volt-badge>
             <volt-badge variant="secondary">Secondary</volt-badge>
@@ -71,15 +71,15 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'volt.demo.card' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.card' | translate }}</h2>
           <volt-card class="max-w-sm p-5">
-            <h4 class="mb-1 font-semibold">{{ 'volt.demo.cardTitle' | translate }}</h4>
+            <h3 class="mb-1 font-semibold">{{ 'volt.demo.cardTitle' | translate }}</h3>
             <p class="text-sm text-white/50">{{ 'volt.demo.cardDescription' | translate }}</p>
           </volt-card>
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'volt.demo.theming' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'volt.demo.theming' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'volt.demo.themingDescription' | translate }}
           </p>

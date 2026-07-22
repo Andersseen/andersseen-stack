@@ -18,7 +18,7 @@ import { GithubIconComponent } from '../github-icon.component';
           <div
             class="flex max-w-full items-center gap-2 overflow-x-auto rounded-lg border border-white/10 bg-black/30 px-3 py-2 font-mono text-xs text-white/70"
           >
-            <span class="text-white/40">$</span>
+            <span class="text-white/55">$</span>
             <span class="whitespace-nowrap">npm install {{ pkg }}</span>
           </div>
         }

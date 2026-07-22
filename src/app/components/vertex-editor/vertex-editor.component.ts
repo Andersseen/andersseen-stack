@@ -1,4 +1,14 @@
-import { Component, ElementRef, Input, ViewChild, AfterViewInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-vertex-editor',
@@ -32,8 +42,11 @@ import { Component, ElementRef, Input, ViewChild, AfterViewInit, CUSTOM_ELEMENTS
     }
   `]
 })
-export class VertexEditorComponent implements AfterViewInit {
-  @ViewChild('editor', { static: true }) editorRef!: ElementRef;
+export class VertexEditorComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('editor', { static: true }) editorRef!: ElementRef<HTMLElement>;
+
+  private readonly translate = inject(TranslateService);
+  private contentObserver: MutationObserver | null = null;
 
   @Input() code = '';
   @Input() language: 'typescript' | 'javascript' | 'html' | 'css' | 'json' | 'markdown' = 'typescript';
@@ -46,7 +59,45 @@ export class VertexEditorComponent implements AfterViewInit {
   private scriptLoaded = false;
   private static scriptPromise: Promise<void> | null = null;
 
+  ngOnDestroy() {
+    this.contentObserver?.disconnect();
+  }
+
+  /**
+   * CodeMirror renders a `role="textbox"` contenteditable with no accessible
+   * name, which fails WCAG "ARIA input fields must have an accessible name".
+   * The editor mounts asynchronously after its bundle loads, so watch for it.
+   */
+  private labelEditableRegion(): void {
+    const host = this.editorRef.nativeElement;
+
+    const apply = (): boolean => {
+      const editable = host.querySelector('[contenteditable]');
+      if (!editable) {
+        return false;
+      }
+      editable.setAttribute('aria-label', this.translate.instant('common.codeExample') as string);
+      if (this.readOnly) {
+        editable.setAttribute('aria-readonly', 'true');
+      }
+      return true;
+    };
+
+    if (apply()) {
+      return;
+    }
+
+    this.contentObserver = new MutationObserver(() => {
+      if (apply()) {
+        this.contentObserver?.disconnect();
+        this.contentObserver = null;
+      }
+    });
+    this.contentObserver.observe(host, { childList: true, subtree: true });
+  }
+
   ngAfterViewInit() {
+    this.labelEditableRegion();
     void this.loadScript();
   }
 

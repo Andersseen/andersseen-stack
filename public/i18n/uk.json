@@ -4,13 +4,13 @@
     "github": "GitHub",
     "liveDemo": "Live Demo",
     "cancel": "Скасувати",
-    "confirm": "Підтвердити"
+    "confirm": "Підтвердити",
+    "codeExample": "Приклад коду"
   },
   "language": {
     "select": "Вибрати мову"
   },
   "nav": {
-    "logoAlt": "Andersseen Stack",
     "githubAriaLabel": "GitHub",
     "openMenu": "Відкрити меню",
     "closeMenu": "Закрити меню",

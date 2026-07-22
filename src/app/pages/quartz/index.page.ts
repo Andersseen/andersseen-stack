@@ -53,7 +53,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.toastService' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.toastService' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'quartz.demo.toastDescription' | translate }}
           </p>
@@ -65,7 +65,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.dialogOverlay' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.dialogOverlay' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'quartz.demo.dialogOverlayDescription' | translate }}
           </p>
@@ -73,7 +73,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.tooltip' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.tooltip' | translate }}</h2>
           <p class="mb-4 text-sm text-white/60">
             {{ 'quartz.demo.tooltipDescription' | translate }}
           </p>
@@ -88,7 +88,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.installation' | translate }}</h3>
+          <h2 class="mb-4 text-lg font-semibold">{{ 'quartz.demo.installation' | translate }}</h2>
           <app-vertex-editor [code]="installExample" language="typescript" height="120px" />
         </app-demo-card>
       </app-demo-section>
