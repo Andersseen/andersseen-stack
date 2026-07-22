@@ -3,17 +3,25 @@ import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { TranslatePipe } from '@ngx-translate/core';
 import { VoltButton, VoltBadge } from '@voltui/components';
+import { LightRaysComponent } from '../components/light-rays/light-rays.component';
 import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, MOVEMENT_DIRECTIVES, VoltButton, VoltBadge, TranslatePipe],
+  imports: [
+    RouterLink,
+    MOVEMENT_DIRECTIVES,
+    VoltButton,
+    VoltBadge,
+    TranslatePipe,
+    LightRaysComponent,
+  ],
   template: `
-    <!-- Hero Section with animated aurora background -->
+    <!-- Hero Section with light rays over an aurora wash -->
     <section class="relative overflow-hidden px-4 pt-14 pb-14 sm:px-6 sm:pt-20 sm:pb-16 md:pt-28 md:pb-24">
       <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(99,102,241,0.15),transparent)]"></div>
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[400px] bg-[radial-gradient(circle,rgba(99,102,241,0.12)_0%,transparent_70%)] blur-3xl"></div>
-      
+      <app-light-rays />
+
       <div class="relative z-10 mx-auto max-w-5xl text-center">
         <div [move]="'fade-up'">
           <volt-badge variant="outline" class="mb-6 inline-flex">
