@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SeoService } from './seo.service';
 import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
+import { testTranslationProviders } from '../testing/translate-testing';
 
 describe('SeoService', () => {
   let service: SeoService;
@@ -10,7 +11,7 @@ describe('SeoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SeoService, Title, Meta],
+      providers: [SeoService, Title, Meta, ...testTranslationProviders],
     });
     service = TestBed.inject(SeoService);
     title = TestBed.inject(Title);

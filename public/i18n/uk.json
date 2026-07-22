@@ -1,0 +1,174 @@
+{
+  "common": {
+    "back": "← Назад",
+    "github": "GitHub",
+    "liveDemo": "Live Demo",
+    "cancel": "Скасувати",
+    "confirm": "Підтвердити"
+  },
+  "language": {
+    "select": "Вибрати мову"
+  },
+  "nav": {
+    "logoAlt": "Andersseen Stack",
+    "githubAriaLabel": "GitHub",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню"
+  },
+  "footer": {
+    "brandDescription": "Екосистема сучасних, доступних та анімованих бібліотек Angular.",
+    "librariesTitle": "Бібліотеки",
+    "linksTitle": "Посилання",
+    "github": "GitHub",
+    "npm": "NPM",
+    "copyright": "© {{ year }} Andersseen. Створено з Angular + AnalogJS."
+  },
+  "home": {
+    "title": "Andersseen Stack",
+    "description": "Екосистема сучасних, доступних та анімованих бібліотек Angular. Створено для розробників, які хочуть якість без компромісів.",
+    "badge": "Angular 21 + AnalogJS",
+    "cta": {
+      "explore": "Дослідити бібліотеки",
+      "github": "GitHub"
+    },
+    "stats": {
+      "libraries": "Бібліотеки",
+      "components": "Компоненти",
+      "latestVersion": "Остання версія",
+      "typescript": "TypeScript"
+    },
+    "ecosystem": {
+      "title": "Чотири бібліотеки, одна екосистема",
+      "subtitle": "Кожна вирішує конкретну проблему. Разом вони покривають увесь ваш UI.",
+      "volt": {
+        "subtitle": "Стилізовані компоненти",
+        "description": "Доступні UI-компоненти, побудовані на ng-primitives. Теми, варіанти та власний CLI."
+      },
+      "quartz": {
+        "subtitle": "Headless примітиви",
+        "description": "Складна логіка без власних думок щодо стилю. Toast, dialogs, overlays, tooltips та інше."
+      },
+      "movement": {
+        "subtitle": "Декларативні анімації",
+        "description": "Декларативна система анімацій з WAAPI та springs. Scroll, hover, parallax та presence."
+      },
+      "lumen": {
+        "subtitle": "Tree-shakeable SVG іконки",
+        "description": "SVG іконки як компоненти Angular. Tree-shakeable, доступні та з вбудованими анімаціями."
+      }
+    },
+    "tech": {
+      "title": "Побудовано з найкращим з екосистеми",
+      "subtitle": "Сучасний, швидкий та готовий до продакшну."
+    }
+  },
+  "notFound": {
+    "title": "Сторінку не знайдено",
+    "description": "Маршрут, який ви шукаєте, не існує в Andersseen Stack.",
+    "backHome": "Повернутися на головну"
+  },
+  "volt": {
+    "title": "Volt UI",
+    "description": "Стилізовані UI-компоненти з theming, варіантами та доступністю. Побудовано на ng-primitives.",
+    "demo": {
+      "buttons": "Buttons",
+      "input": "Input",
+      "badges": "Badges",
+      "card": "Card",
+      "cardTitle": "Volt Card",
+      "cardDescription": "Гнучкий контейнер з glassmorphism та тонкими межами.",
+      "theming": "Theming",
+      "themingDescription": "Volt UI підтримує кілька кольорів тем та стилів. Налаштуйте глобально через provideVoltTheme()."
+    }
+  },
+  "quartz": {
+    "title": "Quartz",
+    "description": "Headless UI примітиви для Angular. Складна логіка без власних думок щодо стилю.",
+    "demo": {
+      "toastService": "Toast Service",
+      "toastDescription": "Запускайте сповіщення програмно за допомогою Quartz ToastService.",
+      "dialogOverlay": "Dialog & Overlay System",
+      "dialogOverlayDescription": "Система порталів та позиціонування для dialogs, modals та overlays.",
+      "openDialog": "Open Dialog",
+      "tooltip": "Tooltip",
+      "tooltipDescription": "Tooltips автоматично позиціонуються через overlay system.",
+      "hoverMe": "Наведи на мене",
+      "right": "Праворуч",
+      "installation": "Installation",
+      "dialogTitle": "Quartz Dialog",
+      "dialogDescription": "Цей dialog рендериться через Overlay System Quartz. Портали, позиціонування та focus trap обробляються автоматично."
+    },
+    "toast": {
+      "successMessage": "Операцію успішно завершено.",
+      "successTitle": "Quartz Toast",
+      "errorMessage": "Щось пішло не так.",
+      "errorTitle": "Помилка",
+      "infoMessage": "Це інформаційне сповіщення.",
+      "infoTitle": "Інфо",
+      "confirmed": "Dialog підтверджено."
+    }
+  },
+  "movement": {
+    "title": "Angular Movement",
+    "description": "Декларативна система анімацій з WAAPI та springs. Директиви для scroll, hover, parallax та presence.",
+    "demo": {
+      "entranceAnimations": "Entrance Animations",
+      "hoverTap": "Hover & Tap",
+      "scaleHover": "Scale Hover",
+      "tapMe": "Торкни мене",
+      "staggerPresence": "Stagger & Presence",
+      "staggerDescription": "Координовані анімації з поступовими затримками.",
+      "inView": "In View",
+      "inViewDescription": "Прокрутіть вниз, щоб побачити анімації при вході в viewport.",
+      "setup": "Setup"
+    }
+  },
+  "lumen": {
+    "title": "Lumen Icons",
+    "description": "SVG іконки як компоненти Angular. Tree-shakeable, доступні та анімовані.",
+    "demo": {
+      "iconGallery": "Icon Gallery",
+      "iconGalleryDescription": "Кожна іконка — незалежний компонент Angular. Імпортуйте лише ті, які потрібні.",
+      "sizes": "Sizes & Customization",
+      "sizesDescription": "Налаштовувані розміри через input size.",
+      "animatedIcons": "Animated Icons",
+      "animatedIconsDescription": "Інтегровані з angular-movement для декларативних анімацій.",
+      "usage": "Usage",
+      "features": "Features",
+      "feature1": "Tree-shakeable — імпортуйте лише потрібні іконки",
+      "feature2": "Subpath exports — lumen-icons/icons/search",
+      "feature3": "Accessible — aria-label та role автоматично",
+      "feature4": "Animations — інтегровано з angular-movement",
+      "feature5": "Customizable — size, strokeWidth, color"
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Andersseen Stack",
+      "description": "Екосистема сучасних, доступних та анімованих бібліотек Angular. Volt UI, Quartz, Angular Movement та Lumen Icons."
+    },
+    "volt": {
+      "title": "Volt UI",
+      "description": "Стилізовані та доступні UI-компоненти для Angular. Theming, варіанти та власний CLI."
+    },
+    "quartz": {
+      "title": "Quartz",
+      "description": "Headless UI примітиви для Angular. Overlays, dialogs, drag-drop, toast, virtual scroll та інше."
+    },
+    "movement": {
+      "title": "Angular Movement",
+      "description": "Декларативна система анімацій для Angular з WAAPI та springs. Scroll, hover, parallax та presence."
+    },
+    "lumen": {
+      "title": "Lumen Icons",
+      "description": "SVG іконки як компоненти Angular. Tree-shakeable, доступні та з вбудованими анімаціями."
+    },
+    "notFound": {
+      "title": "404 — Сторінку не знайдено",
+      "description": "Сторінка, яку ви шукаєте, не існує в Andersseen Stack."
+    }
+  },
+  "hello": {
+    "greeting": "Привіт, {{ name }}!"
+  }
+}

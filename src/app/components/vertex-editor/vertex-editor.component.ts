@@ -20,9 +20,15 @@ import { Component, ElementRef, Input, ViewChild, AfterViewInit, CUSTOM_ELEMENTS
   styles: [`
     :host {
       display: block;
+      /* Without this the editor's intrinsic width pushes the page wider on mobile. */
+      max-width: 100%;
+      min-width: 0;
+      overflow-x: auto;
     }
     vertex-editor {
       --vertex-editor-font-size: 13px;
+      display: block;
+      max-width: 100%;
     }
   `]
 })

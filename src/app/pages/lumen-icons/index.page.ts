@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   DemoCardComponent,
   DemoHeaderComponent,
@@ -18,12 +19,13 @@ import { SeoService } from '../../services/seo.service';
     DemoCardComponent,
     DemoSectionComponent,
     VertexEditorComponent,
+    TranslatePipe,
   ],
   template: `
     <app-demo-layout accentRgb="14 165 233">
       <app-demo-header
-        title="Lumen Icons"
-        description="Iconos SVG como componentes Angular. Tree-shakeable, accesibles y animables."
+        [title]="'lumen.title' | translate"
+        [description]="'lumen.description' | translate"
         packageName="@lumen/icons"
         githubUrl="https://github.com/Andersseen/lumen-icons"
         demoUrl="https://lumen-icons.andersseen.dev"
@@ -31,9 +33,9 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">Icon Gallery</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.iconGallery' | translate }}</h3>
           <p class="mb-4 text-sm text-white/60">
-            Cada icono es un componente Angular independiente. Importa solo los que necesitas.
+            {{ 'lumen.demo.iconGalleryDescription' | translate }}
           </p>
           <div class="grid grid-cols-4 gap-4 md:grid-cols-8">
             <!-- Alert -->
@@ -152,9 +154,9 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">Sizes & Customization</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.sizes' | translate }}</h3>
           <p class="mb-4 text-sm text-white/60">
-            Tamaños configurables via el input <code>size</code>.
+            {{ 'lumen.demo.sizesDescription' | translate: { size: 'size' } }}
           </p>
           <div class="flex items-center gap-6">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/40">
@@ -176,9 +178,9 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">Animated Icons</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.animatedIcons' | translate }}</h3>
           <p class="mb-4 text-sm text-white/60">
-            Integrados con <code>angular-movement</code> para animaciones declarativas.
+            {{ 'lumen.demo.animatedIconsDescription' | translate }}
           </p>
           <div class="flex flex-wrap gap-8">
             <div class="flex flex-col items-center gap-2">
@@ -209,18 +211,18 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">Usage</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.usage' | translate }}</h3>
           <app-vertex-editor [code]="codeExample" language="typescript" height="160px" />
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">Features</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'lumen.demo.features' | translate }}</h3>
           <ul class="list-inside list-disc space-y-2 text-sm text-white/70">
-            <li>Tree-shakeable — importa solo los iconos que usas</li>
-            <li>Subpath exports — <code>lumen-icons/icons/search</code></li>
-            <li>Accesible — <code>aria-label</code> y <code>role</code> automáticos</li>
-            <li>Animaciones — integrado con <code>angular-movement</code></li>
-            <li>Customizable — <code>size</code>, <code>strokeWidth</code>, <code>color</code></li>
+            <li>{{ 'lumen.demo.feature1' | translate }}</li>
+            <li>{{ 'lumen.demo.feature2' | translate }}</li>
+            <li>{{ 'lumen.demo.feature3' | translate }}</li>
+            <li>{{ 'lumen.demo.feature4' | translate }}</li>
+            <li>{{ 'lumen.demo.feature5' | translate }}</li>
           </ul>
         </app-demo-card>
       </app-demo-section>
@@ -231,8 +233,8 @@ export default class LumenIconsPage {
   private readonly seo = inject(SeoService);
   constructor() {
     this.seo.update({
-      title: 'Lumen Icons',
-      description: 'Iconos SVG como componentes Angular. Tree-shakeable, accesibles y con animaciones integradas.',
+      title: 'seo.lumen.title',
+      description: 'seo.lumen.description',
     });
   }
 

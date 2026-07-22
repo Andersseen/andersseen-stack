@@ -1,4 +1,19 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+/**
+ * Below `md` the library links live behind the hamburger, so open it first.
+ * No-op on desktop viewports where the toggle is hidden.
+ */
+async function openNav(page: Page): Promise<void> {
+  // `isVisible()` does not wait, so let the nav render before probing it —
+  // otherwise this silently no-ops while the app is still bootstrapping.
+  await page.getByRole('navigation').waitFor();
+  const toggle = page.getByRole('button', { name: 'Open menu' });
+  if (await toggle.isVisible()) {
+    await toggle.click();
+    await page.locator('#mobile-menu').waitFor();
+  }
+}
 
 test.describe('Landing Page', () => {
   test.beforeEach(async ({ page }) => {
@@ -15,6 +30,7 @@ test.describe('Landing Page', () => {
   });
 
   test('has navigation with all library links', async ({ page }) => {
+    await openNav(page);
     const nav = page.getByRole('navigation');
 
     await expect(nav.getByRole('link', { name: 'Volt UI' })).toBeVisible();
@@ -24,30 +40,35 @@ test.describe('Landing Page', () => {
   });
 
   test('has GitHub link in navigation', async ({ page }) => {
+    await openNav(page);
     const githubLink = page.getByRole('navigation').getByRole('link', { name: 'GitHub' });
     await expect(githubLink).toBeVisible();
     await expect(githubLink).toHaveAttribute('href', 'https://github.com/Andersseen');
   });
 
   test('navigates to Volt UI page', async ({ page }) => {
+    await openNav(page);
     await page.getByRole('navigation').getByRole('link', { name: 'Volt UI' }).click();
     await expect(page).toHaveURL(/\/volt-ui/);
     await expect(page.locator('h1')).toContainText('Volt UI');
   });
 
   test('navigates to Quartz page', async ({ page }) => {
+    await openNav(page);
     await page.getByRole('navigation').getByRole('link', { name: 'Quartz' }).click();
     await expect(page).toHaveURL(/\/quartz/);
     await expect(page.locator('h1')).toContainText('Quartz');
   });
 
   test('navigates to Angular Movement page', async ({ page }) => {
+    await openNav(page);
     await page.getByRole('navigation').getByRole('link', { name: 'Movement' }).click();
     await expect(page).toHaveURL(/\/angular-movement/);
     await expect(page.locator('h1')).toContainText('Angular Movement');
   });
 
   test('navigates to Lumen Icons page', async ({ page }) => {
+    await openNav(page);
     await page.getByRole('navigation').getByRole('link', { name: 'Lumen' }).click();
     await expect(page).toHaveURL(/\/lumen-icons/);
     await expect(page.locator('h1')).toContainText('Lumen Icons');
@@ -55,9 +76,67 @@ test.describe('Landing Page', () => {
 
   test('can navigate back to home from any page', async ({ page }) => {
     await page.goto('/volt-ui');
-    await page.getByRole('link', { name: '← Volver' }).click();
+    await page.getByRole('link', { name: '← Back' }).click();
     await expect(page).toHaveURL('/');
     await expect(page.locator('h1')).toContainText('Andersseen');
+  });
+});
+
+test.describe('Language switching', () => {
+  test('switches the whole page and persists across reloads', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+
+    await page.selectOption('select[id^="language-switcher"]', 'es');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+    await expect(page.getByTestId('hero-description')).toContainText('ecosistema');
+
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+    await expect(page.locator('select[id^="language-switcher"]')).toHaveValue('es');
+  });
+
+  test('translates page metadata, not just the body', async ({ page }) => {
+    await page.goto('/volt-ui');
+    await page.selectOption('select[id^="language-switcher"]', 'uk');
+
+    await expect(page.locator('html')).toHaveAttribute('lang', 'uk');
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      /[а-яіїєґ]/i
+    );
+  });
+
+  test('offers all three locales', async ({ page }) => {
+    await page.goto('/');
+    const options = page.locator('select[id^="language-switcher"] option');
+    await expect(options).toHaveCount(3);
+    await expect(options).toHaveText(['English', 'Español', 'Українська']);
+  });
+});
+
+test.describe('Mobile navigation', () => {
+  test.use({ viewport: { width: 375, height: 780 } });
+
+  test('page never scrolls horizontally', async ({ page }) => {
+    for (const path of ['/', '/volt-ui', '/quartz', '/angular-movement', '/lumen-icons']) {
+      await page.goto(path);
+      await page.waitForSelector('h1');
+      const overflows = await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth
+      );
+      expect(overflows, `${path} scrolls horizontally at 375px`).toBe(false);
+    }
+  });
+
+  test('menu closes after navigating', async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    await expect(page.locator('#mobile-menu')).toBeVisible();
+
+    await page.locator('#mobile-menu a[href="/quartz"]').click();
+    await expect(page).toHaveURL(/\/quartz/);
+    await expect(page.locator('#mobile-menu')).toHaveCount(0);
   });
 });
 
@@ -65,13 +144,13 @@ test.describe('404 Page', () => {
   test('shows custom 404 for unknown routes', async ({ page }) => {
     await page.goto('/non-existent-route');
     await expect(page.getByText('404', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Página no encontrada' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Volver al inicio' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Back to home' })).toBeVisible();
   });
 
   test('can navigate home from 404 page', async ({ page }) => {
     await page.goto('/non-existent-route');
-    await page.getByRole('link', { name: 'Volver al inicio' }).click();
+    await page.getByRole('link', { name: 'Back to home' }).click();
     await expect(page).toHaveURL('/');
   });
 });

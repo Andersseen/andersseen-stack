@@ -29,6 +29,16 @@ a {
   text-decoration: none;
 }
 
+/* Code samples scroll inside their container instead of widening the page. */
+pre,
+code {
+  max-width: 100%;
+}
+
+pre {
+  overflow-x: auto;
+}
+
 .analog-markdown p {
   text-align: left;
 }

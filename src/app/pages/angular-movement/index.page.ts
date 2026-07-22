@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { VoltButton } from '@voltui/components';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   DemoCardComponent,
   DemoHeaderComponent,
@@ -20,12 +21,13 @@ import { SeoService } from '../../services/seo.service';
     DemoCardComponent,
     DemoSectionComponent,
     VertexEditorComponent,
+    TranslatePipe,
   ],
   template: `
     <app-demo-layout accentRgb="245 158 11">
       <app-demo-header
-        title="Angular Movement"
-        description="Sistema declarativo de animaciones con WAAPI y springs. Directivas para scroll, hover, parallax y presencia."
+        [title]="'movement.title' | translate"
+        [description]="'movement.description' | translate"
         packageName="angular-movement"
         githubUrl="https://github.com/Andersseen/angular-movement"
         demoUrl="https://angular-movement.andersseen.dev"
@@ -33,7 +35,7 @@ import { SeoService } from '../../services/seo.service';
 
       <app-demo-section>
         <app-demo-card [isDestination]="true" [delay]="100">
-          <h3 class="mb-4 text-lg font-semibold">Entrance Animations</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.entranceAnimations' | translate }}</h3>
           <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
             <div
               class="flex h-20 items-center justify-center rounded-lg bg-[var(--primary)]/20 text-sm font-medium"
@@ -66,10 +68,10 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="200">
-          <h3 class="mb-4 text-lg font-semibold">Hover & Tap</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.hoverTap' | translate }}</h3>
           <div class="flex flex-wrap gap-4 items-center">
-            <volt-button variant="solid" [moveWhileHover]="hoverScale">Scale Hover</volt-button>
-            <volt-button variant="outline" [moveWhileTap]="tapScale">Tap Me</volt-button>
+            <volt-button variant="solid" [moveWhileHover]="hoverScale">{{ 'movement.demo.scaleHover' | translate }}</volt-button>
+            <volt-button variant="outline" [moveWhileTap]="tapScale">{{ 'movement.demo.tapMe' | translate }}</volt-button>
             <div
               class="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--primary)]/30"
               [moveWhileHover]="hoverRotate"
@@ -86,9 +88,9 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="300">
-          <h3 class="mb-4 text-lg font-semibold">Stagger & Presence</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.staggerPresence' | translate }}</h3>
           <p class="mb-4 text-sm text-white/60">
-            Animaciones coordinadas con delays escalonados.
+            {{ 'movement.demo.staggerDescription' | translate }}
           </p>
           <div class="flex gap-3">
             @for (i of [1,2,3,4,5]; track i) {
@@ -104,9 +106,9 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="400">
-          <h3 class="mb-4 text-lg font-semibold">In View</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.inView' | translate }}</h3>
           <p class="mb-4 text-sm text-white/60">
-            Scroll down para ver animaciones trigger al entrar en viewport.
+            {{ 'movement.demo.inViewDescription' | translate }}
           </p>
           <div class="space-y-4 overflow-hidden">
             @for (item of items; track item.id) {
@@ -122,7 +124,7 @@ import { SeoService } from '../../services/seo.service';
         </app-demo-card>
 
         <app-demo-card [delay]="500">
-          <h3 class="mb-4 text-lg font-semibold">Setup</h3>
+          <h3 class="mb-4 text-lg font-semibold">{{ 'movement.demo.setup' | translate }}</h3>
           <app-vertex-editor [code]="setupExample" language="typescript" height="160px" />
         </app-demo-card>
       </app-demo-section>
@@ -133,8 +135,8 @@ export default class MovementPage {
   private readonly seo = inject(SeoService);
   constructor() {
     this.seo.update({
-      title: 'Angular Movement',
-      description: 'Sistema declarativo de animaciones para Angular con WAAPI y springs. Scroll, hover, parallax y presencia.',
+      title: 'seo.movement.title',
+      description: 'seo.movement.description',
     });
   }
 

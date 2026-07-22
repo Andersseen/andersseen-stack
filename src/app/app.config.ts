@@ -5,6 +5,7 @@ import { provideFileRouter, requestContextInterceptor } from '@analogjs/router';
 import { withViewTransitions } from '@angular/router';
 import { provideMovement } from 'angular-movement';
 import { provideVoltTheme } from '@voltui/components';
+import { i18nProviders } from './core/i18n';
 import { configureViewTransition } from './view-transition.config';
 
 export const appConfig: ApplicationConfig = {
@@ -19,5 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideMovement({ duration: 320, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }),
     provideVoltTheme({ color: 'volt', style: 'soft', dark: true }),
+    ...i18nProviders,
   ],
 };
