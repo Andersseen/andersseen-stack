@@ -46,3 +46,6 @@ Thumbs.db
 
 # Environment files
 .env*
+
+# Playwright MCP scratch output (screenshots, snapshots, console logs)
+.playwright-mcp/
