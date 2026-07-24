@@ -61,6 +61,12 @@
     "tech": {
       "title": "Built with the best of the ecosystem",
       "subtitle": "Modern, fast and production-ready."
+    },
+    "tool": {
+      "eyebrow": "Companion tool",
+      "title": "Need a great color palette for your web?",
+      "description": "Palette Crafter is a free, standalone tool to generate, preview and export accessible color palettes. Not part of the stack — just a handy companion for your next project.",
+      "cta": "Open Palette Crafter"
     }
   },
   "notFound": {

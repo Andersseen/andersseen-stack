@@ -216,6 +216,43 @@ import { SeoService } from '../services/seo.service';
         </div>
       </div>
     </section>
+
+    <!-- Companion tool: Palette Crafter (a standalone tool, not part of the stack) -->
+    <section class="px-4 pb-16 sm:px-6 sm:pb-24">
+      <div class="mx-auto max-w-5xl">
+        <a
+          href="https://github.com/Andersseen/palette-crafter"
+          target="_blank"
+          rel="noopener"
+          class="group relative block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-500 hover:border-white/20 hover:bg-white/[0.03]"
+          [move]="'fade-up'"
+        >
+          <!-- Rainbow wash — a nod to the palettes the tool generates. -->
+          <div class="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,rgba(244,63,94,0.10),rgba(168,85,247,0.10),rgba(56,189,248,0.10),rgba(52,211,153,0.10))] opacity-80"></div>
+          <div class="relative flex flex-col items-start gap-5 p-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:p-8">
+            <div class="flex items-start gap-4">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10">
+                <div class="grid grid-cols-2 gap-0.5">
+                  <span class="h-2.5 w-2.5 rounded-[3px] bg-rose-400"></span>
+                  <span class="h-2.5 w-2.5 rounded-[3px] bg-purple-400"></span>
+                  <span class="h-2.5 w-2.5 rounded-[3px] bg-sky-400"></span>
+                  <span class="h-2.5 w-2.5 rounded-[3px] bg-emerald-400"></span>
+                </div>
+              </div>
+              <div>
+                <div class="mb-1 text-xs font-semibold uppercase tracking-wider text-white/40">{{ 'home.tool.eyebrow' | translate }}</div>
+                <h3 class="text-lg font-semibold text-white sm:text-xl">{{ 'home.tool.title' | translate }}</h3>
+                <p class="mt-1.5 max-w-xl text-sm leading-relaxed text-white/50">{{ 'home.tool.description' | translate }}</p>
+              </div>
+            </div>
+            <span class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-colors group-hover:bg-white/10">
+              {{ 'home.tool.cta' | translate }}
+              <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
   `,
 })
 export default class HomePage {

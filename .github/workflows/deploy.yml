@@ -1,4 +1,8 @@
-name: Deploy
+name: CI & Deploy
+
+# One pipeline, one source of truth. The app is built exactly once (in `build`)
+# and that same artifact is shipped to Cloudflare Pages — no second build at
+# deploy time. Production ships on push to `main`; every PR gets a preview URL.
 
 on:
   push:
@@ -11,13 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  # ---------------------------------------------------------------------------
+  # Quality gates + the single build. Its output is the artifact everything
+  # downstream reuses.
+  # ---------------------------------------------------------------------------
+  build:
+    name: Verify & build
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-      pull-requests: write
-    name: Deploy to Cloudflare Pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,10 +43,80 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Unit tests
+        run: pnpm run test:run
+
       - name: Build
         run: pnpm run build
 
-      - name: Deploy to Cloudflare Pages (Production)
+      - name: Upload build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-client
+          path: dist/client
+          retention-days: 1
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # End-to-end suite. Runs in parallel with `build` as an independent quality
+  # gate; kept off the deploy path so a flaky browser run can't block a release.
+  # ---------------------------------------------------------------------------
+  e2e:
+    name: E2E (Chromium)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Setup sibling repositories
+        uses: ./.github/actions/setup-sibling-repos
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: pnpm run e2e --project=chromium
+
+  # ---------------------------------------------------------------------------
+  # Ship the already-built artifact. No rebuild, no dependency install — just
+  # wrangler uploading dist/client. Production on `main`, preview on PRs.
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+      pull-requests: write
+    steps:
+      - name: Download build output
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-client
+          path: dist/client
+
+      - name: Deploy (production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
         with:
@@ -50,7 +124,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/client --project-name=andersseen-stack --branch=main
 
-      - name: Deploy to Cloudflare Pages (Preview)
+      - name: Deploy (preview)
         if: github.event_name == 'pull_request'
         uses: cloudflare/wrangler-action@v3
         with:
@@ -58,7 +132,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist/client --project-name=andersseen-stack --branch=pr-${{ github.event.pull_request.number }}
 
-      - name: Comment Preview URL
+      - name: Comment preview URL
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
@@ -69,5 +143,5 @@ jobs:
               issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🚀 **Preview deploy ready!**\n\n🔗 [View Preview](${previewUrl})`
+              body: `🚀 **Preview deploy ready!**\n\n🔗 [View preview](${previewUrl})`,
             });

@@ -24,8 +24,7 @@
     "format": "prettier --write \"src/**/*.{ts,html,css,json,md}\" \"e2e/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css,json,md}\" \"e2e/**/*.ts\"",
     "preview": "node dist/analog/server/index.mjs",
-    "deploy": "pnpm run build && pnpm exec wrangler pages deploy dist/client --project-name=andersseen-stack --branch=main",
-    "deploy:preview": "pnpm run build && pnpm exec wrangler pages deploy dist/client --project-name=andersseen-stack --branch=preview"
+    "deploy": "pnpm run build && pnpm exec wrangler pages deploy dist/client --project-name=andersseen-stack --branch=main"
   },
   "private": true,
   "dependencies": {
