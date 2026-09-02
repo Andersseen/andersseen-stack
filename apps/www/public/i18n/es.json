@@ -1,0 +1,181 @@
+{
+  "common": {
+    "back": "← Volver",
+    "github": "GitHub",
+    "liveDemo": "Live Demo",
+    "cancel": "Cancelar",
+    "confirm": "Aceptar",
+    "codeExample": "Ejemplo de código"
+  },
+  "language": {
+    "select": "Seleccionar idioma"
+  },
+  "nav": {
+    "githubAriaLabel": "GitHub",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "menuTitle": "Menú"
+  },
+  "footer": {
+    "brandDescription": "Un ecosistema de librerías Angular modernas, accesibles y animadas.",
+    "librariesTitle": "Librerías",
+    "linksTitle": "Links",
+    "github": "GitHub",
+    "npm": "NPM",
+    "copyright": "© {{ year }} Andersseen. Built with Angular + AnalogJS."
+  },
+  "home": {
+    "title": "Andersseen Stack",
+    "description": "Un ecosistema de librerías Angular modernas, accesibles y animadas. Construido para desarrolladores que quieren calidad sin compromisos.",
+    "badge": "Angular 21 + AnalogJS",
+    "cta": {
+      "explore": "Explorar libs",
+      "github": "GitHub"
+    },
+    "stats": {
+      "libraries": "Librerías",
+      "components": "Componentes",
+      "latestVersion": "Última versión",
+      "typescript": "TypeScript"
+    },
+    "ecosystem": {
+      "title": "Cuatro librerías, un ecosistema",
+      "subtitle": "Cada una resuelve un problema específico. Juntas, cubren todo tu UI.",
+      "volt": {
+        "subtitle": "Componentes estilizados",
+        "description": "Componentes UI accesibles construidos sobre ng-primitives. Temas, variantes y CLI propio."
+      },
+      "quartz": {
+        "subtitle": "Primitivas headless",
+        "description": "Lógica compleja sin opiniones de estilo. Toast, dialogs, overlays, tooltips y más."
+      },
+      "movement": {
+        "subtitle": "Animaciones declarativas",
+        "description": "Sistema declarativo de animaciones con WAAPI y springs. Scroll, hover, parallax y presencia."
+      },
+      "lumen": {
+        "subtitle": "Iconos SVG tree-shakeable",
+        "description": "Iconos SVG como componentes Angular. Tree-shakeable, accesibles y con animaciones integradas."
+      }
+    },
+    "tech": {
+      "title": "Construido con lo mejor del ecosistema",
+      "subtitle": "Moderno, rápido y preparado para producción."
+    },
+    "tool": {
+      "eyebrow": "Herramienta complementaria",
+      "title": "¿Buscas una buena paleta de colores para tu web?",
+      "description": "Palette Crafter es una herramienta gratuita e independiente para generar, previsualizar y exportar paletas de color accesibles. No forma parte del stack — solo un buen compañero para tu próximo proyecto.",
+      "cta": "Abrir Palette Crafter"
+    }
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La ruta que buscas no existe en el Andersseen Stack.",
+    "backHome": "Volver al inicio"
+  },
+  "volt": {
+    "title": "Volt UI",
+    "description": "Componentes UI estilizados con theming, variantes y accesibilidad. Construidos sobre ng-primitives.",
+    "demo": {
+      "buttons": "Buttons",
+      "input": "Input",
+      "badges": "Badges",
+      "card": "Card",
+      "cardTitle": "Volt Card",
+      "cardDescription": "Un contenedor flexible con glassmorphism y bordes sutiles.",
+      "theming": "Theming",
+      "themingDescription": "Volt UI soporta múltiples colores de tema y estilos. Configúralo globalmente con provideVoltTheme()."
+    }
+  },
+  "quartz": {
+    "title": "Quartz",
+    "description": "Primitivas UI headless para Angular. Lógica compleja sin opiniones de estilo.",
+    "demo": {
+      "toastService": "Toast Service",
+      "toastDescription": "Dispara notificaciones programáticamente con Quartz ToastService.",
+      "dialogOverlay": "Dialog & Overlay System",
+      "dialogOverlayDescription": "Sistema de portales y posicionamiento para dialogs, modales y overlays.",
+      "openDialog": "Open Dialog",
+      "tooltip": "Tooltip",
+      "tooltipDescription": "Tooltips posicionados automáticamente vía el overlay system.",
+      "hoverMe": "Hover me",
+      "right": "Right",
+      "installation": "Installation",
+      "dialogTitle": "Quartz Dialog",
+      "dialogDescription": "Este dialog está renderizado a través del Overlay System de Quartz. Portales, posicionamiento y focus trap manejados automáticamente."
+    },
+    "toast": {
+      "successMessage": "Operación completada con éxito.",
+      "successTitle": "Quartz Toast",
+      "errorMessage": "Algo salió mal.",
+      "errorTitle": "Error",
+      "infoMessage": "Este es un toast informativo.",
+      "infoTitle": "Info",
+      "confirmed": "Dialog confirmado."
+    }
+  },
+  "movement": {
+    "title": "Angular Movement",
+    "description": "Sistema declarativo de animaciones con WAAPI y springs. Directivas para scroll, hover, parallax y presencia.",
+    "demo": {
+      "entranceAnimations": "Entrance Animations",
+      "hoverTap": "Hover & Tap",
+      "scaleHover": "Scale Hover",
+      "tapMe": "Tap Me",
+      "staggerPresence": "Stagger & Presence",
+      "staggerDescription": "Animaciones coordinadas con delays escalonados.",
+      "inView": "In View",
+      "inViewDescription": "Scroll down para ver animaciones trigger al entrar en viewport.",
+      "setup": "Setup"
+    }
+  },
+  "lumen": {
+    "title": "Lumen Icons",
+    "description": "Iconos SVG como componentes Angular. Tree-shakeable, accesibles y animables.",
+    "demo": {
+      "iconGallery": "Icon Gallery",
+      "iconGalleryDescription": "Cada icono es un componente Angular independiente. Importa solo los que necesitas.",
+      "sizes": "Sizes & Customization",
+      "sizesDescription": "Tamaños configurables via el input size.",
+      "animatedIcons": "Animated Icons",
+      "animatedIconsDescription": "Integrados con angular-movement para animaciones declarativas.",
+      "usage": "Usage",
+      "features": "Features",
+      "feature1": "Tree-shakeable — importa solo los iconos que usas",
+      "feature2": "Subpath exports — lumen-icons/search",
+      "feature3": "Accesible — aria-label y role automáticos",
+      "feature4": "Animaciones — integrado con angular-movement",
+      "feature5": "Customizable — size, strokeWidth, color"
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Andersseen Stack",
+      "description": "Un ecosistema de librerías Angular modernas, accesibles y animadas. Volt UI, Quartz, Angular Movement y Lumen Icons."
+    },
+    "volt": {
+      "title": "Volt UI",
+      "description": "Componentes UI estilizados y accesibles para Angular. Theming, variantes y CLI propio."
+    },
+    "quartz": {
+      "title": "Quartz",
+      "description": "Primitivas UI headless para Angular. Overlays, dialogs, drag-drop, toast, virtual scroll y más."
+    },
+    "movement": {
+      "title": "Angular Movement",
+      "description": "Sistema declarativo de animaciones para Angular con WAAPI y springs. Scroll, hover, parallax y presencia."
+    },
+    "lumen": {
+      "title": "Lumen Icons",
+      "description": "Iconos SVG como componentes Angular. Tree-shakeable, accesibles y con animaciones integradas."
+    },
+    "notFound": {
+      "title": "404 — Página no encontrada",
+      "description": "La página que buscas no existe en el Andersseen Stack."
+    }
+  },
+  "hello": {
+    "greeting": "Hola, {{ name }}!"
+  }
+}

@@ -1,148 +1,96 @@
 <div align="center">
 
-<img src="./public/logo.svg" alt="Andersseen Stack" width="88" height="88" />
+<img src="./apps/www/public/logo.svg" alt="Andersseen Stack" width="88" height="88" />
 
 # Andersseen Stack
 
-### An ecosystem of modern, accessible & animated Angular libraries.
-
-Four focused libraries — **styled components**, **headless primitives**, **declarative animations** and **SVG icons** — built for developers who want quality without compromises.
-
-<br/>
+### Entry point for exploring, creating with and adopting the Andersseen Angular ecosystem.
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-andersseen--stack.pages.dev-6366F1?style=for-the-badge&logo=cloudflare&logoColor=white)](https://andersseen-stack.pages.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](./LICENSE)
 
-<br/>
-
 ![Angular](https://img.shields.io/badge/Angular_21-DD0031?style=flat-square&logo=angular&logoColor=white)
 ![AnalogJS](https://img.shields.io/badge/AnalogJS-C10F3A?style=flat-square&logo=analogue&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=flat-square&logo=turborepo&logoColor=white)
 ![Cloudflare Pages](https://img.shields.io/badge/Cloudflare_Pages-F38020?style=flat-square&logo=cloudflare&logoColor=white)
-[![CI & Deploy](https://github.com/Andersseen/andersseen-stack/actions/workflows/deploy.yml/badge.svg)](https://github.com/Andersseen/andersseen-stack/actions/workflows/deploy.yml)
 
 </div>
 
-<br/>
+## Workspace
 
-<div align="center">
-  <a href="https://andersseen-stack.pages.dev">
-    <img src="./docs/preview.png" alt="Andersseen Stack landing page" width="880" />
-  </a>
-</div>
+This repository is now a pnpm workspace coordinated by Turborepo.
 
-<br/>
-
-## ✨ The Stack
-
-Each library solves one problem well. Use one, or compose all four.
-
-| Library | What it is | Highlights |
-| --- | --- | --- |
-| ⚡ **[Volt UI](https://andersseen-stack.pages.dev/volt-ui)** | Styled UI components | Theming, variants, accessibility & its own CLI. Built on ng-primitives. |
-| 💎 **[Quartz](https://andersseen-stack.pages.dev/quartz)** | Headless primitives | Overlays, dialogs, toasts, tooltips, drag-drop & virtual scroll — logic without styling opinions. |
-| 🎬 **[Angular Movement](https://andersseen-stack.pages.dev/angular-movement)** | Declarative animations | WAAPI + springs. Directives for scroll, hover, parallax & presence. |
-| ☀️ **[Lumen Icons](https://andersseen-stack.pages.dev/lumen-icons)** | SVG icon set | Icons as tree-shakeable Angular components — accessible, animatable, subpath exports. |
-
-> 🎨 **Companion tool —** need a great color palette for your next project? Try
-> **[Palette Crafter](https://github.com/Andersseen/palette-crafter)**, a free standalone
-> tool to generate, preview and export accessible color palettes. Not part of the stack,
-> just a handy companion.
-
-<br/>
-
-## 🧰 Tech Stack
-
-- **[Angular 21](https://angular.dev/)** — standalone components, signals, hydration
-- **[AnalogJS](https://analogjs.org/)** — the fullstack meta-framework for Angular (static SSG here)
-- **[Tailwind CSS v4](https://tailwindcss.com/)** — utility-first styling
-- **[Vite](https://vitejs.dev/)** — lightning-fast build tool
-- **[Vitest](https://vitest.dev/)** + Testing Library — unit tests
-- **[Playwright](https://playwright.dev/)** — end-to-end tests
-- **[Cloudflare Pages](https://pages.cloudflare.com/)** — hosting + CI/CD
-
-<br/>
-
-## 🚀 Quick Start
-
-**Requirements:** Node.js `>= 20.19.1` · pnpm `>= 10`
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/Andersseen/andersseen-stack.git
-cd andersseen-stack
-
-# 2. Set up sibling libraries (quartz, angular-movement, lumen-icons)
-#    They are consumed as file:../ dependencies, so they must be
-#    cloned & built next to this repo before installing.
-bash scripts/setup-sibling-repos.sh
-
-# 3. Install & run
-pnpm install
-pnpm run dev
+```text
+andersseen-stack/
+|-- apps/
+|   `-- www/                     # Current Analog ecosystem website
+|-- packages/
+|   |-- stack/                   # Future @andersseen/stack init
+|   `-- create-andersseen-app/   # Future pnpm create andersseen-app
+|-- docs/
+|-- pnpm-workspace.yaml
+`-- turbo.json
 ```
 
-The app runs at **http://localhost:5173/**.
+The website consumes the published ecosystem packages as an external application would:
 
-<br/>
+| Package | Role |
+| --- | --- |
+| `@voltui/components` 1.x | Visual components and semantic theme |
+| `@quartz-headless/core` / `@quartz-headless/primitives` | Headless behavior primitives |
+| `angular-movement` 1.x | Declarative motion |
+| `lumen-icons` | Angular icon components with subpath exports |
 
-## 📦 Scripts
+## Product Boundaries
+
+Andersseen Stack has three long-term lanes:
+
+- Explore: `apps/www`, the website/docs/ecosystem portal.
+- Create: `pnpm create andersseen-app`, future complete new-application creator.
+- Adopt: `pnpm dlx @andersseen/stack init`, future command for adding the core stack to an existing Angular/Analog app.
+
+This phase intentionally does not ship the final creator, wizard, generators, auth, database, billing or deploy-provider flows. See [docs/architecture.md](./docs/architecture.md) for the current boundaries.
+
+## Quick Start
+
+Requirements: Node.js `>=22` and pnpm `>=10`.
+
+```bash
+pnpm install
+pnpm dev
+```
+
+The website runs at `http://localhost:5173/`.
+
+## Scripts
 
 | Command | Description |
 | --- | --- |
-| `pnpm run dev` | Start the dev server |
-| `pnpm run build` | Production build → `dist/client` (static SSG) |
-| `pnpm run check` | Typecheck + lint |
-| `pnpm run test` / `test:run` | Unit tests (watch / CI) |
-| `pnpm run e2e` | End-to-end tests (Playwright) |
-| `pnpm run format` | Format with Prettier |
-| `pnpm run deploy` | Manual production deploy to Cloudflare Pages |
+| `pnpm dev` | Start `apps/www` locally |
+| `pnpm build` | Build all workspace packages through Turbo |
+| `pnpm typecheck` | Typecheck packages with a `typecheck` script |
+| `pnpm lint` | Lint packages with a `lint` script |
+| `pnpm test` / `pnpm test:run` | Run non-watch tests through Turbo |
+| `pnpm e2e` | Run website Playwright tests |
+| `pnpm format` | Format the website source |
+| `pnpm deploy:www` | Build and deploy the website to Cloudflare Pages |
 
-<br/>
+Website-specific commands are also available with `pnpm --filter @andersseen/www <script>`.
 
-## 🧪 Testing
+## Deployment
 
-```bash
-pnpm run test:run       # Unit (Vitest + Testing Library)
-pnpm run test:coverage  # With coverage
-pnpm run e2e            # E2E (Playwright, headless)
-pnpm run e2e:ui         # E2E interactive UI
-```
+GitHub Actions installs the workspace, runs quality gates, builds once, uploads `apps/www/dist/client`, and deploys that artifact to Cloudflare Pages.
 
-<br/>
+- `main` deploys production at [andersseen-stack.pages.dev](https://andersseen-stack.pages.dev)
+- Pull requests deploy preview branches as `pr-<number>`
 
-## ☁️ Deployment
-
-A single pipeline, one source of truth. On every push and PR, GitHub Actions
-([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) runs the quality
-gates, **builds the app exactly once**, and ships that same artifact to
-**Cloudflare Pages** — no second build at deploy time.
-
-- **`main`** → production at [andersseen-stack.pages.dev](https://andersseen-stack.pages.dev)
-- **Pull requests** → an isolated preview URL, posted as a comment on the PR
-
-Manual deploy (from a local machine with `CLOUDFLARE_API_TOKEN` set):
+Manual deploy:
 
 ```bash
-pnpm run deploy
+pnpm deploy:www
 ```
 
-<br/>
-
-## 🤝 Contributing
-
-Issues and PRs are welcome. Please run `pnpm run check` and `pnpm run test:run`
-before opening a pull request — every PR gets its own preview deploy to review.
-
-<br/>
-
-## 📄 License
+## License
 
 [MIT](./LICENSE) © Andersseen
-
-<div align="center">
-  <br/>
-  <sub>Built with Angular + AnalogJS · Deployed on Cloudflare Pages</sub>
-</div>

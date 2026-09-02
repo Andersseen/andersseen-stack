@@ -37,9 +37,6 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Setup sibling repositories
-        uses: ./.github/actions/setup-sibling-repos
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -59,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist-client
-          path: dist/client
+          path: apps/www/dist/client
           retention-days: 1
           if-no-files-found: error
 
@@ -85,9 +82,6 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Setup sibling repositories
-        uses: ./.github/actions/setup-sibling-repos
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -99,7 +93,7 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # Ship the already-built artifact. No rebuild, no dependency install — just
-  # wrangler uploading dist/client. Production on `main`, preview on PRs.
+  # wrangler uploading apps/www/dist/client. Production on `main`, preview on PRs.
   # ---------------------------------------------------------------------------
   deploy:
     name: Deploy to Cloudflare Pages
@@ -114,7 +108,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist-client
-          path: dist/client
+          path: apps/www/dist/client
 
       - name: Deploy (production)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -122,7 +116,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/client --project-name=andersseen-stack --branch=main
+          command: pages deploy apps/www/dist/client --project-name=andersseen-stack --branch=main
 
       - name: Deploy (preview)
         if: github.event_name == 'pull_request'
@@ -130,7 +124,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist/client --project-name=andersseen-stack --branch=pr-${{ github.event.pull_request.number }}
+          command: pages deploy apps/www/dist/client --project-name=andersseen-stack --branch=pr-${{ github.event.pull_request.number }}
 
       - name: Comment preview URL
         if: github.event_name == 'pull_request'
