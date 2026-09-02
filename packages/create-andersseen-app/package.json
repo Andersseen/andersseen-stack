@@ -1,9 +1,8 @@
 {
   "name": "create-andersseen-app",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
-  "description": "Future Andersseen Stack new-application creator.",
+  "description": "Create a new Andersseen Stack application.",
   "bin": {
     "create-andersseen-app": "./bin/create-andersseen-app.mjs"
   },
@@ -13,16 +12,27 @@
   "files": [
     "bin",
     "dist",
+    "templates",
     "README.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "vitest run"
+    "test": "pnpm run build && vitest run test",
+    "test:generated": "pnpm run build && node scripts/generated-app-smoke.mjs"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.7.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",
     "typescript": "~5.9.0",
     "vitest": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
