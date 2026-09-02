@@ -6,11 +6,11 @@ Andersseen Stack is the composition and orchestration layer for the Andersseen e
 
 - `apps/www` is the current Analog website and ecosystem portal.
 - `packages/stack` is reserved for adopting core Andersseen libraries into an existing Angular or Analog project.
-- `packages/create-andersseen-app` is reserved for creating new applications.
+- `packages/create-andersseen-app` owns new application creation. It currently generates the baseline Analog application and keeps the generated source owned by the target project.
 
 ## Command Boundaries
 
-`pnpm create andersseen-app` creates a complete application. Future choices can include landing/dashboard shape, theme, Movement, Etyma, tests, Agentyx and OpenSpec, but this package should own new-app creation only.
+`pnpm create andersseen-app` creates a complete application. The current flow resolves CLI input into typed creation options, renders the baseline Analog template, then optionally installs dependencies with pnpm. Future choices can extend that resolved-options pipeline with landing/dashboard shape, theme, Movement, Etyma, tests, Agentyx and OpenSpec, but this package should own new-app creation only.
 
 `pnpm dlx @andersseen/stack init` adopts the core stack inside an existing project. Its future job is to detect a compatible Angular or Analog app, install Volt UI, Quartz, Angular Movement and Lumen Icons, then apply only required configuration. It must not generate dashboards, auth, database, billing or business architecture.
 
