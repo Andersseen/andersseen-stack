@@ -1,9 +1,9 @@
 import { parseArgs } from 'node:util';
 import { resolveProjectTarget } from './validation.js';
 
-export type AppShape = 'minimal' | 'dashboard' | 'landing';
+export type AppShape = 'minimal' | 'dashboard' | 'landing' | 'landing-dashboard';
 
-export const APP_SHAPES: readonly AppShape[] = ['minimal', 'dashboard', 'landing'];
+export const APP_SHAPES: readonly AppShape[] = ['minimal', 'dashboard', 'landing', 'landing-dashboard'];
 
 /**
  * Dashboard is the default: Andersseen Stack aims to resolve applications,

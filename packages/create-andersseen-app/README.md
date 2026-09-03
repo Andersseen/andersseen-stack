@@ -17,9 +17,10 @@ pnpm create andersseen-app
 ```text
 What are you building?
 
-● Dashboard  — AppShell: sidebar, navbar and routed pages
-○ Landing    — public shell: navbar, hero, content section and footer
-○ Minimal    — today's single-page starter
+● Dashboard             — AppShell: sidebar, navbar and routed pages
+○ Landing               — public shell: navbar, hero, content section and footer
+○ Landing + Dashboard   — public site at / plus a routed app shell under /dashboard
+○ Minimal               — today's single-page starter
 ```
 
 ## Options
@@ -29,7 +30,7 @@ What are you building?
 -v, --version           Show version
 -y, --yes               Accept safe defaults (shape defaults to "dashboard")
     --no-install        Generate files without running pnpm install
-    --shape <shape>     "minimal", "dashboard" or "landing" (default: dashboard)
+    --shape <shape>     "minimal", "dashboard", "landing" or "landing-dashboard" (default: dashboard)
 ```
 
 ## Application Shapes
@@ -48,6 +49,14 @@ Every shape shares the same baseline (Angular 21, Analog file-based routing, SSR
   - Volt UI (`@voltui/components`) for visuals, using semantic theme tokens and `buttonVariants` throughout.
   - Lumen Icons (`lumen-icons`) via subpath imports for the menu toggle and feature icons.
   - `Title`/`Meta` from `@angular/platform-browser` for a page title and meta description, set in an SSR-safe way.
+- **Landing + Dashboard** — a public marketing site at `/` plus the routed application shell under `/dashboard`, composed from the same `PublicLayout` and `DashboardLayout` pieces above, not a third duplicated template:
+  - `/` renders the Landing home; `/dashboard`, `/projects` and `/settings` render inside the Dashboard AppShell. Analog's `(app)` route group keeps the two layouts separate without a root layout branching on the URL.
+  - The Landing hero's primary CTA (`Start building`) and the public navbar's CTA (`Open dashboard`) route into `/dashboard`; the Dashboard sidebar brand links back to `/`. These are the only three points where the combined shape's behavior differs from the standalone shapes — see `templates/compositions/landing-dashboard/`.
+  - No auth — the application is still fully public. This shape validates shell composition and navigation, not access control.
+
+### How composition works
+
+`Dashboard` and `Landing` are each a *shape overlay* — the reusable template pieces for one shell. `landing-dashboard` composes the existing `landing` and `dashboard` overlays onto the base template in order; it does not get its own copy of their files (`src/shape-overlays.ts`). The only real conflict between the two overlays is `src/app/pages/index.page.ts` (Dashboard's redirect vs. Landing's hero page) — an explicit ownership table resolves it in Landing's favor so `/` stays the public site, independent of overlay order. A small composition patch (`templates/compositions/landing-dashboard/`) then overrides the handful of files whose *content* differs only when both shells are present (the CTA and brand link targets above).
 
 ## Generated App
 
@@ -78,4 +87,4 @@ pnpm --filter create-andersseen-app test
 pnpm --filter create-andersseen-app test:generated
 ```
 
-`test:generated` builds the creator, then for each of the **Dashboard** and **Landing** shapes generates a temporary external app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app — the end-to-end signal that Quartz, Volt and Lumen actually compose together in a real build. Minimal is covered by the fast in-package template-contract tests above, not by the external smoke, to keep the signal fast.
+`test:generated` builds the creator, then for each of the **Dashboard**, **Landing** and **Landing + Dashboard** shapes generates a temporary external app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app — the end-to-end signal that Quartz, Volt and Lumen actually compose together in a real build. Minimal is covered by the fast in-package template-contract tests above, not by the external smoke, to keep the signal fast.

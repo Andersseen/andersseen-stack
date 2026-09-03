@@ -1,9 +1,10 @@
 import { constants as fsConstants } from 'node:fs';
 import { access, cp, mkdir, readdir, readFile, rename, rmdir, rm, stat, writeFile } from 'node:fs/promises';
-import { basename, dirname, join } from 'node:path';
+import { basename, dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { packageManager, versions } from './constants.js';
 import type { AppShape } from './options.js';
+import { ownerOverlayFor, SHAPE_OVERLAYS, type ShapeOverlay } from './shape-overlays.js';
 
 export interface TemplateValues {
   readonly projectName: string;
@@ -14,6 +15,7 @@ export interface TemplateValues {
 const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const templateRoot = join(packageRoot, 'templates/base');
 const shapesRoot = join(packageRoot, 'templates/shapes');
+const compositionsRoot = join(packageRoot, 'templates/compositions');
 const templateTokens = ['__PROJECT_NAME__', '__PACKAGE_NAME__'] as const;
 const textExtensions = new Set([
   '',
@@ -66,8 +68,27 @@ export async function renderTemplate(destination: string, values: TemplateValues
     filter: notDsStore,
   });
 
-  if (values.shape !== 'minimal') {
-    await cp(join(shapesRoot, values.shape), destination, {
+  const overlays = SHAPE_OVERLAYS[values.shape];
+
+  for (const overlay of overlays) {
+    const overlayRoot = join(shapesRoot, overlay);
+
+    await cp(overlayRoot, destination, {
+      recursive: true,
+      force: true,
+      verbatimSymlinks: true,
+      filter: createOverlayFilter(overlayRoot, overlay, overlays),
+    });
+  }
+
+  // A composition patch is a small, hand-written diff for the handful of
+  // files that differ only when two overlays are combined (e.g. the Landing
+  // CTA pointing into the Dashboard shell). It exists only for shapes that
+  // need one — most shapes have no `templates/compositions/<shape>` folder.
+  const compositionPatchRoot = join(compositionsRoot, values.shape);
+
+  if (await pathExists(compositionPatchRoot)) {
+    await cp(compositionPatchRoot, destination, {
       recursive: true,
       force: true,
       verbatimSymlinks: true,
@@ -81,6 +102,40 @@ export async function renderTemplate(destination: string, values: TemplateValues
 
 function notDsStore(source: string): boolean {
   return !basename(source).startsWith('.DS_Store');
+}
+
+function createOverlayFilter(
+  overlayRoot: string,
+  overlay: ShapeOverlay,
+  activeOverlays: readonly ShapeOverlay[]
+): (source: string) => boolean {
+  return (source: string): boolean => {
+    if (!notDsStore(source)) {
+      return false;
+    }
+
+    const relativePath = toPosixPath(relative(overlayRoot, source));
+
+    if (relativePath === '') {
+      return true;
+    }
+
+    const owner = ownerOverlayFor(relativePath);
+
+    if (owner === undefined || owner === overlay) {
+      return true;
+    }
+
+    // Another overlay owns this path. Skip this overlay's copy only if that
+    // owner is actually active in this composition — a standalone shape must
+    // still get its own file even though the path also appears in the
+    // ownership table for a different combined shape.
+    return !activeOverlays.includes(owner);
+  };
+}
+
+function toPosixPath(path: string): string {
+  return path.split(sep).join('/');
 }
 
 export async function moveRenderedTemplate(stagingDir: string, targetDir: string): Promise<void> {

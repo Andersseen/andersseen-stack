@@ -6,10 +6,10 @@ import { fileURLToPath } from 'node:url';
 
 // Minimal is exercised by the fast in-package template-contract tests
 // (test/create-andersseen-app.test.ts); it needs no external install/build
-// cycle. Dashboard and Landing are the two shapes that compose published
+// cycle. Dashboard, Landing and Landing + Dashboard compose published
 // Quartz/Volt/Lumen packages into a real app, so those are the ones worth
 // the cost of a real external pnpm install + build per shape.
-const SHAPES_TO_SMOKE = ['dashboard', 'landing'];
+const SHAPES_TO_SMOKE = ['dashboard', 'landing', 'landing-dashboard'];
 
 const packageRoot = new URL('..', import.meta.url);
 const workspaceRoot = new URL('../..', packageRoot);

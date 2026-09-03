@@ -30,6 +30,11 @@ export async function promptAppShape(): Promise<AppShape> {
     options: [
       { value: 'dashboard', label: 'Dashboard', hint: 'AppShell — sidebar, navbar and routed pages' },
       { value: 'landing', label: 'Landing', hint: 'Public shell — navbar, hero, content section and footer' },
+      {
+        value: 'landing-dashboard',
+        label: 'Landing + Dashboard',
+        hint: 'Public site at / plus a routed app shell under /dashboard',
+      },
       { value: 'minimal', label: 'Minimal', hint: "Today's single-page starter" },
     ],
   });
