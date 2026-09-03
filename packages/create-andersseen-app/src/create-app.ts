@@ -6,12 +6,14 @@ import {
   removeGeneratedPath,
   renderTemplate,
 } from './filesystem.js';
+import type { AppShape } from './options.js';
 
 export interface CreateAppOptions {
   readonly projectName: string;
   readonly packageName: string;
   readonly targetDir: string;
   readonly install: boolean;
+  readonly shape: AppShape;
 }
 
 export interface CreateAppResult {
@@ -29,6 +31,7 @@ export async function createApp(options: CreateAppOptions): Promise<CreateAppRes
     await renderTemplate(stagingDir, {
       projectName: options.projectName,
       packageName: options.packageName,
+      shape: options.shape,
     });
 
     await moveRenderedTemplate(stagingDir, options.targetDir);

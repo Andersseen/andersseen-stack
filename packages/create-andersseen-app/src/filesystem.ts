@@ -3,13 +3,17 @@ import { access, cp, mkdir, readdir, readFile, rename, rmdir, rm, stat, writeFil
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { packageManager, versions } from './constants.js';
+import type { AppShape } from './options.js';
 
 export interface TemplateValues {
   readonly projectName: string;
   readonly packageName: string;
+  readonly shape: AppShape;
 }
 
-const templateRoot = join(dirname(dirname(fileURLToPath(import.meta.url))), 'templates/base');
+const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)));
+const templateRoot = join(packageRoot, 'templates/base');
+const shapesRoot = join(packageRoot, 'templates/shapes');
 const templateTokens = ['__PROJECT_NAME__', '__PACKAGE_NAME__'] as const;
 const textExtensions = new Set([
   '',
@@ -59,13 +63,24 @@ export async function renderTemplate(destination: string, values: TemplateValues
     force: false,
     errorOnExist: true,
     verbatimSymlinks: true,
-    filter(source) {
-      return !basename(source).startsWith('.DS_Store');
-    },
+    filter: notDsStore,
   });
+
+  if (values.shape !== 'minimal') {
+    await cp(join(shapesRoot, values.shape), destination, {
+      recursive: true,
+      force: true,
+      verbatimSymlinks: true,
+      filter: notDsStore,
+    });
+  }
 
   await renderFiles(destination, values);
   await writeGeneratedPackageJson(destination, values);
+}
+
+function notDsStore(source: string): boolean {
+  return !basename(source).startsWith('.DS_Store');
 }
 
 export async function moveRenderedTemplate(stagingDir: string, targetDir: string): Promise<void> {

@@ -1,4 +1,4 @@
-import { basename, resolve, sep } from 'node:path';
+import { basename, dirname, join, resolve, sep } from 'node:path';
 
 export interface ProjectTarget {
   readonly inputName: string;
@@ -63,7 +63,10 @@ export function resolveProjectTarget(input: string, cwd = process.cwd()): Projec
 
   validatePackageName(packageName);
 
-  const targetDir = resolve(cwd, trimmed);
+  // Rebuild the target path with the normalized leaf segment so a friendly
+  // name like "My App" creates ./my-app, not ./My App, while preserving any
+  // explicit parent path (relative or absolute) exactly as the user typed it.
+  const targetDir = resolve(cwd, join(dirname(trimmed), projectName));
   const root = resolve(sep);
 
   if (targetDir === root) {

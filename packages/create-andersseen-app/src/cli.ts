@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { intro, log, outro, spinner } from '@clack/prompts';
 import { createApp } from './create-app.js';
 import { parseCliArgs, resolveCreateOptions } from './options.js';
-import { promptProjectName } from './prompts.js';
+import { promptAppShape, promptProjectName } from './prompts.js';
 
 const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -30,10 +30,13 @@ export async function runCli(args = process.argv.slice(2)): Promise<void> {
       throw new Error('Project name is required. Pass it as an argument or omit --yes to be prompted.');
     }
 
+    const shape = parsed.shape ?? (parsed.yes ? undefined : await promptAppShape());
+
     const options = resolveCreateOptions({
       projectName,
       install: parsed.install,
       yes: parsed.yes,
+      shape,
     });
 
     if (options.normalizedFrom) {
@@ -67,10 +70,11 @@ function helpText(): string {
 Create a new Andersseen Stack application.
 
 Options:
-  -h, --help        Show help
-  -v, --version     Show version
-  -y, --yes         Accept safe defaults
-      --no-install  Generate files without running pnpm install`;
+  -h, --help              Show help
+  -v, --version           Show version
+  -y, --yes               Accept safe defaults (shape defaults to "dashboard")
+      --no-install        Generate files without running pnpm install
+      --shape <shape>     "minimal" or "dashboard" (default: dashboard)`;
 }
 
 async function readPackageVersion(): Promise<string> {
