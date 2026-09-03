@@ -74,7 +74,7 @@ Options:
   -v, --version           Show version
   -y, --yes               Accept safe defaults (shape defaults to "dashboard")
       --no-install        Generate files without running pnpm install
-      --shape <shape>     "minimal" or "dashboard" (default: dashboard)`;
+      --shape <shape>     "minimal", "dashboard" or "landing" (default: dashboard)`;
 }
 
 async function readPackageVersion(): Promise<string> {

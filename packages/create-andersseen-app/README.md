@@ -18,6 +18,7 @@ pnpm create andersseen-app
 What are you building?
 
 ● Dashboard  — AppShell: sidebar, navbar and routed pages
+○ Landing    — public shell: navbar, hero, content section and footer
 ○ Minimal    — today's single-page starter
 ```
 
@@ -28,7 +29,7 @@ What are you building?
 -v, --version           Show version
 -y, --yes               Accept safe defaults (shape defaults to "dashboard")
     --no-install        Generate files without running pnpm install
-    --shape <shape>     "minimal" or "dashboard" (default: dashboard)
+    --shape <shape>     "minimal", "dashboard" or "landing" (default: dashboard)
 ```
 
 ## Application Shapes
@@ -41,6 +42,12 @@ Every shape shares the same baseline (Angular 21, Analog file-based routing, SSR
   - A responsive Sidebar and Navbar built on `@quartz-headless/primitives`' `SidebarDirective`/`SidebarTriggerDirective` for push/overlay/collapse behavior, dismiss-on-Escape and focus management.
   - Volt UI (`@voltui/components`) for visuals, using semantic theme tokens throughout.
   - Lumen Icons (`lumen-icons`) via subpath imports for navigation icons.
+- **Landing** — a responsive public shell composed from published packages, not a copy of them:
+  - `/` renders a `PublicLayout` (navbar, `<main>`, footer) around a neutral hero and a 3-item feature section — structure, not a fake business.
+  - A responsive Navbar built on `@quartz-headless/primitives`' `NavbarDirective`/`NavbarTriggerDirective` for the mobile menu disclosure, dismiss-on-Escape and focus management.
+  - Volt UI (`@voltui/components`) for visuals, using semantic theme tokens and `buttonVariants` throughout.
+  - Lumen Icons (`lumen-icons`) via subpath imports for the menu toggle and feature icons.
+  - `Title`/`Meta` from `@angular/platform-browser` for a page title and meta description, set in an SSR-safe way.
 
 ## Generated App
 
@@ -71,4 +78,4 @@ pnpm --filter create-andersseen-app test
 pnpm --filter create-andersseen-app test:generated
 ```
 
-`test:generated` builds the creator, generates a temporary external **Dashboard** app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app — the end-to-end signal that Quartz, Volt and Lumen actually compose together in a real build.
+`test:generated` builds the creator, then for each of the **Dashboard** and **Landing** shapes generates a temporary external app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app — the end-to-end signal that Quartz, Volt and Lumen actually compose together in a real build. Minimal is covered by the fast in-package template-contract tests above, not by the external smoke, to keep the signal fast.

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createApp, resolveCreateOptions, resolveProjectTarget } from '../src/index.js';
+import { APP_SHAPES, createApp, resolveCreateOptions, resolveProjectTarget } from '../src/index.js';
 import type { AppShape } from '../src/index.js';
 import { parseCliArgs } from '../src/options.js';
 
@@ -55,7 +55,14 @@ describe('CLI', () => {
   it('accepts --shape and rejects an unknown value', () => {
     expect(parseCliArgs(['my-app', '--shape', 'dashboard']).shape).toBe('dashboard');
     expect(parseCliArgs(['my-app', '--shape', 'minimal']).shape).toBe('minimal');
-    expect(() => parseCliArgs(['my-app', '--shape', 'landing'])).toThrow(/Invalid --shape/);
+    expect(parseCliArgs(['my-app', '--shape', 'landing']).shape).toBe('landing');
+    expect(() => parseCliArgs(['my-app', '--shape', 'nonsense'])).toThrow(/Invalid --shape/);
+  });
+});
+
+describe('APP_SHAPES', () => {
+  it('contains landing alongside minimal and dashboard', () => {
+    expect(APP_SHAPES).toEqual(['minimal', 'dashboard', 'landing']);
   });
 });
 
@@ -89,6 +96,14 @@ describe('validation', () => {
       shape: 'minimal',
     });
     expect(minimal.shape).toBe('minimal');
+
+    const landing = resolveCreateOptions({
+      projectName: 'my-app',
+      cwd: '/tmp/work',
+      install: false,
+      shape: 'landing',
+    });
+    expect(landing.shape).toBe('landing');
   });
 
   it('accepts underscores because npm package names allow them', () => {
@@ -184,7 +199,7 @@ describe('generation', () => {
     ).rejects.toThrow(/not empty/);
   });
 
-  it.each<AppShape>(['minimal', 'dashboard'])('does not leave template tokens in generated text files (%s)', async (shape) => {
+  it.each<AppShape>(['minimal', 'dashboard', 'landing'])('does not leave template tokens in generated text files (%s)', async (shape) => {
     const root = tempRoot();
     const targetDir = join(root, `tokens-app-${shape}`);
 
@@ -259,10 +274,90 @@ describe('generation', () => {
     const indexPage = readFileSync(join(targetDir, 'src/app/pages/index.page.ts'), 'utf8');
     expect(indexPage).toContain('Your application is ready');
   });
+
+  it('the landing shape composes a PublicLayout on top of the base template', async () => {
+    const root = tempRoot();
+    const targetDir = join(root, 'landing-app');
+
+    await createApp({
+      projectName: 'landing-app',
+      packageName: 'landing-app',
+      targetDir,
+      install: false,
+      shape: 'landing',
+    });
+
+    const files = readdirRecursive(targetDir);
+
+    expect(files).toEqual(
+      expect.arrayContaining([
+        'src/app/layouts/public/public-layout.ts',
+        'src/app/layouts/public/public-layout.spec.ts',
+        'src/app/layouts/public/navbar/navbar.ts',
+        'src/app/layouts/public/footer/footer.ts',
+        'src/app/pages/index.page.ts',
+        'src/app/pages/index.page.spec.ts',
+      ])
+    );
+
+    // No dashboard AppShell contamination, and no artificial routes beyond "/".
+    expect(files.some((file) => file.startsWith('src/app/layouts/dashboard/'))).toBe(false);
+    expect(files).not.toContain('src/app/pages/(app).page.ts');
+
+    // The base hero page/spec are replaced, not duplicated alongside the new one.
+    const indexPage = readFileSync(join(targetDir, 'src/app/pages/index.page.ts'), 'utf8');
+    expect(indexPage).toContain('PublicLayout');
+    expect(indexPage).not.toContain('Your application is ready');
+    expect(indexPage).not.toContain("redirectTo: '/dashboard'");
+  });
+
+  it('the minimal shape does not contain the landing PublicLayout', async () => {
+    const root = tempRoot();
+    const targetDir = join(root, 'minimal-app-2');
+
+    await createApp({
+      projectName: 'minimal-app-2',
+      packageName: 'minimal-app-2',
+      targetDir,
+      install: false,
+      shape: 'minimal',
+    });
+
+    const files = readdirRecursive(targetDir);
+
+    expect(files.some((file) => file.startsWith('src/app/layouts/'))).toBe(false);
+  });
+
+  it('does not let dashboard and landing overlays contaminate each other', async () => {
+    const root = tempRoot();
+    const dashboardDir = join(root, 'shape-check-dashboard');
+    const landingDir = join(root, 'shape-check-landing');
+
+    await createApp({
+      projectName: 'shape-check-dashboard',
+      packageName: 'shape-check-dashboard',
+      targetDir: dashboardDir,
+      install: false,
+      shape: 'dashboard',
+    });
+    await createApp({
+      projectName: 'shape-check-landing',
+      packageName: 'shape-check-landing',
+      targetDir: landingDir,
+      install: false,
+      shape: 'landing',
+    });
+
+    const dashboardFiles = readdirRecursive(dashboardDir);
+    const landingFiles = readdirRecursive(landingDir);
+
+    expect(dashboardFiles.some((file) => file.startsWith('src/app/layouts/public/'))).toBe(false);
+    expect(landingFiles.some((file) => file.startsWith('src/app/layouts/dashboard/'))).toBe(false);
+  });
 });
 
 describe('generated app contract', () => {
-  it.each<AppShape>(['minimal', 'dashboard'])(
+  it.each<AppShape>(['minimal', 'dashboard', 'landing'])(
     'uses published packages and avoids creator runtime coupling (%s)',
     async (shape) => {
       const root = tempRoot();

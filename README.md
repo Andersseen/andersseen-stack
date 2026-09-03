@@ -27,7 +27,7 @@ andersseen-stack/
 |   `-- www/                     # Current Analog ecosystem website
 |-- packages/
 |   |-- stack/                   # Future @andersseen/stack init
-|   `-- create-andersseen-app/   # pnpm create andersseen-app (Minimal, Dashboard)
+|   `-- create-andersseen-app/   # pnpm create andersseen-app (Minimal, Dashboard, Landing)
 |-- docs/
 |-- pnpm-workspace.yaml
 `-- turbo.json
@@ -47,7 +47,7 @@ The website consumes the published ecosystem packages as an external application
 Andersseen Stack has three long-term lanes:
 
 - Explore: `apps/www`, the website/docs/ecosystem portal.
-- Create: `pnpm create andersseen-app`, generates a new Analog application. Currently offers two shapes — `Minimal` (single-page starter) and `Dashboard` (AppShell with sidebar, navbar and routed pages).
+- Create: `pnpm create andersseen-app`, generates a new Analog application. Currently offers three shapes — `Minimal` (single-page starter), `Dashboard` (AppShell with sidebar, navbar and routed pages) and `Landing` (public shell with navbar, hero, content section and footer).
 - Adopt: `pnpm dlx @andersseen/stack init`, future command for adding the core stack to an existing Angular/Analog app.
 
 This phase intentionally does not ship the final creator, wizard, generators, auth, database, billing or deploy-provider flows. See [docs/architecture.md](./docs/architecture.md) for the current boundaries.
