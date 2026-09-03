@@ -8,24 +8,43 @@ cd my-app
 pnpm dev
 ```
 
-Without a project name, the CLI prompts for one:
+Without a project name, the CLI prompts for one, then asks what you're building:
 
 ```bash
 pnpm create andersseen-app
 ```
 
+```text
+What are you building?
+
+● Dashboard  — AppShell: sidebar, navbar and routed pages
+○ Minimal    — today's single-page starter
+```
+
 ## Options
 
 ```text
--h, --help        Show help
--v, --version     Show version
--y, --yes         Accept safe defaults
-    --no-install  Generate files without running pnpm install
+-h, --help              Show help
+-v, --version           Show version
+-y, --yes               Accept safe defaults (shape defaults to "dashboard")
+    --no-install        Generate files without running pnpm install
+    --shape <shape>     "minimal" or "dashboard" (default: dashboard)
 ```
+
+## Application Shapes
+
+Every shape shares the same baseline (Angular 21, Analog file-based routing, SSR, Tailwind CSS 4, Vitest and Testing Library) — a shape only adds the application-specific pieces on top of it.
+
+- **Minimal** — today's single-page starter. Nothing extra.
+- **Dashboard** — an AppShell composed from published packages, not a copy of them:
+  - `/dashboard`, `/projects`, `/settings` routes, with `/` redirecting to `/dashboard`.
+  - A responsive Sidebar and Navbar built on `@quartz-headless/primitives`' `SidebarDirective`/`SidebarTriggerDirective` for push/overlay/collapse behavior, dismiss-on-Escape and focus management.
+  - Volt UI (`@voltui/components`) for visuals, using semantic theme tokens throughout.
+  - Lumen Icons (`lumen-icons`) via subpath imports for navigation icons.
 
 ## Generated App
 
-The first starter is a small Analog application with:
+The generated application is a small Analog application with:
 
 - Angular 21, standalone components, signals and zoneless change detection
 - Analog file-based routing, SSR entrypoint and Vite
@@ -47,8 +66,9 @@ This creator keeps dependency versions centralized in `src/constants.ts`.
 ## Testing The Generator
 
 ```bash
+pnpm --filter create-andersseen-app lint
 pnpm --filter create-andersseen-app test
 pnpm --filter create-andersseen-app test:generated
 ```
 
-`test:generated` builds the creator, generates a temporary external app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app.
+`test:generated` builds the creator, generates a temporary external **Dashboard** app with `--no-install`, installs dependencies, then runs `pnpm typecheck`, `pnpm test` and `pnpm build` in that generated app — the end-to-end signal that Quartz, Volt and Lumen actually compose together in a real build.

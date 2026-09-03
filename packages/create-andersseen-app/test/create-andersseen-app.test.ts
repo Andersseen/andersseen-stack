@@ -1,10 +1,12 @@
-import { execFileSync, spawnSync } from 'node:child_process';
+import { execFileSync, spawnSync, type SpawnSyncReturns } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
-import { createApp, resolveCreateOptions, resolveProjectTarget } from '../src/index';
+import { createApp, resolveCreateOptions, resolveProjectTarget } from '../src/index.js';
+import type { AppShape } from '../src/index.js';
+import { parseCliArgs } from '../src/options.js';
 
 const packageRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const workspaceRoot = dirname(dirname(packageRoot));
@@ -34,7 +36,7 @@ describe('CLI', () => {
     const root = tempRoot();
     const targetDir = join(root, 'positional-app');
 
-    const output = runBin([targetDir, '--no-install'], root);
+    const output = runBin([targetDir, '--shape', 'minimal', '--no-install'], root);
 
     expect(output).toContain('Created positional-app');
     expect(readPackageJson(join(targetDir, 'package.json'))).toMatchObject({
@@ -49,6 +51,12 @@ describe('CLI', () => {
     expect(result.status).toBe(1);
     expect(`${result.stdout}\n${result.stderr}`).toContain('Project name is required');
   });
+
+  it('accepts --shape and rejects an unknown value', () => {
+    expect(parseCliArgs(['my-app', '--shape', 'dashboard']).shape).toBe('dashboard');
+    expect(parseCliArgs(['my-app', '--shape', 'minimal']).shape).toBe('minimal');
+    expect(() => parseCliArgs(['my-app', '--shape', 'landing'])).toThrow(/Invalid --shape/);
+  });
 });
 
 describe('validation', () => {
@@ -57,6 +65,30 @@ describe('validation', () => {
 
     expect(target.projectName).toBe('my-app');
     expect(target.normalized).toBe(true);
+  });
+
+  it('normalizes the target directory alongside the package name', () => {
+    const bare = resolveProjectTarget('My App', '/tmp/work');
+    expect(bare.targetDir).toBe('/tmp/work/my-app');
+
+    const nested = resolveProjectTarget('projects/My App', '/tmp/work');
+    expect(nested.targetDir).toBe('/tmp/work/projects/my-app');
+
+    const absolute = resolveProjectTarget('/Users/x/My App', '/tmp/work');
+    expect(absolute.targetDir).toBe('/Users/x/my-app');
+  });
+
+  it('defaults the resolved shape to dashboard and honors an explicit shape', () => {
+    const target = resolveCreateOptions({ projectName: 'my-app', cwd: '/tmp/work', install: false });
+    expect(target.shape).toBe('dashboard');
+
+    const minimal = resolveCreateOptions({
+      projectName: 'my-app',
+      cwd: '/tmp/work',
+      install: false,
+      shape: 'minimal',
+    });
+    expect(minimal.shape).toBe('minimal');
   });
 
   it('accepts underscores because npm package names allow them', () => {
@@ -96,6 +128,7 @@ describe('generation', () => {
       packageName: 'generated-app',
       targetDir,
       install: false,
+      shape: 'minimal',
     });
 
     expect(readdirSync(targetDir).sort()).toEqual(
@@ -137,6 +170,7 @@ describe('generation', () => {
       packageName: 'empty',
       targetDir: emptyDir,
       install: false,
+      shape: 'minimal',
     });
 
     await expect(
@@ -145,19 +179,21 @@ describe('generation', () => {
         packageName: 'non-empty',
         targetDir: nonEmptyDir,
         install: false,
+        shape: 'minimal',
       })
     ).rejects.toThrow(/not empty/);
   });
 
-  it('does not leave template tokens in generated text files', async () => {
+  it.each<AppShape>(['minimal', 'dashboard'])('does not leave template tokens in generated text files (%s)', async (shape) => {
     const root = tempRoot();
-    const targetDir = join(root, 'tokens-app');
+    const targetDir = join(root, `tokens-app-${shape}`);
 
     await createApp({
       projectName: 'tokens-app',
       packageName: 'tokens-app',
       targetDir,
       install: false,
+      shape,
     });
 
     for (const file of readdirRecursive(targetDir)) {
@@ -167,41 +203,101 @@ describe('generation', () => {
       expect(content, file).not.toContain('__PACKAGE_NAME__');
     }
   });
+
+  it('the dashboard shape composes an AppShell on top of the base template', async () => {
+    const root = tempRoot();
+    const targetDir = join(root, 'dashboard-app');
+
+    await createApp({
+      projectName: 'dashboard-app',
+      packageName: 'dashboard-app',
+      targetDir,
+      install: false,
+      shape: 'dashboard',
+    });
+
+    const files = readdirRecursive(targetDir);
+
+    expect(files).toEqual(
+      expect.arrayContaining([
+        'src/app/layouts/dashboard/dashboard-layout.ts',
+        'src/app/layouts/dashboard/dashboard-layout.spec.ts',
+        'src/app/layouts/dashboard/navigation.ts',
+        'src/app/layouts/dashboard/sidebar/sidebar.ts',
+        'src/app/layouts/dashboard/navbar/navbar.ts',
+        'src/app/pages/(app).page.ts',
+        'src/app/pages/(app)/dashboard.page.ts',
+        'src/app/pages/(app)/projects.page.ts',
+        'src/app/pages/(app)/settings.page.ts',
+        'src/app/pages/[...not-found].page.ts',
+      ])
+    );
+
+    // The base hero page/spec are replaced, not duplicated alongside the new ones.
+    const indexPage = readFileSync(join(targetDir, 'src/app/pages/index.page.ts'), 'utf8');
+    expect(indexPage).toContain("redirectTo: '/dashboard'");
+    expect(indexPage).not.toContain('Your application is ready');
+  });
+
+  it('the minimal shape does not contain the dashboard AppShell', async () => {
+    const root = tempRoot();
+    const targetDir = join(root, 'minimal-app');
+
+    await createApp({
+      projectName: 'minimal-app',
+      packageName: 'minimal-app',
+      targetDir,
+      install: false,
+      shape: 'minimal',
+    });
+
+    const files = readdirRecursive(targetDir);
+
+    expect(files.some((file) => file.startsWith('src/app/layouts/'))).toBe(false);
+    expect(files).not.toContain('src/app/pages/(app).page.ts');
+
+    const indexPage = readFileSync(join(targetDir, 'src/app/pages/index.page.ts'), 'utf8');
+    expect(indexPage).toContain('Your application is ready');
+  });
 });
 
 describe('generated app contract', () => {
-  it('uses published packages and avoids creator runtime coupling', async () => {
-    const root = tempRoot();
-    const targetDir = join(root, 'contract-app');
+  it.each<AppShape>(['minimal', 'dashboard'])(
+    'uses published packages and avoids creator runtime coupling (%s)',
+    async (shape) => {
+      const root = tempRoot();
+      const targetDir = join(root, `contract-app-${shape}`);
 
-    await createApp({
-      projectName: 'contract-app',
-      packageName: 'contract-app',
-      targetDir,
-      install: false,
-    });
+      await createApp({
+        projectName: 'contract-app',
+        packageName: 'contract-app',
+        targetDir,
+        install: false,
+        shape,
+      });
 
-    const manifest = readPackageJson(join(targetDir, 'package.json')) as {
-      dependencies: Record<string, string>;
-      devDependencies: Record<string, string>;
-    };
-    const allDependencies = {
-      ...manifest.dependencies,
-      ...manifest.devDependencies,
-    };
+      const manifest = readPackageJson(join(targetDir, 'package.json')) as {
+        dependencies: Record<string, string>;
+        devDependencies: Record<string, string>;
+      };
+      const allDependencies = {
+        ...manifest.dependencies,
+        ...manifest.devDependencies,
+      };
 
-    expect(allDependencies).toHaveProperty('@quartz-headless/core');
-    expect(allDependencies).toHaveProperty('@quartz-headless/primitives');
-    expect(allDependencies).toHaveProperty('@voltui/components');
-    expect(allDependencies).toHaveProperty('lumen-icons');
-    expect(allDependencies).not.toHaveProperty('quartz-headless');
-    expect(allDependencies).not.toHaveProperty('create-andersseen-app');
+      expect(allDependencies).toHaveProperty('@quartz-headless/core');
+      expect(allDependencies).toHaveProperty('@quartz-headless/primitives');
+      expect(allDependencies).toHaveProperty('@voltui/components');
+      expect(allDependencies).toHaveProperty('lumen-icons');
+      expect(allDependencies).not.toHaveProperty('quartz-headless');
+      expect(allDependencies).not.toHaveProperty('create-andersseen-app');
 
-    for (const version of Object.values(allDependencies)) {
-      expect(version).not.toMatch(/^file:/);
-      expect(version).not.toMatch(/^workspace:/);
+      for (const version of Object.values(allDependencies)) {
+        expect(version).not.toMatch(/^file:/);
+        expect(version).not.toMatch(/^workspace:/);
+      }
     }
-  });
+  );
 });
 
 function runBin(args: string[], cwd = workspaceRoot): string {
@@ -217,7 +313,7 @@ function runBin(args: string[], cwd = workspaceRoot): string {
   });
 }
 
-function runBinResult(args: string[], cwd = workspaceRoot): ReturnType<typeof spawnSync> {
+function runBinResult(args: string[], cwd = workspaceRoot): SpawnSyncReturns<string> {
   const manifest = readPackageJson(join(packageRoot, 'package.json')) as { bin: Record<string, string> };
 
   return spawnSync('node', [join(packageRoot, manifest.bin['create-andersseen-app']), ...args], {

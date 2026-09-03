@@ -21,7 +21,7 @@ try {
     throw new Error('Unable to find packed create-andersseen-app tarball.');
   }
 
-  execFileSync('pnpm', ['dlx', join(tempRoot, tarball), appDir, '--no-install'], {
+  execFileSync('pnpm', ['dlx', join(tempRoot, tarball), appDir, '--shape', 'dashboard', '--no-install'], {
     cwd: fileURLToPath(workspaceRoot),
     stdio: 'inherit',
   });
