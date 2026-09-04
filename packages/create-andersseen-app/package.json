@@ -1,8 +1,29 @@
 {
   "name": "create-andersseen-app",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
-  "description": "Create a new Andersseen Stack application.",
+  "description": "Scaffold a new Angular + Analog.js application with the Andersseen Stack (Quartz, Volt UI, Lumen Icons).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andersseen/andersseen-stack.git",
+    "directory": "packages/create-andersseen-app"
+  },
+  "homepage": "https://github.com/Andersseen/andersseen-stack#readme",
+  "bugs": {
+    "url": "https://github.com/Andersseen/andersseen-stack/issues"
+  },
+  "keywords": [
+    "angular",
+    "analog",
+    "analogjs",
+    "starter",
+    "cli",
+    "generator",
+    "dashboard",
+    "landing",
+    "typescript"
+  ],
   "bin": {
     "create-andersseen-app": "./bin/create-andersseen-app.mjs"
   },
@@ -20,7 +41,10 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "test": "pnpm run build && vitest run test",
-    "test:generated": "pnpm run build && node scripts/generated-app-smoke.mjs"
+    "test:generated": "pnpm run build && node scripts/generated-app-smoke.mjs",
+    "verify:pack": "node scripts/verify-pack.mjs",
+    "release:check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run verify:pack && pnpm run test:generated",
+    "prepublishOnly": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run verify:pack"
   },
   "dependencies": {
     "@clack/prompts": "^1.7.0"
