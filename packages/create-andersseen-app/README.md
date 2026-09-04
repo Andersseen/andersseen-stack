@@ -8,6 +8,12 @@ cd my-app
 pnpm dev
 ```
 
+Pass `--shape` to skip the prompt and pick a shape non-interactively:
+
+```bash
+pnpm create andersseen-app my-app --shape dashboard
+```
+
 Without a project name, the CLI prompts for one, then asks what you're building:
 
 ```bash
@@ -22,6 +28,11 @@ What are you building?
 ○ Landing + Dashboard   — public site at / plus a routed app shell under /dashboard
 ○ Minimal               — today's single-page starter
 ```
+
+## Requirements
+
+- Node.js 22 or later
+- pnpm (the generated app's package manager and scripts assume it)
 
 ## Options
 

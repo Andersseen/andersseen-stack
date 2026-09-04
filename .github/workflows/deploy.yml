@@ -47,6 +47,9 @@ jobs:
       - name: Unit tests
         run: pnpm run test:run
 
+      - name: Verify npm package contents
+        run: pnpm --filter create-andersseen-app verify:pack
+
       - name: Generated app smoke test
         run: pnpm --filter create-andersseen-app test:generated
 
