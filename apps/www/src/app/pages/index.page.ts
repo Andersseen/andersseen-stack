@@ -233,7 +233,7 @@ const ACCORDION_QUERY = '(min-width: 64rem) and (hover: hover) and (pointer: fin
           <p class="mx-auto mt-4 max-w-2xl text-white/50">{{ 'home.eco.subtitle' | translate }}</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 accordion:flex accordion:h-[24rem]" [moveStagger]="100">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 accordion:flex accordion:h-[24rem]">
           @for (tool of ecosystemTools; track tool.id; let i = $index) {
             <a
               [href]="tool.href"
@@ -246,6 +246,7 @@ const ACCORDION_QUERY = '(min-width: 64rem) and (hover: hover) and (pointer: fin
               class="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-[flex-grow,background-color,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none accordion:flex-1 accordion:p-5 accordion:data-[active=true]:grow-[2.8] accordion:data-[active=true]:bg-white/[0.04]"
               [class]="tool.activeBorder"
               [move]="'fade-up'"
+              [moveDelay]="100 + i * 100"
             >
               <!-- Accent glow, brighter on the active card. -->
               <div
