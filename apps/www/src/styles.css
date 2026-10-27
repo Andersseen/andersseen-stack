@@ -4,6 +4,11 @@
 @import '@voltui/components/themes/presets/volt-soft.css';
 @source '../node_modules/@voltui/components';
 
+/* Wide screen with a real hover pointer: the home page's ecosystem cards only run as an
+   expanding accordion here (touch can't hover to reveal). Mirrored by ACCORDION_QUERY in
+   pages/index.page.ts. */
+@custom-variant accordion (@media (min-width: 64rem) and (hover: hover) and (pointer: fine));
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;

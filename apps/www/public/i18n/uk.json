@@ -75,7 +75,7 @@
         "description": "Server Components і структуровані H3-контролери для Angular та Analog: серверний Angular як цілісна модель."
       },
       "etyma": {
-        "role": "Інтернаціоналізація",
+        "role": "Локалізація",
         "description": "Типізований i18n із JSON-каталогами, MessageFormat 2, локалізованими маршрутами та HTML, перекладеним під час SSR."
       },
       "forge": {

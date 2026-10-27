@@ -6,6 +6,9 @@ import { VoltButton, VoltBadge } from '@voltui/components';
 import { LightRaysComponent } from '../components/light-rays/light-rays.component';
 import { SeoService } from '../services/seo.service';
 
+/** Keep in sync with the `accordion` custom variant in styles.css. */
+const ACCORDION_QUERY = '(min-width: 64rem) and (hover: hover) and (pointer: fine)';
+
 @Component({
   selector: 'app-home',
   imports: [
@@ -218,9 +221,10 @@ import { SeoService } from '../services/seo.service';
     </section>
 
     <!-- Ecosystem tools: standalone projects from the same Angular ecosystem, not part of the stack.
-         On wide screens the row works as an expanding accordion: the active card (hover or focus)
-         grows and reveals its description, the rest collapse to icon + name. Narrow screens stack
-         every card fully open. -->
+         With a wide screen and a fine pointer (the accordion: variant in styles.css) the row works as
+         an expanding accordion: the active card (hover or focus) grows and reveals its description, the
+         rest collapse to icon + name. Touch and narrow screens get a plain grid with every card open,
+         since there is no hover to reveal anything. -->
     <section class="border-t border-white/5 px-4 pt-14 pb-10 sm:px-6 sm:pt-16 sm:pb-12 md:pt-24">
       <div class="mx-auto max-w-5xl">
         <div class="mb-10 text-center sm:mb-12" [move]="'fade-up'">
@@ -229,7 +233,7 @@ import { SeoService } from '../services/seo.service';
           <p class="mx-auto mt-4 max-w-2xl text-white/50">{{ 'home.eco.subtitle' | translate }}</p>
         </div>
 
-        <div class="flex flex-col gap-4 lg:h-[24rem] lg:flex-row" [moveStagger]="100">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 accordion:flex accordion:h-[24rem]" [moveStagger]="100">
           @for (tool of ecosystemTools; track tool.id; let i = $index) {
             <a
               [href]="tool.href"
@@ -239,13 +243,13 @@ import { SeoService } from '../services/seo.service';
               [attr.data-active]="activeTool() === i"
               (mouseenter)="activeTool.set(i)"
               (focus)="activeTool.set(i)"
-              class="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-[flex-grow,background-color,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none lg:flex-1 lg:data-[active=true]:grow-[2.8] data-[active=true]:bg-white/[0.04]"
+              class="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-[flex-grow,background-color,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none accordion:flex-1 accordion:p-5 accordion:data-[active=true]:grow-[2.8] accordion:data-[active=true]:bg-white/[0.04]"
               [class]="tool.activeBorder"
               [move]="'fade-up'"
             >
               <!-- Accent glow, brighter on the active card. -->
               <div
-                class="pointer-events-none absolute inset-0 bg-gradient-to-br to-transparent opacity-50 transition-opacity duration-700 group-data-[active=true]:opacity-100"
+                class="pointer-events-none absolute inset-0 bg-gradient-to-br to-transparent opacity-70 transition-opacity duration-700 accordion:opacity-50 accordion:group-data-[active=true]:opacity-100"
                 [class]="tool.wash"
               ></div>
 
@@ -266,19 +270,19 @@ import { SeoService } from '../services/seo.service';
                     }
                   </svg>
                 </div>
-                <svg class="h-4 w-4 text-white/30 transition-all duration-500 group-hover:text-white/80 group-data-[active=true]:translate-x-0.5 group-data-[active=true]:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                <svg class="h-4 w-4 text-white/30 transition-all duration-500 group-hover:text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
               </div>
 
-              <div class="relative mt-8 lg:mt-auto">
-                <p class="mb-1 text-xs font-semibold uppercase tracking-wider text-white/45">{{ 'home.eco.' + tool.id + '.role' | translate }}</p>
-                <h3 class="text-xl font-semibold whitespace-nowrap text-white lg:text-2xl">{{ tool.name }}</h3>
+              <div class="relative mt-8 accordion:mt-auto">
+                <p class="mb-1 truncate text-xs font-semibold uppercase tracking-wider text-white/45">{{ 'home.eco.' + tool.id + '.role' | translate }}</p>
+                <h3 class="truncate text-xl font-semibold text-white accordion:text-[1.375rem]">{{ tool.name }}</h3>
 
                 <!-- Collapses to zero height on inactive wide cards; the fixed width stops the copy
                      reflowing while the card grows. -->
-                <div class="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none lg:grid-rows-[0fr] lg:group-data-[active=true]:grid-rows-[1fr]">
+                <div class="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none accordion:grid-rows-[0fr] accordion:group-data-[active=true]:grid-rows-[1fr]">
                   <div class="overflow-hidden">
                     <div
-                      class="pt-3 lg:w-[22rem]"
+                      class="pt-3 accordion:w-[22rem]"
                       [moveVariants]="{ hidden: { opacity: 0, y: 16 }, shown: { opacity: 1, y: 0 } }"
                       [moveVariant]="isExpanded(i) ? 'shown' : 'hidden'"
                       [moveTransition]="{ duration: 450, delay: isExpanded(i) ? 200 : 0 }"
@@ -342,7 +346,7 @@ export default class HomePage {
 
   constructor() {
     afterNextRender(() => {
-      const query = window.matchMedia('(min-width: 1024px)');
+      const query = window.matchMedia(ACCORDION_QUERY);
       this.wide.set(query.matches);
       query.addEventListener('change', (e) => this.wide.set(e.matches));
     });
@@ -370,7 +374,7 @@ export default class HomePage {
 
   /** Index of the expanded ecosystem card; the last hovered/focused one stays open. */
   readonly activeTool = signal(0);
-  /** Wide (lg) layout runs the accordion; narrow layouts keep every card open. False during SSR. */
+  /** Mirrors the `accordion:` CSS variant; when false every card stays open. False during SSR. */
   readonly wide = signal(false);
 
   isExpanded(i: number): boolean {
@@ -384,7 +388,7 @@ export default class HomePage {
       name: 'Doqs',
       href: 'https://doqs.andersseen.dev',
       tags: ['Markdown', 'Pagefind', 'SSG'],
-      activeBorder: 'lg:data-[active=true]:border-orange-500/30',
+      activeBorder: 'accordion:data-[active=true]:border-orange-500/30',
       chip: 'border-transparent bg-orange-500/10 text-orange-400',
       wash: 'from-orange-500/10',
       iconBox: 'bg-orange-500/20 text-orange-400',
@@ -394,7 +398,7 @@ export default class HomePage {
       name: 'Strata',
       href: 'https://strata.andersseen.dev',
       tags: ['Server Components', 'H3'],
-      activeBorder: 'lg:data-[active=true]:border-violet-500/30',
+      activeBorder: 'accordion:data-[active=true]:border-violet-500/30',
       chip: 'border-transparent bg-violet-500/10 text-violet-400',
       wash: 'from-violet-500/10',
       iconBox: 'bg-violet-500/20 text-violet-400',
@@ -404,7 +408,7 @@ export default class HomePage {
       name: 'Etyma',
       href: 'https://etyma.andersseen.dev',
       tags: ['MessageFormat 2', 'SSR'],
-      activeBorder: 'lg:data-[active=true]:border-teal-500/30',
+      activeBorder: 'accordion:data-[active=true]:border-teal-500/30',
       chip: 'border-transparent bg-teal-500/10 text-teal-400',
       wash: 'from-teal-500/10',
       iconBox: 'bg-teal-500/20 text-teal-400',
@@ -414,7 +418,7 @@ export default class HomePage {
       name: 'Forge CMS',
       href: 'https://forgecms.dev',
       tags: ['Headless', 'D1 · R2'],
-      activeBorder: 'lg:data-[active=true]:border-rose-500/30',
+      activeBorder: 'accordion:data-[active=true]:border-rose-500/30',
       chip: 'border-transparent bg-rose-500/10 text-rose-400',
       wash: 'from-rose-500/10',
       iconBox: 'bg-rose-500/20 text-rose-400',
