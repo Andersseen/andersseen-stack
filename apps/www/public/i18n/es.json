@@ -62,6 +62,27 @@
       "title": "Construido con lo mejor del ecosistema",
       "subtitle": "Moderno, rápido y preparado para producción."
     },
+    "eco": {
+      "eyebrow": "Más allá del stack",
+      "title": "Más herramientas del mismo ecosistema",
+      "subtitle": "No forman parte del stack, pero están hechas para el mismo flujo de trabajo en Angular. Elige las que necesite tu proyecto.",
+      "doqs": {
+        "role": "Documentación",
+        "description": "Documentación en Markdown dentro de tu app Angular y Analog: SSR/SSG, sidebar, tabla de contenidos, búsqueda con Pagefind y componentes vivos en Markdown."
+      },
+      "strata": {
+        "role": "Servidor",
+        "description": "Server Components y controladores H3 estructurados para Angular y Analog: Angular en el servidor como un modelo coherente."
+      },
+      "etyma": {
+        "role": "Internacionalización",
+        "description": "i18n tipado con catálogos JSON, MessageFormat 2, rutas localizadas y HTML traducido en SSR."
+      },
+      "forge": {
+        "role": "Contenido",
+        "description": "Un CMS headless code-first y nativo de TypeScript para Angular y Analog, pensado para el edge con Cloudflare D1 y R2."
+      }
+    },
     "tool": {
       "eyebrow": "Herramienta complementaria",
       "title": "¿Buscas una buena paleta de colores para tu web?",
