@@ -75,7 +75,7 @@
         "description": "Server Components and structured H3 controllers for Angular and Analog: server-side Angular as one coherent model."
       },
       "etyma": {
-        "role": "Internationalization",
+        "role": "Localization",
         "description": "Typed i18n with JSON catalogs, MessageFormat 2, localized routes and SSR-translated HTML."
       },
       "forge": {

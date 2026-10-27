@@ -1,10 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, afterNextRender, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MOVEMENT_DIRECTIVES } from 'angular-movement';
 import { TranslatePipe } from '@ngx-translate/core';
 import { VoltButton, VoltBadge } from '@voltui/components';
 import { LightRaysComponent } from '../components/light-rays/light-rays.component';
 import { SeoService } from '../services/seo.service';
+
+/** Keep in sync with the `accordion` custom variant in styles.css. */
+const ACCORDION_QUERY = '(min-width: 64rem) and (hover: hover) and (pointer: fine)';
 
 @Component({
   selector: 'app-home',
@@ -217,7 +220,11 @@ import { SeoService } from '../services/seo.service';
       </div>
     </section>
 
-    <!-- Ecosystem tools: standalone projects from the same Angular ecosystem, not part of the stack. -->
+    <!-- Ecosystem tools: standalone projects from the same Angular ecosystem, not part of the stack.
+         With a wide screen and a fine pointer (the accordion: variant in styles.css) the row works as
+         an expanding accordion: the active card (hover or focus) grows and reveals its description, the
+         rest collapse to icon + name. Touch and narrow screens get a plain grid with every card open,
+         since there is no hover to reveal anything. -->
     <section class="border-t border-white/5 px-4 pt-14 pb-10 sm:px-6 sm:pt-16 sm:pb-12 md:pt-24">
       <div class="mx-auto max-w-5xl">
         <div class="mb-10 text-center sm:mb-12" [move]="'fade-up'">
@@ -226,39 +233,69 @@ import { SeoService } from '../services/seo.service';
           <p class="mx-auto mt-4 max-w-2xl text-white/50">{{ 'home.eco.subtitle' | translate }}</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-          @for (tool of ecosystemTools; track tool.name; let i = $index) {
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 accordion:flex accordion:h-[24rem]">
+          @for (tool of ecosystemTools; track tool.id; let i = $index) {
             <a
               [href]="tool.href"
               target="_blank"
               rel="noopener"
               [attr.data-testid]="'eco-' + tool.id"
-              class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-1 transition-all duration-500 hover:bg-white/[0.04]"
-              [class]="tool.hoverBorder"
+              [attr.data-active]="activeTool() === i"
+              (mouseenter)="activeTool.set(i)"
+              (focus)="activeTool.set(i)"
+              class="group relative flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] p-6 transition-[flex-grow,background-color,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none accordion:flex-1 accordion:p-5 accordion:data-[active=true]:grow-[2.8] accordion:data-[active=true]:bg-white/[0.04]"
+              [class]="tool.activeBorder"
               [move]="'fade-up'"
               [moveDelay]="100 + i * 100"
             >
-              <div class="relative flex flex-1 flex-col rounded-xl bg-gradient-to-br to-transparent p-5" [class]="tool.wash">
-                <div class="mb-4 flex items-start justify-between">
-                  <div class="flex h-10 w-10 items-center justify-center rounded-lg" [class]="tool.iconBox">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      @switch (tool.id) {
-                        @case ('doqs') { <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/> }
-                        @case ('strata') { <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/> }
-                        @case ('etyma') { <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/> }
-                        @case ('forge') { <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/> }
-                      }
-                    </svg>
-                  </div>
-                  <svg class="h-4 w-4 text-white/30 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+              <!-- Accent glow, brighter on the active card. -->
+              <div
+                class="pointer-events-none absolute inset-0 bg-gradient-to-br to-transparent opacity-70 transition-opacity duration-700 accordion:opacity-50 accordion:group-data-[active=true]:opacity-100"
+                [class]="tool.wash"
+              ></div>
+
+              <div class="relative flex items-start justify-between">
+                <div
+                  class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                  [class]="tool.iconBox"
+                  [moveVariants]="{ rest: { scale: 1, rotate: 0 }, active: { scale: 1.12, rotate: -6 } }"
+                  [moveVariant]="isExpanded(i) && wide() ? 'active' : 'rest'"
+                  [moveTransition]="{ duration: 500 }"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    @switch (tool.id) {
+                      @case ('doqs') { <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/> }
+                      @case ('strata') { <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/> }
+                      @case ('etyma') { <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/> }
+                      @case ('forge') { <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/> }
+                    }
+                  </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-white">{{ tool.name }}</h3>
-                <p class="mb-3 text-xs text-white/55">{{ 'home.eco.' + tool.id + '.role' | translate }}</p>
-                <p class="mb-5 text-sm leading-relaxed text-white/50">{{ 'home.eco.' + tool.id + '.description' | translate }}</p>
-                <div class="mt-auto flex flex-wrap gap-1.5">
-                  @for (tag of tool.tags; track tag) {
-                    <span class="rounded-md px-2.5 py-1 text-xs font-medium" [class]="tool.chip">{{ tag }}</span>
-                  }
+                <svg class="h-4 w-4 text-white/30 transition-all duration-500 group-hover:text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+              </div>
+
+              <div class="relative mt-8 accordion:mt-auto">
+                <p class="mb-1 truncate text-xs font-semibold uppercase tracking-wider text-white/45">{{ 'home.eco.' + tool.id + '.role' | translate }}</p>
+                <h3 class="truncate text-xl font-semibold text-white accordion:text-[1.375rem]">{{ tool.name }}</h3>
+
+                <!-- Collapses to zero height on inactive wide cards; the fixed width stops the copy
+                     reflowing while the card grows. -->
+                <div class="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none accordion:grid-rows-[0fr] accordion:group-data-[active=true]:grid-rows-[1fr]">
+                  <div class="overflow-hidden">
+                    <div
+                      class="pt-3 accordion:w-[22rem]"
+                      [moveVariants]="{ hidden: { opacity: 0, y: 16 }, shown: { opacity: 1, y: 0 } }"
+                      [moveVariant]="isExpanded(i) ? 'shown' : 'hidden'"
+                      [moveTransition]="{ duration: 450, delay: isExpanded(i) ? 200 : 0 }"
+                    >
+                      <p class="mb-4 text-sm leading-relaxed text-white/55">{{ 'home.eco.' + tool.id + '.description' | translate }}</p>
+                      <div class="flex flex-wrap gap-1.5">
+                        @for (tag of tool.tags; track tag) {
+                          <volt-badge variant="secondary" [class]="tool.chip">{{ tag }}</volt-badge>
+                        }
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </a>
@@ -309,6 +346,11 @@ export default class HomePage {
   private readonly seo = inject(SeoService);
 
   constructor() {
+    afterNextRender(() => {
+      const query = window.matchMedia(ACCORDION_QUERY);
+      this.wide.set(query.matches);
+      query.addEventListener('change', (e) => this.wide.set(e.matches));
+    });
     this.seo.update({
       title: 'seo.home.title',
       description: 'seo.home.description',
@@ -331,6 +373,15 @@ export default class HomePage {
     { name: 'View Transitions', icon: '🔄' },
   ];
 
+  /** Index of the expanded ecosystem card; the last hovered/focused one stays open. */
+  readonly activeTool = signal(0);
+  /** Mirrors the `accordion:` CSS variant; when false every card stays open. False during SSR. */
+  readonly wide = signal(false);
+
+  isExpanded(i: number): boolean {
+    return !this.wide() || this.activeTool() === i;
+  }
+
   /** Standalone projects from the same Angular ecosystem — linked out, not part of the stack. */
   readonly ecosystemTools = [
     {
@@ -338,9 +389,9 @@ export default class HomePage {
       name: 'Doqs',
       href: 'https://doqs.andersseen.dev',
       tags: ['Markdown', 'Pagefind', 'SSG'],
-      hoverBorder: 'hover:border-orange-500/30',
-      chip: 'bg-orange-500/10 text-orange-400',
-      wash: 'from-orange-500/5',
+      activeBorder: 'accordion:data-[active=true]:border-orange-500/30',
+      chip: 'border-transparent bg-orange-500/10 text-orange-400',
+      wash: 'from-orange-500/10',
       iconBox: 'bg-orange-500/20 text-orange-400',
     },
     {
@@ -348,9 +399,9 @@ export default class HomePage {
       name: 'Strata',
       href: 'https://strata.andersseen.dev',
       tags: ['Server Components', 'H3'],
-      hoverBorder: 'hover:border-violet-500/30',
-      chip: 'bg-violet-500/10 text-violet-400',
-      wash: 'from-violet-500/5',
+      activeBorder: 'accordion:data-[active=true]:border-violet-500/30',
+      chip: 'border-transparent bg-violet-500/10 text-violet-400',
+      wash: 'from-violet-500/10',
       iconBox: 'bg-violet-500/20 text-violet-400',
     },
     {
@@ -358,9 +409,9 @@ export default class HomePage {
       name: 'Etyma',
       href: 'https://etyma.andersseen.dev',
       tags: ['MessageFormat 2', 'SSR'],
-      hoverBorder: 'hover:border-teal-500/30',
-      chip: 'bg-teal-500/10 text-teal-400',
-      wash: 'from-teal-500/5',
+      activeBorder: 'accordion:data-[active=true]:border-teal-500/30',
+      chip: 'border-transparent bg-teal-500/10 text-teal-400',
+      wash: 'from-teal-500/10',
       iconBox: 'bg-teal-500/20 text-teal-400',
     },
     {
@@ -368,9 +419,9 @@ export default class HomePage {
       name: 'Forge CMS',
       href: 'https://forgecms.dev',
       tags: ['Headless', 'D1 · R2'],
-      hoverBorder: 'hover:border-rose-500/30',
-      chip: 'bg-rose-500/10 text-rose-400',
-      wash: 'from-rose-500/5',
+      activeBorder: 'accordion:data-[active=true]:border-rose-500/30',
+      chip: 'border-transparent bg-rose-500/10 text-rose-400',
+      wash: 'from-rose-500/10',
       iconBox: 'bg-rose-500/20 text-rose-400',
     },
   ];
