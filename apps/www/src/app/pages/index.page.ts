@@ -217,6 +217,66 @@ import { SeoService } from '../services/seo.service';
       </div>
     </section>
 
+    <!-- Ecosystem tools: standalone projects from the same Angular ecosystem, not part of the stack.
+         Each card is drawn as a generated palette — a stepped tone strip in the tool's accent. -->
+    <section class="border-t border-white/5 px-4 pt-14 pb-10 sm:px-6 sm:pt-16 sm:pb-12 md:pt-24">
+      <div class="mx-auto max-w-5xl">
+        <div class="mb-10 text-center sm:mb-12" [move]="'fade-up'">
+          <div class="mb-4 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-white/40">
+            <span class="flex gap-1" aria-hidden="true">
+              <span class="h-2 w-2 rounded-[3px] bg-orange-400"></span>
+              <span class="h-2 w-2 rounded-[3px] bg-violet-400"></span>
+              <span class="h-2 w-2 rounded-[3px] bg-teal-400"></span>
+              <span class="h-2 w-2 rounded-[3px] bg-rose-400"></span>
+            </span>
+            {{ 'home.eco.eyebrow' | translate }}
+          </div>
+          <h2 class="text-2xl font-bold md:text-3xl">{{ 'home.eco.title' | translate }}</h2>
+          <p class="mx-auto mt-4 max-w-2xl text-white/50">{{ 'home.eco.subtitle' | translate }}</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+          @for (tool of ecosystemTools; track tool.name; let i = $index) {
+            <a
+              [href]="tool.href"
+              target="_blank"
+              rel="noopener"
+              [attr.data-testid]="'eco-' + tool.id"
+              class="group relative flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02] transition-all duration-500 hover:-translate-y-0.5 hover:bg-white/[0.04]"
+              [class]="tool.hoverBorder"
+              [move]="'fade-up'"
+              [moveDelay]="100 + i * 100"
+            >
+              <!-- Tone strip: the hovered card's palette fans out. -->
+              <div class="flex h-14 gap-px overflow-hidden" aria-hidden="true">
+                @for (tone of tool.tones; track $index) {
+                  <span class="flex-1 transition-[flex-grow] duration-500 group-hover:first:grow-[0.6] group-hover:last:grow-[3]" [class]="tone"></span>
+                }
+              </div>
+
+              <div class="flex flex-1 flex-col p-5">
+                <div class="mb-1 text-xs font-semibold uppercase tracking-wider" [class]="tool.text">
+                  {{ 'home.eco.' + tool.id + '.role' | translate }}
+                </div>
+                <h3 class="flex items-center justify-between text-lg font-semibold text-white">
+                  {{ tool.name }}
+                  <svg class="h-4 w-4 text-white/40 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                </h3>
+                <p class="mt-2 mb-5 text-sm leading-relaxed text-white/55">
+                  {{ 'home.eco.' + tool.id + '.description' | translate }}
+                </p>
+                <div class="mt-auto flex flex-wrap gap-1.5">
+                  @for (tag of tool.tags; track tag) {
+                    <span class="rounded-md px-2 py-1 text-[11px] font-medium" [class]="tool.chip">{{ tag }}</span>
+                  }
+                </div>
+              </div>
+            </a>
+          }
+        </div>
+      </div>
+    </section>
+
     <!-- Companion tool: Palette Crafter (a standalone tool, not part of the stack) -->
     <section class="px-4 pb-16 sm:px-6 sm:pb-24">
       <div class="mx-auto max-w-5xl">
@@ -279,5 +339,49 @@ export default class HomePage {
     { name: 'Vite', icon: '⚡' },
     { name: 'WAAPI', icon: '🎬' },
     { name: 'View Transitions', icon: '🔄' },
+  ];
+
+  /** Standalone projects from the same Angular ecosystem — linked out, not part of the stack. */
+  readonly ecosystemTools = [
+    {
+      id: 'doqs',
+      name: 'Doqs',
+      href: 'https://doqs.andersseen.dev',
+      tags: ['Markdown', 'Pagefind', 'SSG'],
+      hoverBorder: 'hover:border-orange-500/30',
+      text: 'text-orange-400',
+      chip: 'bg-orange-500/10 text-orange-400',
+      tones: ['bg-orange-200/80', 'bg-orange-300/80', 'bg-orange-400/80', 'bg-orange-500/80', 'bg-orange-700/80'],
+    },
+    {
+      id: 'strata',
+      name: 'Strata',
+      href: 'https://strata-www.pages.dev',
+      tags: ['Server Components', 'H3'],
+      hoverBorder: 'hover:border-violet-500/30',
+      text: 'text-violet-400',
+      chip: 'bg-violet-500/10 text-violet-400',
+      tones: ['bg-violet-200/80', 'bg-violet-300/80', 'bg-violet-400/80', 'bg-violet-500/80', 'bg-violet-700/80'],
+    },
+    {
+      id: 'etyma',
+      name: 'Etyma',
+      href: 'https://etyma.andersseen.dev',
+      tags: ['MessageFormat 2', 'SSR'],
+      hoverBorder: 'hover:border-teal-500/30',
+      text: 'text-teal-400',
+      chip: 'bg-teal-500/10 text-teal-400',
+      tones: ['bg-teal-200/80', 'bg-teal-300/80', 'bg-teal-400/80', 'bg-teal-500/80', 'bg-teal-700/80'],
+    },
+    {
+      id: 'forge',
+      name: 'Forge CMS',
+      href: 'https://forge-cms.pages.dev',
+      tags: ['Headless', 'D1 · R2'],
+      hoverBorder: 'hover:border-rose-500/30',
+      text: 'text-rose-400',
+      chip: 'bg-rose-500/10 text-rose-400',
+      tones: ['bg-rose-200/80', 'bg-rose-300/80', 'bg-rose-400/80', 'bg-rose-500/80', 'bg-rose-700/80'],
+    },
   ];
 }
