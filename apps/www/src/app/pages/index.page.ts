@@ -356,7 +356,7 @@ export default class HomePage {
     {
       id: 'strata',
       name: 'Strata',
-      href: 'https://strata-www.pages.dev',
+      href: 'https://strata.andersseen.dev',
       tags: ['Server Components', 'H3'],
       hoverBorder: 'hover:border-violet-500/30',
       text: 'text-violet-400',
@@ -376,7 +376,7 @@ export default class HomePage {
     {
       id: 'forge',
       name: 'Forge CMS',
-      href: 'https://forge-cms.pages.dev',
+      href: 'https://forgecms.dev',
       tags: ['Headless', 'D1 · R2'],
       hoverBorder: 'hover:border-rose-500/30',
       text: 'text-rose-400',

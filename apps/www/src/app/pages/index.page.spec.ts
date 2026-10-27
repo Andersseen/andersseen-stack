@@ -44,9 +44,9 @@ describe('HomePage', () => {
 
     const expected: Record<string, [string, string]> = {
       doqs: ['Doqs', 'https://doqs.andersseen.dev'],
-      strata: ['Strata', 'https://strata-www.pages.dev'],
+      strata: ['Strata', 'https://strata.andersseen.dev'],
       etyma: ['Etyma', 'https://etyma.andersseen.dev'],
-      forge: ['Forge CMS', 'https://forge-cms.pages.dev'],
+      forge: ['Forge CMS', 'https://forgecms.dev'],
     };
     for (const [id, [name, href]] of Object.entries(expected)) {
       const card = screen.getByTestId(`eco-${id}`);
